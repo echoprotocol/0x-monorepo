@@ -30,7 +30,7 @@ import { BigNumber } from '@0x/utils';
 import { TxData } from 'ethereum-types';
 import * as _ from 'lodash';
 
-import { artifacts, TestStakingPlaceholderContract } from './';
+import { artifacts, TestStakingPlaceholderContract } from '../../src';
 
 /**
  * Adds a batch of authorities to a list of authorizable contracts.
@@ -105,7 +105,7 @@ interface StakingContracts {
 // Contract wrappers for tokens.
 interface TokenContracts {
     erc1155: ERC1155Contract;
-    erc20: ERC20TokenContract;
+    erc20: ERC20TokenContract[];
     erc721: ERC721TokenContract;
     weth: WETH9Contract;
     zrx: ZRXTokenContract;
@@ -397,7 +397,20 @@ export class DeploymentManager {
         environment: BlockchainTestsEnvironment,
         txDefaults: Partial<TxData>,
     ): Promise<TokenContracts> {
-        const erc20 = await ERC20TokenContract.deployFrom0xArtifactAsync(
+        const erc20 = [];
+        erc20[0] = await ERC20TokenContract.deployFrom0xArtifactAsync(
+            ERC20Artifacts.ERC20Token,
+            environment.provider,
+            txDefaults,
+            ERC20Artifacts,
+        );
+        erc20[1] = await ERC20TokenContract.deployFrom0xArtifactAsync(
+            ERC20Artifacts.ERC20Token,
+            environment.provider,
+            txDefaults,
+            ERC20Artifacts,
+        );
+        erc20[2] = await ERC20TokenContract.deployFrom0xArtifactAsync(
             ERC20Artifacts.ERC20Token,
             environment.provider,
             txDefaults,
