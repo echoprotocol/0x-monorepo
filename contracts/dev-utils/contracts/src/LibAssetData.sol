@@ -316,6 +316,24 @@ contract LibAssetData {
         return (balances, allowances);
     }
 
+    function decodeAssetProxyId(bytes memory assetData)
+        public
+        pure
+        returns (bytes4 assetProxyId)
+    {
+        assetProxyId = assetData.readBytes4(0);
+
+        require(
+            assetProxyId == IAssetData(address(0)).ERC20Token.selector ||
+            assetProxyId == IAssetData(address(0)).ERC721Token.selector ||
+            assetProxyId == IAssetData(address(0)).ERC1155Assets.selector ||
+            assetProxyId == IAssetData(address(0)).MultiAsset.selector,
+            "WRONG_PROXY_ID"
+        );
+
+        return assetProxyId;
+    }
+
     /// @dev Encode ERC-20 asset data into the format described in the AssetProxy contract specification.
     /// @param tokenAddress The address of the ERC-20 contract hosting the asset to be traded.
     /// @return AssetProxy-compliant data describing the asset.

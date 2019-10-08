@@ -80,9 +80,9 @@ export class BaseContract {
     public address: string;
     public contractName: string;
     public constructorArgs: any[] = [];
+    public _deployedBytecodeIfExists?: Buffer;
     private _evmIfExists?: VM;
     private _evmAccountIfExists?: Buffer;
-    private _deployedBytecodeIfExists?: Buffer;
     protected static _formatABIDataItemList(
         abis: DataItem[],
         values: any[],
@@ -183,6 +183,9 @@ export class BaseContract {
             }
         }
         return rawEncoded;
+    }
+    public getBytecode(): string | undefined {
+       return this._deployedBytecodeIfExists ? this._deployedBytecodeIfExists.toString('hex') : undefined;
     }
     public async evmExecAsync(input: Buffer): Promise<string> {
         const addressBuf = Buffer.from(this.address.substr(2), 'hex');

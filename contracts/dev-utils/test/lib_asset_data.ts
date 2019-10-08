@@ -215,6 +215,18 @@ describe('LibAssetData', () => {
     });
 
     describe('encoding and decoding', () => {
+        it('should decode any asset proxy ID', async () => {
+            const assetDataScenarios = [
+                [KNOWN_ERC20_ENCODING.assetData, AssetProxyId.ERC20],
+                [KNOWN_ERC721_ENCODING.assetData, AssetProxyId.ERC721],
+                [KNOWN_ERC1155_ENCODING.assetData, AssetProxyId.ERC1155],
+                [KNOWN_MULTI_ASSET_ENCODING.assetData, AssetProxyId.MultiAsset],
+            ];
+
+            for (const [assetData, proxyId] of assetDataScenarios) {
+                expect(await libAssetData.decodeAssetProxyId.callAsync(assetData)).to.equal(proxyId);
+            }
+        });
         it('should encode ERC20 asset data', async () => {
             expect(await libAssetData.encodeERC20AssetData.callAsync(KNOWN_ERC20_ENCODING.address)).to.equal(
                 KNOWN_ERC20_ENCODING.assetData,

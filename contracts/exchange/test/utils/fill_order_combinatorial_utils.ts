@@ -5,6 +5,7 @@ import {
     ERC721Wrapper,
     MultiAssetProxyContract,
 } from '@0x/contracts-asset-proxy';
+import { DevUtilsContract } from '@0x/contracts-dev-utils';
 import { constants, expect, LogDecoder, orderUtils, signingUtils } from '@0x/contracts-test-utils';
 import { BalanceAndProxyAllowanceLazyStore, ExchangeRevertErrors, orderHashUtils } from '@0x/order-utils';
 import { FillResults, Order, SignatureType, SignedOrder } from '@0x/types';
@@ -106,7 +107,8 @@ export async function fillOrderCombinatorialUtilsFactoryAsync(
         {},
     );
 
-    const assetWrapper = new AssetWrapper([erc20Wrapper, erc721Wrapper, erc1155Wrapper], burnerAddress);
+    const devUtils = new DevUtilsContract(constants.NULL_ADDRESS, provider);
+    const assetWrapper = new AssetWrapper([erc20Wrapper, erc721Wrapper, erc1155Wrapper], burnerAddress, devUtils);
 
     const exchangeContract = await ExchangeContract.deployFrom0xArtifactAsync(
         artifacts.Exchange,
@@ -184,6 +186,7 @@ export async function fillOrderCombinatorialUtilsFactoryAsync(
     );
 
     const orderFactory = new OrderFactoryFromScenario(
+        devUtils,
         userAddresses,
         erc20EighteenDecimalTokens.map(token => token.address),
         erc20FiveDecimalTokens.map(token => token.address),
@@ -485,7 +488,7 @@ export class FillOrderCombinatorialUtils {
         fillErrorIfExists?: FillOrderError,
     ): Promise<void> {
         const lazyStore = new BalanceAndProxyAllowanceLazyStore(this.balanceAndProxyAllowanceFetcher);
-        const signedOrder = await this._generateSignedOrder(fillScenario.orderScenario);
+        const signedOrder = await this._generateSignedOrderAsync(fillScenario.orderScenario);
         const takerAssetFillAmount = getTakerAssetFillAmount(signedOrder, fillScenario);
 
         await this._modifyTraderStateAsync(fillScenario, signedOrder, takerAssetFillAmount);
@@ -512,8 +515,8 @@ export class FillOrderCombinatorialUtils {
         );
     }
 
-    private _generateSignedOrder(orderScenario: OrderScenario): SignedOrder {
-        const order = this.orderFactory.generateOrder(orderScenario);
+    private async _generateSignedOrderAsync(orderScenario: OrderScenario): Promise<SignedOrder> {
+        const order = await this.orderFactory.generateOrderAsync(orderScenario);
         const orderHashBuff = orderHashUtils.getOrderHashBuffer(order);
         const signature = signingUtils.signMessage(orderHashBuff, this.makerPrivateKey, SignatureType.EthSign);
         const signedOrder = {

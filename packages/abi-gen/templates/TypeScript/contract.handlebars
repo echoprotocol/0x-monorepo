@@ -249,6 +249,10 @@ export class {{contractName}}Contract extends BaseContract {
             this._web3Wrapper,
         );{{/if}}
     }
+
+    public getBytecode(): string | undefined {
+        return super.getBytecode();
+    }
 } 
 
 // tslint:disable:max-file-line-count

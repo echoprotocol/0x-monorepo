@@ -4,6 +4,7 @@ import {
     ERC20Wrapper,
     ERC721Wrapper,
 } from '@0x/contracts-asset-proxy';
+import { DevUtilsContract } from '@0x/contracts-dev-utils';
 import { artifacts as erc20Artifacts } from '@0x/contracts-erc20';
 import { artifacts as erc721Artifacts } from '@0x/contracts-erc721';
 import { ReferenceFunctions as LibReferenceFunctions } from '@0x/contracts-exchange-libs';
@@ -30,66 +31,10 @@ import { BlockchainBalanceStore } from '../balance_stores/blockchain_balance_sto
 import { LocalBalanceStore } from '../balance_stores/local_balance_store';
 
 export class FillOrderWrapper {
+    protected _devUtils: DevUtilsContract;
     private readonly _exchange: ExchangeContract;
     private readonly _blockchainBalanceStore: BlockchainBalanceStore;
     private readonly _web3Wrapper: Web3Wrapper;
-
-    /**
-     * Simulates matching two orders by transferring amounts defined in
-     * `transferAmounts` and returns the results.
-     * @param orders The orders being matched and their filled states.
-     * @param takerAddress Address of taker (the address who matched the two orders)
-     * @param tokenBalances Current token balances.
-     * @param transferAmounts Amounts to transfer during the simulation.
-     * @return The new account balances and fill events that occurred during the match.
-     */
-    public static simulateFillOrder(
-        signedOrder: SignedOrder,
-        takerAddress: string,
-        opts: { takerAssetFillAmount?: BigNumber } = {},
-        initBalanceStore: BalanceStore,
-    ): [FillResults, FillEventArgs, BalanceStore] {
-        const balanceStore = LocalBalanceStore.create(initBalanceStore);
-        const takerAssetFillAmount =
-            opts.takerAssetFillAmount !== undefined ? opts.takerAssetFillAmount : signedOrder.takerAssetAmount;
-        // TODO(jalextowle): Change this if the integration tests take protocol fees into account.
-        const fillResults = LibReferenceFunctions.calculateFillResults(
-            signedOrder,
-            takerAssetFillAmount,
-            constants.ZERO_AMOUNT,
-            constants.ZERO_AMOUNT,
-        );
-        const fillEvent = FillOrderWrapper.simulateFillEvent(signedOrder, takerAddress, fillResults);
-        // Taker -> Maker
-        balanceStore.transferAsset(
-            takerAddress,
-            signedOrder.makerAddress,
-            fillResults.takerAssetFilledAmount,
-            signedOrder.takerAssetData,
-        );
-        // Maker -> Taker
-        balanceStore.transferAsset(
-            signedOrder.makerAddress,
-            takerAddress,
-            fillResults.makerAssetFilledAmount,
-            signedOrder.makerAssetData,
-        );
-        // Taker -> Fee Recipient
-        balanceStore.transferAsset(
-            takerAddress,
-            signedOrder.feeRecipientAddress,
-            fillResults.takerFeePaid,
-            signedOrder.takerFeeAssetData,
-        );
-        // Maker -> Fee Recipient
-        balanceStore.transferAsset(
-            signedOrder.makerAddress,
-            signedOrder.feeRecipientAddress,
-            fillResults.makerFeePaid,
-            signedOrder.makerFeeAssetData,
-        );
-        return [fillResults, fillEvent, balanceStore];
-    }
 
     /**
      *  Simulates the event emitted by the exchange contract when an order is filled.
@@ -125,6 +70,63 @@ export class FillOrderWrapper {
     }
 
     /**
+     * Simulates matching two orders by transferring amounts defined in
+     * `transferAmounts` and returns the results.
+     * @param orders The orders being matched and their filled states.
+     * @param takerAddress Address of taker (the address who matched the two orders)
+     * @param tokenBalances Current token balances.
+     * @param transferAmounts Amounts to transfer during the simulation.
+     * @return The new account balances and fill events that occurred during the match.
+     */
+    public async simulateFillOrderAsync(
+        signedOrder: SignedOrder,
+        takerAddress: string,
+        opts: { takerAssetFillAmount?: BigNumber } = {},
+        initBalanceStore: BalanceStore,
+    ): Promise<[FillResults, FillEventArgs, BalanceStore]> {
+        const balanceStore = LocalBalanceStore.create(this._devUtils, initBalanceStore);
+        const takerAssetFillAmount =
+            opts.takerAssetFillAmount !== undefined ? opts.takerAssetFillAmount : signedOrder.takerAssetAmount;
+        // TODO(jalextowle): Change this if the integration tests take protocol fees into account.
+        const fillResults = LibReferenceFunctions.calculateFillResults(
+            signedOrder,
+            takerAssetFillAmount,
+            constants.ZERO_AMOUNT,
+            constants.ZERO_AMOUNT,
+        );
+        const fillEvent = FillOrderWrapper.simulateFillEvent(signedOrder, takerAddress, fillResults);
+        // Taker -> Maker
+        await balanceStore.transferAssetAsync(
+            takerAddress,
+            signedOrder.makerAddress,
+            fillResults.takerAssetFilledAmount,
+            signedOrder.takerAssetData,
+        );
+        // Maker -> Taker
+        await balanceStore.transferAssetAsync(
+            signedOrder.makerAddress,
+            takerAddress,
+            fillResults.makerAssetFilledAmount,
+            signedOrder.makerAssetData,
+        );
+        // Taker -> Fee Recipient
+        await balanceStore.transferAssetAsync(
+            takerAddress,
+            signedOrder.feeRecipientAddress,
+            fillResults.takerFeePaid,
+            signedOrder.takerFeeAssetData,
+        );
+        // Maker -> Fee Recipient
+        await balanceStore.transferAssetAsync(
+            signedOrder.makerAddress,
+            signedOrder.feeRecipientAddress,
+            fillResults.makerFeePaid,
+            signedOrder.makerFeeAssetData,
+        );
+        return [fillResults, fillEvent, balanceStore];
+    }
+
+    /**
      * Constructor.
      * @param exchangeContract Insstance of the deployed exchange contract
      * @param erc20Wrapper The ERC20 Wrapper used to interface with deployed erc20 tokens.
@@ -137,9 +139,11 @@ export class FillOrderWrapper {
         erc20Wrapper: ERC20Wrapper,
         erc721Wrapper: ERC721Wrapper,
         erc1155ProxyWrapper: ERC1155ProxyWrapper,
+        devUtils: DevUtilsContract,
         provider: Web3ProviderEngine | ZeroExProvider,
     ) {
         this._exchange = exchangeContract;
+        this._devUtils = devUtils;
         this._blockchainBalanceStore = new BlockchainBalanceStore(erc20Wrapper, erc721Wrapper, erc1155ProxyWrapper);
         this._web3Wrapper = new Web3Wrapper(provider);
     }
@@ -175,7 +179,7 @@ export class FillOrderWrapper {
             simulatedFillResults,
             simulatedFillEvent,
             simulatedFinalBalanceStore,
-        ] = FillOrderWrapper.simulateFillOrder(signedOrder, from, opts, this._blockchainBalanceStore);
+        ] = await this.simulateFillOrderAsync(signedOrder, from, opts, this._blockchainBalanceStore);
         const [fillResults, fillEvent] = await this._fillOrderAsync(signedOrder, from, opts);
         // Assert state transition
         expect(simulatedFillResults, 'Fill Results').to.be.deep.equal(fillResults);
