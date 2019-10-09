@@ -22,7 +22,7 @@ import "@0x/contracts-utils/contracts/src/Ownable.sol";
 import "../src/MintableERC20Token.sol";
 
 
-contract DummyERC20Token is 
+contract DummyERC20Token is
     Ownable,
     MintableERC20Token
 {

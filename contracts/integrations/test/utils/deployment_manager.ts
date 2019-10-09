@@ -7,7 +7,12 @@ import {
     StaticCallProxyContract,
 } from '@0x/contracts-asset-proxy';
 import { artifacts as ERC1155Artifacts, ERC1155Contract } from '@0x/contracts-erc1155';
-import { artifacts as ERC20Artifacts, ERC20TokenContract, ZRXTokenContract, WETH9Contract } from '@0x/contracts-erc20';
+import {
+    artifacts as ERC20Artifacts,
+    DummyERC20TokenContract,
+    ZRXTokenContract,
+    WETH9Contract,
+} from '@0x/contracts-erc20';
 import { artifacts as ERC721Artifacts, ERC721TokenContract } from '@0x/contracts-erc721';
 import {
     artifacts as exchangeArtifacts,
@@ -105,7 +110,7 @@ interface StakingContracts {
 // Contract wrappers for tokens.
 interface TokenContracts {
     erc1155: ERC1155Contract;
-    erc20: ERC20TokenContract[];
+    erc20: DummyERC20TokenContract[];
     erc721: ERC721TokenContract;
     weth: WETH9Contract;
     zrx: ZRXTokenContract;
@@ -139,7 +144,7 @@ export class DeploymentManager {
             exchangeArtifacts.Exchange,
             environment.provider,
             environment.txDefaults,
-            exchangeArtifacts,
+            { ...ERC20Artifacts, ...exchangeArtifacts },
             new BigNumber(chainId),
         );
         const assetProxyOwner = await AssetProxyOwnerContract.deployFrom0xArtifactAsync(
@@ -365,7 +370,18 @@ export class DeploymentManager {
             stakingLogic.address,
             readOnlyProxy.address,
         );
-        const stakingWrapper = new TestStakingPlaceholderContract(stakingProxy.address, environment.provider);
+
+        const logDecoderDependencies = _.mapValues({ ...artifacts, ...ERC20Artifacts }, v => v.compilerOutput.abi);
+        const stakingWrapper = new TestStakingPlaceholderContract(
+            stakingProxy.address,
+            environment.provider,
+            {
+                ...txDefaults,
+                to: stakingProxy.address,
+                gas: 3e6,
+            },
+            logDecoderDependencies,
+        );
 
         // Add the zrx vault and the weth contract to the staking proxy.
         await stakingWrapper.setWethContract.awaitTransactionSuccessAsync(tokens.weth.address, { from: owner });
@@ -398,23 +414,35 @@ export class DeploymentManager {
         txDefaults: Partial<TxData>,
     ): Promise<TokenContracts> {
         const erc20 = [];
-        erc20[0] = await ERC20TokenContract.deployFrom0xArtifactAsync(
-            ERC20Artifacts.ERC20Token,
+        erc20[0] = await DummyERC20TokenContract.deployFrom0xArtifactAsync(
+            ERC20Artifacts.DummyERC20Token,
             environment.provider,
             txDefaults,
             ERC20Artifacts,
+            constants.DUMMY_TOKEN_NAME,
+            constants.DUMMY_TOKEN_SYMBOL,
+            constants.DUMMY_TOKEN_DECIMALS,
+            constants.DUMMY_TOKEN_TOTAL_SUPPLY,
         );
-        erc20[1] = await ERC20TokenContract.deployFrom0xArtifactAsync(
-            ERC20Artifacts.ERC20Token,
+        erc20[1] = await DummyERC20TokenContract.deployFrom0xArtifactAsync(
+            ERC20Artifacts.DummyERC20Token,
             environment.provider,
             txDefaults,
             ERC20Artifacts,
+            constants.DUMMY_TOKEN_NAME,
+            constants.DUMMY_TOKEN_SYMBOL,
+            constants.DUMMY_TOKEN_DECIMALS,
+            constants.DUMMY_TOKEN_TOTAL_SUPPLY,
         );
-        erc20[2] = await ERC20TokenContract.deployFrom0xArtifactAsync(
-            ERC20Artifacts.ERC20Token,
+        erc20[2] = await DummyERC20TokenContract.deployFrom0xArtifactAsync(
+            ERC20Artifacts.DummyERC20Token,
             environment.provider,
             txDefaults,
             ERC20Artifacts,
+            constants.DUMMY_TOKEN_NAME,
+            constants.DUMMY_TOKEN_SYMBOL,
+            constants.DUMMY_TOKEN_DECIMALS,
+            constants.DUMMY_TOKEN_TOTAL_SUPPLY,
         );
 
         const erc721 = await ERC721TokenContract.deployFrom0xArtifactAsync(

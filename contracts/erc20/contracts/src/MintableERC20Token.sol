@@ -22,7 +22,7 @@ import "@0x/contracts-utils/contracts/src/SafeMath.sol";
 import "./UnlimitedAllowanceERC20Token.sol";
 
 
-contract MintableERC20Token is 
+contract MintableERC20Token is
     SafeMath,
     UnlimitedAllowanceERC20Token
 {
