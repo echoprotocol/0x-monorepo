@@ -27,6 +27,7 @@ import {
     ReadOnlyProxyContract,
     StakingContract,
     StakingProxyContract,
+    TestStakingContract,
     ZrxVaultContract,
 } from '@0x/contracts-staking';
 import { BlockchainTestsEnvironment, constants } from '@0x/contracts-test-utils';
@@ -34,8 +35,6 @@ import { Web3ProviderEngine } from '@0x/subproviders';
 import { BigNumber } from '@0x/utils';
 import { TxData } from 'ethereum-types';
 import * as _ from 'lodash';
-
-import { artifacts, TestStakingPlaceholderContract } from '../../src';
 
 /**
  * Adds a batch of authorities to a list of authorizable contracts.
@@ -101,9 +100,9 @@ interface AssetProxyContracts {
 // Contract wrappers for all of the staking contracts
 interface StakingContracts {
     readOnlyProxy: ReadOnlyProxyContract;
-    stakingLogic: TestStakingPlaceholderContract;
+    stakingLogic: TestStakingContract;
     stakingProxy: StakingProxyContract;
-    stakingWrapper: TestStakingPlaceholderContract;
+    stakingWrapper: TestStakingContract;
     zrxVault: ZrxVaultContract;
 }
 
@@ -354,8 +353,8 @@ export class DeploymentManager {
             txDefaults,
             stakingArtifacts,
         );
-        const stakingLogic = await TestStakingPlaceholderContract.deployFrom0xArtifactAsync(
-            artifacts.TestStakingPlaceholder,
+        const stakingLogic = await TestStakingContract.deployFrom0xArtifactAsync(
+            stakingArtifacts.TestStaking,
             environment.provider,
             txDefaults,
             stakingArtifacts,
@@ -371,8 +370,11 @@ export class DeploymentManager {
             readOnlyProxy.address,
         );
 
-        const logDecoderDependencies = _.mapValues({ ...artifacts, ...ERC20Artifacts }, v => v.compilerOutput.abi);
-        const stakingWrapper = new TestStakingPlaceholderContract(
+        const logDecoderDependencies = _.mapValues(
+            { ...stakingArtifacts, ...ERC20Artifacts },
+            v => v.compilerOutput.abi,
+        );
+        const stakingWrapper = new TestStakingContract(
             stakingProxy.address,
             environment.provider,
             {
