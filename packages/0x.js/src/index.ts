@@ -74,6 +74,7 @@ export {
     JSONRPCRequestPayloadWithMethod,
     ErrorCallback,
     MetamaskSubprovider,
+    ProviderSubprovider,
 } from '@0x/subproviders';
 
 export { AbiDecoder, DecodedCalldata } from '@0x/utils';
