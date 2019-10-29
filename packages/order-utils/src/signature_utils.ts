@@ -12,9 +12,10 @@ import {
 } from '@0x/types';
 import { providerUtils } from '@0x/utils';
 import { Web3Wrapper } from '@0x/web3-wrapper';
-import { SupportedProvider } from 'ethereum-types';
+import { SupportedProvider, ZeroExProvider, EchoProvider } from 'ethereum-types';
 import * as ethUtil from 'ethereumjs-util';
 import * as _ from 'lodash';
+import { sign } from 'tweetnacl';
 
 import { assert } from './assert';
 import { eip712Utils } from './eip712_utils';
@@ -54,14 +55,12 @@ export const signatureUtils = {
                 return false;
 
             case SignatureType.EIP712: {
-                const ecSignature = signatureUtils.parseECSignature(signature);
-                return signatureUtils.isValidECSignature(data, ecSignature, signerAddress);
+                return signatureUtils.isValidECSignature(provider, data, signature, signerAddress);
             }
 
             case SignatureType.EthSign: {
-                const ecSignature = signatureUtils.parseECSignature(signature);
                 const prefixedMessageHex = signatureUtils.addSignedMessagePrefix(data);
-                return signatureUtils.isValidECSignature(prefixedMessageHex, ecSignature, signerAddress);
+                return signatureUtils.isValidECSignature(provider, prefixedMessageHex, signature, signerAddress);
             }
 
             case SignatureType.Wallet: {
@@ -184,23 +183,25 @@ export const signatureUtils = {
      * @param   signerAddress The hex encoded address that signed the data, producing the supplied signature.
      * @return Whether the ECSignature is valid.
      */
-    isValidECSignature(data: string, signature: ECSignature, signerAddress: string): boolean {
+    async isValidECSignature(provider: ZeroExProvider, data: string, signature: string, signerAddress: string): Promise<boolean> {
         assert.isHexString('data', data);
         assert.doesConformToSchema('signature', signature, schemas.ecSignatureSchema);
         assert.isETHAddressHex('signerAddress', signerAddress);
         const normalizedSignerAddress = signerAddress.toLowerCase();
 
+        const [publicBufferKeys] = await (provider as EchoProvider).echoUtils.getAddressPublicKeys<Uint8Array>(signerAddress)
+
         const msgHashBuff = ethUtil.toBuffer(data);
+        const signatureHashBuff = ethUtil.toBuffer(signature);
+
         try {
-            const pubKey = ethUtil.ecrecover(
-                msgHashBuff,
-                signature.v,
-                ethUtil.toBuffer(signature.r),
-                ethUtil.toBuffer(signature.s),
-            );
-            const retrievedAddress = ethUtil.bufferToHex(ethUtil.pubToAddress(pubKey));
-            const normalizedRetrievedAddress = retrievedAddress.toLowerCase();
-            return normalizedRetrievedAddress === normalizedSignerAddress;
+
+            if (sign.detached.verify(signatureHashBuff, msgHashBuff, publicBufferKeys)) {
+                return true;
+            } else {
+                return false;
+            }
+
         } catch (err) {
             return false;
         }
@@ -399,31 +400,18 @@ export const signatureUtils = {
         // we parse the signature in both ways, and evaluate if either one is a valid signature.
         // r + s + v is the most prevalent format from eth_sign, so we attempt this first.
         // tslint:disable-next-line:custom-no-magic-numbers
-        const validVParamValues = [27, 28];
-        const ecSignatureRSV = parseSignatureHexAsRSV(signature);
-        if (_.includes(validVParamValues, ecSignatureRSV.v)) {
-            const isValidRSVSignature = signatureUtils.isValidECSignature(
-                prefixedMsgHashHex,
-                ecSignatureRSV,
-                normalizedSignerAddress,
-            );
-            if (isValidRSVSignature) {
-                const convertedSignatureHex = signatureUtils.convertECSignatureToSignatureHex(ecSignatureRSV);
-                return convertedSignatureHex;
-            }
+
+        const isValidSignature = await signatureUtils.isValidECSignature(
+            provider,
+            prefixedMsgHashHex,
+            signature,
+            normalizedSignerAddress,
+        );
+        if (isValidSignature) {
+            const convertedSignatureHex = signatureUtils.convertECSignatureToSignatureHex(signature);
+            return convertedSignatureHex;
         }
-        const ecSignatureVRS = parseSignatureHexAsVRS(signature);
-        if (_.includes(validVParamValues, ecSignatureVRS.v)) {
-            const isValidVRSSignature = signatureUtils.isValidECSignature(
-                prefixedMsgHashHex,
-                ecSignatureVRS,
-                normalizedSignerAddress,
-            );
-            if (isValidVRSSignature) {
-                const convertedSignatureHex = signatureUtils.convertECSignatureToSignatureHex(ecSignatureVRS);
-                return convertedSignatureHex;
-            }
-        }
+
         // Detect if Metamask to transition users to the MetamaskSubprovider
         if ((provider as any).isMetaMask) {
             throw new Error(TypedDataError.InvalidMetamaskSigner);
@@ -436,13 +424,8 @@ export const signatureUtils = {
      * @param ecSignature The ECSignature of the signed data
      * @return Hex encoded string of signature (v,r,s) with Signature Type
      */
-    convertECSignatureToSignatureHex(ecSignature: ECSignature): string {
-        const signatureBuffer = Buffer.concat([
-            ethUtil.toBuffer(ecSignature.v),
-            ethUtil.toBuffer(ecSignature.r),
-            ethUtil.toBuffer(ecSignature.s),
-        ]);
-        const signatureHex = `0x${signatureBuffer.toString('hex')}`;
+    convertECSignatureToSignatureHex(signature: string): string {
+        const signatureHex = `0x${signature}`;
         const signatureWithType = signatureUtils.convertToSignatureWithType(signatureHex, SignatureType.EthSign);
         return signatureWithType;
     },
@@ -474,16 +457,13 @@ export const signatureUtils = {
      * @param signature A hex encoded ecSignature 0x Protocol signature
      * @return An ECSignature object with r,s,v parameters
      */
-    parseECSignature(signature: string): ECSignature {
+    parseECSignature(signature: string): string {
         assert.isHexString('signature', signature);
         const ecSignatureTypes = [SignatureType.EthSign, SignatureType.EIP712];
         assert.isOneOfExpectedSignatureTypes(signature, ecSignatureTypes);
 
-        // tslint:disable-next-line:custom-no-magic-numbers
         const vrsHex = signature.slice(0, -2);
-        const ecSignature = parseSignatureHexAsVRS(vrsHex);
-
-        return ecSignature;
+        return vrsHex;
     },
 };
 
@@ -498,30 +478,8 @@ function parseValidatorSignature(signature: string): ValidatorSignature {
     return validatorSignature;
 }
 
-function parseSignatureHexAsVRS(signatureHex: string): ECSignature {
-    const signatureBuffer = ethUtil.toBuffer(signatureHex);
-    let v = signatureBuffer[0];
-    // HACK: Sometimes v is returned as [0, 1] and sometimes as [27, 28]
-    // If it is returned as [0, 1], add 27 to both so it becomes [27, 28]
-    const lowestValidV = 27;
-    const isProperlyFormattedV = v >= lowestValidV;
-    if (!isProperlyFormattedV) {
-        v += lowestValidV;
-    }
-    // signatureBuffer contains vrs
-    const vEndIndex = 1;
-    const rsIndex = 33;
-    const r = signatureBuffer.slice(vEndIndex, rsIndex);
-    const sEndIndex = 65;
-    const s = signatureBuffer.slice(rsIndex, sEndIndex);
-    const ecSignature: ECSignature = {
-        v,
-        r: ethUtil.bufferToHex(r),
-        s: ethUtil.bufferToHex(s),
-    };
-    return ecSignature;
-}
 
+//TODO used only for signTypedData
 function parseSignatureHexAsRSV(signatureHex: string): ECSignature {
     const { v, r, s } = ethUtil.fromRpcSig(signatureHex);
     const ecSignature: ECSignature = {

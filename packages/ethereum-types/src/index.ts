@@ -36,6 +36,20 @@ export interface ZeroExProvider {
 }
 
 /**
+ * The interface for the provider used internally by 0x libraries
+ * Any property we use from any SupportedProvider should we explicitly
+ * add here
+ */
+export interface EchoProvider extends ZeroExProvider {
+    echo: object;
+    echoUtils: EchoproviderUtils;
+}
+
+export interface EchoproviderUtils {
+    getAddressPublicKeys<T>(ethAddress: string): Promise<T[]>;
+}
+
+/**
  * Web3.js version 1 provider interface
  * This provider interface was implemented in the pre-1.0Beta releases for Web3.js.
  * This interface allowed sending synchonous requests, support for which was later dropped.
