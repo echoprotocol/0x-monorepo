@@ -663,6 +663,17 @@ export class Web3Wrapper {
         assert.isNumber('blockNumber', blockNumber);
         await this.sendRawPayloadAsync<void>({ method: 'debug_setHead', params: [utils.numberToHex(blockNumber)] });
     }
+
+        /**
+     * NOTE: only for echo node. Get account public key
+     * @param  ethAddress The block number to reset to.
+     */
+    public async getPublicKeysByAddress(ethAddress: string): Promise<string[]> {
+        assert.isETHAddressHex('ethAddress', ethAddress);
+        const keys = await this.sendRawPayloadAsync<string[]>({ method: 'echo_accountKeys', params: [ethAddress] });
+        return keys;
+    }
+
     /**
      * Sends a raw Ethereum JSON RPC payload and returns the response's `result` key
      * @param payload A partial JSON RPC payload. No need to include version, id, params (if none needed)

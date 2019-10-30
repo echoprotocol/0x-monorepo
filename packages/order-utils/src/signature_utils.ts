@@ -12,10 +12,10 @@ import {
 } from '@0x/types';
 import { providerUtils } from '@0x/utils';
 import { Web3Wrapper } from '@0x/web3-wrapper';
-import { SupportedProvider, ZeroExProvider, EchoProvider } from 'ethereum-types';
+import { SupportedProvider, ZeroExProvider } from 'ethereum-types';
 import * as ethUtil from 'ethereumjs-util';
 import * as _ from 'lodash';
-import { sign } from 'tweetnacl';
+import * as ed25519 from 'ed25519.js';
 
 import { assert } from './assert';
 import { eip712Utils } from './eip712_utils';
@@ -185,23 +185,19 @@ export const signatureUtils = {
      */
     async isValidECSignature(provider: ZeroExProvider, data: string, signature: string, signerAddress: string): Promise<boolean> {
         assert.isHexString('data', data);
-        assert.doesConformToSchema('signature', signature, schemas.ecSignatureSchema);
+        assert.isHexString('signature', signature);
         assert.isETHAddressHex('signerAddress', signerAddress);
         const normalizedSignerAddress = signerAddress.toLowerCase();
+        const web3Wrapper = new Web3Wrapper(provider);
 
-        const [publicBufferKeys] = await (provider as EchoProvider).echoUtils.getAddressPublicKeys<Uint8Array>(signerAddress)
-
-        const msgHashBuff = ethUtil.toBuffer(data);
-        const signatureHashBuff = ethUtil.toBuffer(signature);
+        // TODO:: add verification by concatenated signature
+        const [publicKey] =  await web3Wrapper.getPublicKeysByAddress(normalizedSignerAddress);
+        const publicKeyBuffer  = Buffer.from(publicKey, 'hex');
+        const msgHashBuff =  Buffer.from(data.slice(2), 'hex'); 
+        const signatureHashBuff = Buffer.from(signature.slice(2), 'hex');
 
         try {
-
-            if (sign.detached.verify(signatureHashBuff, msgHashBuff, publicBufferKeys)) {
-                return true;
-            } else {
-                return false;
-            }
-
+            return ed25519.verify(signatureHashBuff, msgHashBuff, publicKeyBuffer)
         } catch (err) {
             return false;
         }
@@ -391,7 +387,7 @@ export const signatureUtils = {
         const web3Wrapper = new Web3Wrapper(provider);
         await assert.isSenderAddressAsync('signerAddress', signerAddress, web3Wrapper);
         const normalizedSignerAddress = signerAddress.toLowerCase();
-        const signature = await web3Wrapper.signMessageAsync(normalizedSignerAddress, msgHash);
+        const signatureHex = await web3Wrapper.signMessageAsync(normalizedSignerAddress, msgHash);
         const prefixedMsgHashHex = signatureUtils.addSignedMessagePrefix(msgHash);
 
         // HACK: There is no consensus on whether the signatureHex string should be formatted as
@@ -404,11 +400,11 @@ export const signatureUtils = {
         const isValidSignature = await signatureUtils.isValidECSignature(
             provider,
             prefixedMsgHashHex,
-            signature,
+            signatureHex,
             normalizedSignerAddress,
         );
         if (isValidSignature) {
-            const convertedSignatureHex = signatureUtils.convertECSignatureToSignatureHex(signature);
+            const convertedSignatureHex = signatureUtils.convertECSignatureToSignatureHex(signatureHex);
             return convertedSignatureHex;
         }
 
@@ -420,12 +416,11 @@ export const signatureUtils = {
         }
     },
     /**
-     * Combines ECSignature with V,R,S and the EthSign signature type for use in 0x protocol
      * @param ecSignature The ECSignature of the signed data
      * @return Hex encoded string of signature (v,r,s) with Signature Type
      */
-    convertECSignatureToSignatureHex(signature: string): string {
-        const signatureHex = `0x${signature}`;
+    convertECSignatureToSignatureHex(signatureHex: string): string {
+        console.log('TCL: signatureHex', signatureHex);
         const signatureWithType = signatureUtils.convertToSignatureWithType(signatureHex, SignatureType.EthSign);
         return signatureWithType;
     },
