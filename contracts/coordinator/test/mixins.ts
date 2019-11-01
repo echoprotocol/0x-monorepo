@@ -22,7 +22,7 @@ chaiSetup.configure();
 const expect = chai.expect;
 const blockchainLifecycle = new BlockchainLifecycle(web3Wrapper);
 
-describe('Mixins tests', () => {
+describe.only('Mixins tests', () => {
     let transactionSignerAddress: string;
     let approvalSignerAddress1: string;
     let approvalSignerAddress2: string;
