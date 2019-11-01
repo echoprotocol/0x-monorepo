@@ -193,8 +193,11 @@ export const signatureUtils = {
         // TODO:: add verification by concatenated signature
         const [publicKey] =  await web3Wrapper.getPublicKeysByAddress(normalizedSignerAddress);
         const publicKeyBuffer  = Buffer.from(publicKey, 'hex');
+        console.log('TCL: publicKey', publicKey);
         const msgHashBuff =  Buffer.from(data.slice(2), 'hex'); 
+        console.log('TCL: data', data);
         const signatureHashBuff = Buffer.from(signature.slice(2), 'hex');
+        console.log('TCL: signature', signature);
 
         try {
             return ed25519.verify(signatureHashBuff, msgHashBuff, publicKeyBuffer)

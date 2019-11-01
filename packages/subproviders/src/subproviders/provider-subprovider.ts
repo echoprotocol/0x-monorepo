@@ -1,5 +1,4 @@
 import { JSONRPCRequestPayload } from 'ethereum-types';
-import { Web3Wrapper } from '@0x/web3-wrapper';
 import JsonRpcError = require('json-rpc-error');
 import { SupportedProvider, ZeroExProvider } from 'ethereum-types';
 import { providerUtils } from '@0x/utils';
@@ -14,7 +13,6 @@ import { Subprovider } from './subprovider';
  */
 export class ProviderSubprovider extends Subprovider {
 
-    private readonly _web3Wrapper: Web3Wrapper;
     private readonly _provider: ZeroExProvider;
 
     /**
@@ -24,7 +22,6 @@ export class ProviderSubprovider extends Subprovider {
     constructor(supportedProvider: SupportedProvider) {
         super();
         const provider = providerUtils.standardizeOrThrow(supportedProvider);
-        this._web3Wrapper = new Web3Wrapper(provider);
         this._provider = provider;
     }
     /**
