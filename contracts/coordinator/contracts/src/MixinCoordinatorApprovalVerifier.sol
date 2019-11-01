@@ -191,5 +191,5 @@ contract MixinCoordinatorApprovalVerifier is
                 "INVALID_APPROVAL_SIGNATURE"
             );
         }
-   }
+    }
 }
