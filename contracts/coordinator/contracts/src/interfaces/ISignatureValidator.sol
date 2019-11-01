@@ -24,7 +24,7 @@ contract ISignatureValidator {
     /// @dev Recovers the address of a signer given a hash and signature.
     /// @param hash Any 32 byte hash.
     /// @param signature Proof that the hash has been signed by signer.
-    function getSignerAddress(bytes32 hash, bytes memory signature)
+    function getSignerAddress(bytes32 hash, bytes memory signature, address checkedAddress)
         public
         pure
         returns (address signerAddress);

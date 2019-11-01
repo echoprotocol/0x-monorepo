@@ -178,11 +178,13 @@ contract MixinCoordinatorApprovalVerifier is
             address approvalSignerAddress = getSignerAddress(approvalHash, approvalSignatures[i]);
 
             // Add approval signer to list of signers
-            approvalSignerAddresses = approvalSignerAddresses.append(approvalSignerAddress);
+            // @TODO: Echo migration
+            // approvalSignerAddresses = approvalSignerAddresses.append(approvalSignerAddress);
         }
 
         // Ethereum transaction signer gives implicit signature of approval
-        approvalSignerAddresses = approvalSignerAddresses.append(tx.origin);
+        // @TODO: Echo migration
+        // approvalSignerAddresses = approvalSignerAddresses.append(tx.origin);
 
         uint256 ordersLength = orders.length;
         for (uint256 i = 0; i != ordersLength; i++) {
@@ -193,11 +195,12 @@ contract MixinCoordinatorApprovalVerifier is
 
             // Ensure feeRecipient of order has approved this 0x transaction
             address approverAddress = orders[i].feeRecipientAddress;
-            bool isOrderApproved = approvalSignerAddresses.contains(approverAddress);
-            require(
-                isOrderApproved,
-                "INVALID_APPROVAL_SIGNATURE"
-            );
+            // @TODO: Echo migration
+            // bool isOrderApproved = approvalSignerAddresses.contains(approverAddress);
+            // require(
+            //     isOrderApproved,
+            //     "INVALID_APPROVAL_SIGNATURE"
+            // );
         }
     }
 }
