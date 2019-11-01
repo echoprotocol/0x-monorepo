@@ -189,12 +189,14 @@ export class OrderValidationUtils {
         expectedFillTakerTokenAmount?: BigNumber,
     ): Promise<void> {
         const orderHash = orderHashUtils.getOrderHashHex(signedOrder);
+        console.log('TCL: OrderValidationUtils1 -> isValidSignature');
         const isValidSignature = await signatureUtils.isValidSignatureAsync(
             this._provider,
             orderHash,
             signedOrder.signature,
             signedOrder.makerAddress,
         );
+        console.log('TCL: OrderValidationUtils2 -> isValidSignature', isValidSignature);
         if (!isValidSignature) {
             throw new Error(RevertReason.InvalidOrderSignature);
         }
