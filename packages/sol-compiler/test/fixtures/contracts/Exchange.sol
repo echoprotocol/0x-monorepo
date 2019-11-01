@@ -462,6 +462,8 @@ contract Exchange is SafeMath {
         constant
         returns (bool)
     {
+        // @TODO: Echo migration
+        return true;
         return signer == ecrecover(
             keccak256("\x19Ethereum Signed Message:\n32", hash),
             v,
