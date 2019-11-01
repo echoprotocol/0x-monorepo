@@ -27,21 +27,21 @@ contract MixinSignatureValidator is
 {
     using LibBytes for bytes;
 
-	function _isMessageSigner(address account, bytes32 hash, bytes memory signature) private pure returns (bool) {
-		// @TODO: Echo migration: remove all after that and before next TODO
-		require(signature.length == 65, "LENGTH_65_REQUIRED");
-		uint8 v = uint8(signature[0]);
-		bytes32 r = signature.readBytes32(1);
-		bytes32 s = signature.readBytes32(33);
-		return account == ecrecover(hash, v, r, s);
-		// @TODO: Echo migration uncomment it
-		// return edverify(account, abi.encodePacked(hash), signature);
-	}
+    function _isMessageSigner(address account, bytes32 hash, bytes memory signature) private pure returns (bool) {
+        // @TODO: Echo migration: remove all after that and before next TODO
+        require(signature.length == 65, "LENGTH_65_REQUIRED");
+        uint8 v = uint8(signature[0]);
+        bytes32 r = signature.readBytes32(1);
+        bytes32 s = signature.readBytes32(33);
+        return account == ecrecover(hash, v, r, s);
+        // @TODO: Echo migration uncomment it
+        // return edverify(account, abi.encodePacked(hash), signature);
+    }
 
     /// @dev Recovers the address of a signer given a hash and signature and compare it with provided one.
     /// @param hash Any 32 byte hash.
     /// @param signature Proof that the hash has been signed by signer.
-	function isMessageSigner(address account, bytes32 hash, bytes memory signature) public pure returns (bool) {
+    function isMessageSigner(address account, bytes32 hash, bytes memory signature) public pure returns (bool) {
         require(
             signature.length > 0,
             "LENGTH_GREATER_THAN_0_REQUIRED"
@@ -79,14 +79,14 @@ contract MixinSignatureValidator is
 
         // Signature using EIP712
         } else if (signatureType == SignatureType.EIP712) {
-			return _isMessageSigner(account, hash, signature);
+            return _isMessageSigner(account, hash, signature);
         // Signed using web3.eth_sign
         } else if (signatureType == SignatureType.EthSign) {
-			bytes32 signedData = keccak256(abi.encodePacked(
-				"\x19Ethereum Signed Message:\n32",
-				hash
-			));
-			return _isMessageSigner(account, signedData, signature);
+            bytes32 signedData = keccak256(abi.encodePacked(
+                "\x19Ethereum Signed Message:\n32",
+                hash
+            ));
+            return _isMessageSigner(account, signedData, signature);
         }
 
         // Anything else is illegal (We do not return false because
