@@ -181,8 +181,7 @@ contract MixinCoordinatorApprovalVerifier is
                 bytes32 approvalHash = getCoordinatorApprovalHash(approval);
 				// Copy signature to not change it when use "popLastByte" in MixinSignatureValidator
 				bytes memory signatureCopy = abi.encodePacked(approvalSignatures[signatureIndex]);
-                address approvalSignerAddress = getSignerAddress(approvalHash, signatureCopy);
-                if (approvalSignerAddress == approverAddress) {
+                if (isMessageSigner(approverAddress, approvalHash, signatureCopy)) {
                     approved = true;
                     break;
                 }
