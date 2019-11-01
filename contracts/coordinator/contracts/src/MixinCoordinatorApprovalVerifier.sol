@@ -151,56 +151,45 @@ contract MixinCoordinatorApprovalVerifier is
 
         // Hash 0x transaction
         bytes32 transactionHash = getTransactionHash(transaction);
-
-        // Create empty list of approval signers
-        address[] memory approvalSignerAddresses = new address[](0);
-
-        uint256 signaturesLength = approvalSignatures.length;
-        for (uint256 i = 0; i != signaturesLength; i++) {
-            // Create approval message
-            uint256 currentApprovalExpirationTimeSeconds = approvalExpirationTimeSeconds[i];
-            CoordinatorApproval memory approval = CoordinatorApproval({
-                txOrigin: txOrigin,
-                transactionHash: transactionHash,
-                transactionSignature: transactionSignature,
-                approvalExpirationTimeSeconds: currentApprovalExpirationTimeSeconds
-            });
-
-            // Ensure approval has not expired
-            require(
-                // solhint-disable-next-line not-rely-on-time
-                currentApprovalExpirationTimeSeconds > block.timestamp,
-                "APPROVAL_EXPIRED"
-            );
-
-            // Hash approval message and recover signer address
-            bytes32 approvalHash = getCoordinatorApprovalHash(approval);
-            address approvalSignerAddress = getSignerAddress(approvalHash, approvalSignatures[i]);
-
-            // Add approval signer to list of signers
-            // @TODO: Echo migration
-            // approvalSignerAddresses = approvalSignerAddresses.append(approvalSignerAddress);
-        }
-
-        // Ethereum transaction signer gives implicit signature of approval
-        // @TODO: Echo migration
-        // approvalSignerAddresses = approvalSignerAddresses.append(tx.origin);
-
         uint256 ordersLength = orders.length;
-        for (uint256 i = 0; i != ordersLength; i++) {
+        uint256 signaturesLength = approvalSignatures.length;
+        for (uint256 ordererIndex = 0; ordererIndex != ordersLength; ordererIndex++) {
             // Do not check approval if the order's senderAddress is null
-            if (orders[i].senderAddress == address(0)) {
+            if (orders[ordererIndex].senderAddress == address(0)) {
                 continue;
             }
-
             // Ensure feeRecipient of order has approved this 0x transaction
-            address approverAddress = orders[i].feeRecipientAddress;
-            // @TODO: Echo migration
-            // bool isOrderApproved = approvalSignerAddresses.contains(approverAddress);
-            // require(
-            //     isOrderApproved,
-            //     "INVALID_APPROVAL_SIGNATURE"
-            // );
+            address approverAddress = orders[ordererIndex].feeRecipientAddress;
+            if (tx.origin == approverAddress) continue;
+            bool approved = false;
+            for (uint256 signatureIndex = 0; signatureIndex < signaturesLength; signatureIndex++) {
+                // Create approval message
+                uint256 currentApprovalExpirationTimeSeconds = approvalExpirationTimeSeconds[signatureIndex];
+                CoordinatorApproval memory approval = CoordinatorApproval({
+                    txOrigin: txOrigin,
+                    transactionHash: transactionHash,
+                    transactionSignature: transactionSignature,
+                    approvalExpirationTimeSeconds: currentApprovalExpirationTimeSeconds
+                });
+                // Ensure approval has not expired
+                require(
+                    // solhint-disable-next-line not-rely-on-time
+                    currentApprovalExpirationTimeSeconds > block.timestamp,
+                    "APPROVAL_EXPIRED"
+                );
+                // Hash approval message and recover signer address
+                bytes32 approvalHash = getCoordinatorApprovalHash(approval);
+                // Copy signature to not change it when use "popLastByte" in MixinSignatureValidator
+                bytes memory signatureCopy = abi.encodePacked(approvalSignatures[signatureIndex]);
+                if (isMessageSigner(approverAddress, approvalHash, signatureCopy)) {
+                    approved = true;
+                    break;
+                }
+            }
+            require(
+                approved,
+                "INVALID_APPROVAL_SIGNATURE"
+            );
         }
     }
 }
