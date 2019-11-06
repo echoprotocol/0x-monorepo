@@ -96,9 +96,6 @@ contract MixinSignatureValidator is
         view
         returns (bool isValid)
     {
-        // @TODO: Echo migration
-        return true;
-
         require(
             signature.length > 0,
             "LENGTH_GREATER_THAN_0_REQUIRED"
@@ -114,12 +111,6 @@ contract MixinSignatureValidator is
         );
 
         SignatureType signatureType = SignatureType(signatureTypeRaw);
-
-        // Variables are not scoped in Solidity.
-        uint8 v;
-        bytes32 r;
-        bytes32 s;
-        address recovered;
 
         // Always illegal signature.
         // This is always an implicit option since a signer can create a
@@ -147,16 +138,7 @@ contract MixinSignatureValidator is
                 signature.length == 65,
                 "LENGTH_65_REQUIRED"
             );
-            v = uint8(signature[0]);
-            r = signature.readBytes32(1);
-            s = signature.readBytes32(33);
-            recovered = ecrecover(
-                hash,
-                v,
-                r,
-                s
-            );
-            isValid = signerAddress == recovered;
+            isValid = edverify(signerAddress, abi.encodePacked(hash), signature);
             return isValid;
 
         // Signed using web3.eth_sign
@@ -165,19 +147,11 @@ contract MixinSignatureValidator is
                 signature.length == 65,
                 "LENGTH_65_REQUIRED"
             );
-            v = uint8(signature[0]);
-            r = signature.readBytes32(1);
-            s = signature.readBytes32(33);
-            recovered = ecrecover(
-                keccak256(abi.encodePacked(
-                    "\x19Ethereum Signed Message:\n32",
-                    hash
-                )),
-                v,
-                r,
-                s
-            );
-            isValid = signerAddress == recovered;
+            bytes32 signedData = keccak256(abi.encodePacked(
+                "\x19Ethereum Signed Message:\n32",
+                hash
+            ));
+            isValid = edverify(signerAddress, abi.encodePacked(signedData), signature);
             return isValid;
 
         // Signature verified by wallet contract.
