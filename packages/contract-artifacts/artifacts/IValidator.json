@@ -6,12 +6,12 @@
             {
                 "constant": true,
                 "inputs": [
-                    { "internalType": "bytes32", "name": "hash", "type": "bytes32" },
-                    { "internalType": "address", "name": "signerAddress", "type": "address" },
-                    { "internalType": "bytes", "name": "signature", "type": "bytes" }
+                    {"internalType": "bytes32", "name": "hash", "type": "bytes32"},
+                    {"internalType": "address", "name": "signerAddress", "type": "address"},
+                    {"internalType": "bytes", "name": "signature", "type": "bytes"}
                 ],
                 "name": "isValidSignature",
-                "outputs": [{ "internalType": "bool", "name": "isValid", "type": "bool" }],
+                "outputs": [{"internalType": "bool", "name": "isValid", "type": "bool"}],
                 "payable": false,
                 "stateMutability": "view",
                 "type": "function"
@@ -30,7 +30,7 @@
                 }
             }
         },
-        "evm": { "bytecode": { "object": "0x" } }
+        "evm": {"bytecode": {"object": "0x"}}
     },
     "compiler": {
         "name": "solc",
@@ -39,7 +39,7 @@
             "optimizer": {
                 "enabled": true,
                 "runs": 1000000,
-                "details": { "yul": true, "deduplicate": true, "cse": true, "constantOptimizer": true }
+                "details": {"yul": true, "deduplicate": true, "cse": true, "constantOptimizer": true}
             },
             "outputSelection": {
                 "*": {

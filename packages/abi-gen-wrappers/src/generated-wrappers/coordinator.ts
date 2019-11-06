@@ -1,8 +1,8 @@
 // tslint:disable:no-consecutive-blank-lines ordered-imports align trailing-comma
 // tslint:disable:whitespace no-unbound-method no-trailing-whitespace
 // tslint:disable:no-unused-variable
-import { BaseContract, PromiseWithTransactionHash } from '@0x/base-contract';
-import { schemas } from '@0x/json-schemas';
+import {BaseContract, PromiseWithTransactionHash} from '@0x/base-contract';
+import {schemas} from '@0x/json-schemas';
 import {
     BlockParam,
     BlockParamLiteral,
@@ -16,10 +16,10 @@ import {
     TxDataPayable,
     SupportedProvider,
 } from 'ethereum-types';
-import { BigNumber, classUtils, logUtils, providerUtils } from '@0x/utils';
-import { SimpleContractArtifact } from '@0x/types';
-import { Web3Wrapper } from '@0x/web3-wrapper';
-import { assert } from '@0x/assert';
+import {BigNumber, classUtils, logUtils, providerUtils} from '@0x/utils';
+import {SimpleContractArtifact} from '@0x/types';
+import {Web3Wrapper} from '@0x/web3-wrapper';
+import {assert} from '@0x/assert';
 import * as ethers from 'ethers';
 // tslint:enable:no-unused-variable
 
@@ -29,7 +29,7 @@ import * as ethers from 'ethers';
 export class CoordinatorContract extends BaseContract {
     public getTransactionHash = {
         async callAsync(
-            transaction: { salt: BigNumber; signerAddress: string; data: string },
+            transaction: {salt: BigNumber; signerAddress: string; data: string},
             callData: Partial<CallData> = {},
             defaultBlock?: BlockParam,
         ): Promise<string> {
@@ -61,7 +61,7 @@ export class CoordinatorContract extends BaseContract {
             // tslint:enable boolean-naming
             return result;
         },
-        getABIEncodedTransactionData(transaction: { salt: BigNumber; signerAddress: string; data: string }): string {
+        getABIEncodedTransactionData(transaction: {salt: BigNumber; signerAddress: string; data: string}): string {
             const self = (this as any) as CoordinatorContract;
             const abiEncodedTransactionData = self._strictEncodeArguments(
                 'getTransactionHash((uint256,address,bytes))',
@@ -180,7 +180,7 @@ export class CoordinatorContract extends BaseContract {
     };
     public executeTransaction = {
         async sendTransactionAsync(
-            transaction: { salt: BigNumber; signerAddress: string; data: string },
+            transaction: {salt: BigNumber; signerAddress: string; data: string},
             txOrigin: string,
             transactionSignature: string,
             approvalExpirationTimeSeconds: BigNumber[],
@@ -216,7 +216,7 @@ export class CoordinatorContract extends BaseContract {
             return txHash;
         },
         awaitTransactionSuccessAsync(
-            transaction: { salt: BigNumber; signerAddress: string; data: string },
+            transaction: {salt: BigNumber; signerAddress: string; data: string},
             txOrigin: string,
             transactionSignature: string,
             approvalExpirationTimeSeconds: BigNumber[],
@@ -251,7 +251,7 @@ export class CoordinatorContract extends BaseContract {
             );
         },
         async estimateGasAsync(
-            transaction: { salt: BigNumber; signerAddress: string; data: string },
+            transaction: {salt: BigNumber; signerAddress: string; data: string},
             txOrigin: string,
             transactionSignature: string,
             approvalExpirationTimeSeconds: BigNumber[],
@@ -279,7 +279,7 @@ export class CoordinatorContract extends BaseContract {
             return gas;
         },
         async callAsync(
-            transaction: { salt: BigNumber; signerAddress: string; data: string },
+            transaction: {salt: BigNumber; signerAddress: string; data: string},
             txOrigin: string,
             transactionSignature: string,
             approvalExpirationTimeSeconds: BigNumber[],
@@ -323,7 +323,7 @@ export class CoordinatorContract extends BaseContract {
             return result;
         },
         getABIEncodedTransactionData(
-            transaction: { salt: BigNumber; signerAddress: string; data: string },
+            transaction: {salt: BigNumber; signerAddress: string; data: string},
             txOrigin: string,
             transactionSignature: string,
             approvalExpirationTimeSeconds: BigNumber[],
@@ -377,7 +377,7 @@ export class CoordinatorContract extends BaseContract {
     };
     public assertValidCoordinatorApprovals = {
         async callAsync(
-            transaction: { salt: BigNumber; signerAddress: string; data: string },
+            transaction: {salt: BigNumber; signerAddress: string; data: string},
             txOrigin: string,
             transactionSignature: string,
             approvalExpirationTimeSeconds: BigNumber[],
@@ -421,7 +421,7 @@ export class CoordinatorContract extends BaseContract {
             return result;
         },
         getABIEncodedTransactionData(
-            transaction: { salt: BigNumber; signerAddress: string; data: string },
+            transaction: {salt: BigNumber; signerAddress: string; data: string},
             txOrigin: string,
             transactionSignature: string,
             approvalExpirationTimeSeconds: BigNumber[],
@@ -587,7 +587,7 @@ export class CoordinatorContract extends BaseContract {
         const txData = deployInfo.encode(bytecode, [_exchange]);
         const web3Wrapper = new Web3Wrapper(provider);
         const txDataWithDefaults = await BaseContract._applyDefaultsToTxDataAsync(
-            { data: txData },
+            {data: txData},
             txDefaults,
             web3Wrapper.estimateGasAsync.bind(web3Wrapper),
         );

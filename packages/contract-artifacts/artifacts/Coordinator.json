@@ -8,9 +8,9 @@
                 "inputs": [
                     {
                         "components": [
-                            { "internalType": "uint256", "name": "salt", "type": "uint256" },
-                            { "internalType": "address", "name": "signerAddress", "type": "address" },
-                            { "internalType": "bytes", "name": "data", "type": "bytes" }
+                            {"internalType": "uint256", "name": "salt", "type": "uint256"},
+                            {"internalType": "address", "name": "signerAddress", "type": "address"},
+                            {"internalType": "bytes", "name": "data", "type": "bytes"}
                         ],
                         "internalType": "struct LibZeroExTransaction.ZeroExTransaction",
                         "name": "transaction",
@@ -18,7 +18,7 @@
                     }
                 ],
                 "name": "getTransactionHash",
-                "outputs": [{ "internalType": "bytes32", "name": "transactionHash", "type": "bytes32" }],
+                "outputs": [{"internalType": "bytes32", "name": "transactionHash", "type": "bytes32"}],
                 "payable": false,
                 "stateMutability": "view",
                 "type": "function"
@@ -26,12 +26,12 @@
             {
                 "constant": true,
                 "inputs": [
-                    { "internalType": "address", "name": "account", "type": "address" },
-                    { "internalType": "bytes32", "name": "hash", "type": "bytes32" },
-                    { "internalType": "bytes", "name": "signature", "type": "bytes" }
+                    {"internalType": "address", "name": "account", "type": "address"},
+                    {"internalType": "bytes32", "name": "hash", "type": "bytes32"},
+                    {"internalType": "bytes", "name": "signature", "type": "bytes"}
                 ],
                 "name": "isMessageSigner",
-                "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+                "outputs": [{"internalType": "bool", "name": "", "type": "bool"}],
                 "payable": false,
                 "stateMutability": "view",
                 "type": "function"
@@ -41,10 +41,10 @@
                 "inputs": [
                     {
                         "components": [
-                            { "internalType": "address", "name": "txOrigin", "type": "address" },
-                            { "internalType": "bytes32", "name": "transactionHash", "type": "bytes32" },
-                            { "internalType": "bytes", "name": "transactionSignature", "type": "bytes" },
-                            { "internalType": "uint256", "name": "approvalExpirationTimeSeconds", "type": "uint256" }
+                            {"internalType": "address", "name": "txOrigin", "type": "address"},
+                            {"internalType": "bytes32", "name": "transactionHash", "type": "bytes32"},
+                            {"internalType": "bytes", "name": "transactionSignature", "type": "bytes"},
+                            {"internalType": "uint256", "name": "approvalExpirationTimeSeconds", "type": "uint256"}
                         ],
                         "internalType": "struct LibCoordinatorApproval.CoordinatorApproval",
                         "name": "approval",
@@ -52,7 +52,7 @@
                     }
                 ],
                 "name": "getCoordinatorApprovalHash",
-                "outputs": [{ "internalType": "bytes32", "name": "approvalHash", "type": "bytes32" }],
+                "outputs": [{"internalType": "bytes32", "name": "approvalHash", "type": "bytes32"}],
                 "payable": false,
                 "stateMutability": "view",
                 "type": "function"
@@ -62,18 +62,18 @@
                 "inputs": [
                     {
                         "components": [
-                            { "internalType": "uint256", "name": "salt", "type": "uint256" },
-                            { "internalType": "address", "name": "signerAddress", "type": "address" },
-                            { "internalType": "bytes", "name": "data", "type": "bytes" }
+                            {"internalType": "uint256", "name": "salt", "type": "uint256"},
+                            {"internalType": "address", "name": "signerAddress", "type": "address"},
+                            {"internalType": "bytes", "name": "data", "type": "bytes"}
                         ],
                         "internalType": "struct LibZeroExTransaction.ZeroExTransaction",
                         "name": "transaction",
                         "type": "tuple"
                     },
-                    { "internalType": "address", "name": "txOrigin", "type": "address" },
-                    { "internalType": "bytes", "name": "transactionSignature", "type": "bytes" },
-                    { "internalType": "uint256[]", "name": "approvalExpirationTimeSeconds", "type": "uint256[]" },
-                    { "internalType": "bytes[]", "name": "approvalSignatures", "type": "bytes[]" }
+                    {"internalType": "address", "name": "txOrigin", "type": "address"},
+                    {"internalType": "bytes", "name": "transactionSignature", "type": "bytes"},
+                    {"internalType": "uint256[]", "name": "approvalExpirationTimeSeconds", "type": "uint256[]"},
+                    {"internalType": "bytes[]", "name": "approvalSignatures", "type": "bytes[]"}
                 ],
                 "name": "executeTransaction",
                 "outputs": [],
@@ -85,7 +85,7 @@
                 "constant": true,
                 "inputs": [],
                 "name": "EIP712_EXCHANGE_DOMAIN_HASH",
-                "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
+                "outputs": [{"internalType": "bytes32", "name": "", "type": "bytes32"}],
                 "payable": false,
                 "stateMutability": "view",
                 "type": "function"
@@ -95,18 +95,18 @@
                 "inputs": [
                     {
                         "components": [
-                            { "internalType": "uint256", "name": "salt", "type": "uint256" },
-                            { "internalType": "address", "name": "signerAddress", "type": "address" },
-                            { "internalType": "bytes", "name": "data", "type": "bytes" }
+                            {"internalType": "uint256", "name": "salt", "type": "uint256"},
+                            {"internalType": "address", "name": "signerAddress", "type": "address"},
+                            {"internalType": "bytes", "name": "data", "type": "bytes"}
                         ],
                         "internalType": "struct LibZeroExTransaction.ZeroExTransaction",
                         "name": "transaction",
                         "type": "tuple"
                     },
-                    { "internalType": "address", "name": "txOrigin", "type": "address" },
-                    { "internalType": "bytes", "name": "transactionSignature", "type": "bytes" },
-                    { "internalType": "uint256[]", "name": "approvalExpirationTimeSeconds", "type": "uint256[]" },
-                    { "internalType": "bytes[]", "name": "approvalSignatures", "type": "bytes[]" }
+                    {"internalType": "address", "name": "txOrigin", "type": "address"},
+                    {"internalType": "bytes", "name": "transactionSignature", "type": "bytes"},
+                    {"internalType": "uint256[]", "name": "approvalExpirationTimeSeconds", "type": "uint256[]"},
+                    {"internalType": "bytes[]", "name": "approvalSignatures", "type": "bytes[]"}
                 ],
                 "name": "assertValidCoordinatorApprovals",
                 "outputs": [],
@@ -116,23 +116,23 @@
             },
             {
                 "constant": true,
-                "inputs": [{ "internalType": "bytes", "name": "data", "type": "bytes" }],
+                "inputs": [{"internalType": "bytes", "name": "data", "type": "bytes"}],
                 "name": "decodeOrdersFromFillData",
                 "outputs": [
                     {
                         "components": [
-                            { "internalType": "address", "name": "makerAddress", "type": "address" },
-                            { "internalType": "address", "name": "takerAddress", "type": "address" },
-                            { "internalType": "address", "name": "feeRecipientAddress", "type": "address" },
-                            { "internalType": "address", "name": "senderAddress", "type": "address" },
-                            { "internalType": "uint256", "name": "makerAssetAmount", "type": "uint256" },
-                            { "internalType": "uint256", "name": "takerAssetAmount", "type": "uint256" },
-                            { "internalType": "uint256", "name": "makerFee", "type": "uint256" },
-                            { "internalType": "uint256", "name": "takerFee", "type": "uint256" },
-                            { "internalType": "uint256", "name": "expirationTimeSeconds", "type": "uint256" },
-                            { "internalType": "uint256", "name": "salt", "type": "uint256" },
-                            { "internalType": "bytes", "name": "makerAssetData", "type": "bytes" },
-                            { "internalType": "bytes", "name": "takerAssetData", "type": "bytes" }
+                            {"internalType": "address", "name": "makerAddress", "type": "address"},
+                            {"internalType": "address", "name": "takerAddress", "type": "address"},
+                            {"internalType": "address", "name": "feeRecipientAddress", "type": "address"},
+                            {"internalType": "address", "name": "senderAddress", "type": "address"},
+                            {"internalType": "uint256", "name": "makerAssetAmount", "type": "uint256"},
+                            {"internalType": "uint256", "name": "takerAssetAmount", "type": "uint256"},
+                            {"internalType": "uint256", "name": "makerFee", "type": "uint256"},
+                            {"internalType": "uint256", "name": "takerFee", "type": "uint256"},
+                            {"internalType": "uint256", "name": "expirationTimeSeconds", "type": "uint256"},
+                            {"internalType": "uint256", "name": "salt", "type": "uint256"},
+                            {"internalType": "bytes", "name": "makerAssetData", "type": "bytes"},
+                            {"internalType": "bytes", "name": "takerAssetData", "type": "bytes"}
                         ],
                         "internalType": "struct LibOrder.Order[]",
                         "name": "orders",
@@ -147,13 +147,13 @@
                 "constant": true,
                 "inputs": [],
                 "name": "EIP712_COORDINATOR_DOMAIN_HASH",
-                "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
+                "outputs": [{"internalType": "bytes32", "name": "", "type": "bytes32"}],
                 "payable": false,
                 "stateMutability": "view",
                 "type": "function"
             },
             {
-                "inputs": [{ "internalType": "address", "name": "_exchange", "type": "address" }],
+                "inputs": [{"internalType": "address", "name": "_exchange", "type": "address"}],
                 "payable": false,
                 "stateMutability": "nonpayable",
                 "type": "constructor"
@@ -173,7 +173,7 @@
                 },
                 "decodeOrdersFromFillData(bytes)": {
                     "details": "Decodes the orders from Exchange calldata representing any fill method.",
-                    "params": { "data": "Exchange calldata representing a fill method." },
+                    "params": {"data": "Exchange calldata representing a fill method."},
                     "return": "The orders from the Exchange calldata."
                 },
                 "executeTransaction((uint256,address,bytes),address,bytes,uint256[],bytes[])": {
@@ -195,7 +195,7 @@
                 },
                 "getTransactionHash((uint256,address,bytes))": {
                     "details": "Calculates the EIP712 hash of a 0x transaction using the domain separator of the Exchange contract.",
-                    "params": { "transaction": "0x transaction containing salt, signerAddress, and data." },
+                    "params": {"transaction": "0x transaction containing salt, signerAddress, and data."},
                     "return": "EIP712 hash of the transaction with the domain separator of this contract."
                 },
                 "isMessageSigner(address,bytes32,bytes)": {
@@ -220,7 +220,7 @@
             "optimizer": {
                 "enabled": true,
                 "runs": 1000000,
-                "details": { "yul": true, "deduplicate": true, "cse": true, "constantOptimizer": true }
+                "details": {"yul": true, "deduplicate": true, "cse": true, "constantOptimizer": true}
             },
             "outputSelection": {
                 "*": {

@@ -8,56 +8,56 @@
                 "inputs": [
                     {
                         "components": [
-                            { "internalType": "address", "name": "makerAddress", "type": "address" },
-                            { "internalType": "address", "name": "takerAddress", "type": "address" },
-                            { "internalType": "address", "name": "feeRecipientAddress", "type": "address" },
-                            { "internalType": "address", "name": "senderAddress", "type": "address" },
-                            { "internalType": "uint256", "name": "makerAssetAmount", "type": "uint256" },
-                            { "internalType": "uint256", "name": "takerAssetAmount", "type": "uint256" },
-                            { "internalType": "uint256", "name": "makerFee", "type": "uint256" },
-                            { "internalType": "uint256", "name": "takerFee", "type": "uint256" },
-                            { "internalType": "uint256", "name": "expirationTimeSeconds", "type": "uint256" },
-                            { "internalType": "uint256", "name": "salt", "type": "uint256" },
-                            { "internalType": "bytes", "name": "makerAssetData", "type": "bytes" },
-                            { "internalType": "bytes", "name": "takerAssetData", "type": "bytes" }
+                            {"internalType": "address", "name": "makerAddress", "type": "address"},
+                            {"internalType": "address", "name": "takerAddress", "type": "address"},
+                            {"internalType": "address", "name": "feeRecipientAddress", "type": "address"},
+                            {"internalType": "address", "name": "senderAddress", "type": "address"},
+                            {"internalType": "uint256", "name": "makerAssetAmount", "type": "uint256"},
+                            {"internalType": "uint256", "name": "takerAssetAmount", "type": "uint256"},
+                            {"internalType": "uint256", "name": "makerFee", "type": "uint256"},
+                            {"internalType": "uint256", "name": "takerFee", "type": "uint256"},
+                            {"internalType": "uint256", "name": "expirationTimeSeconds", "type": "uint256"},
+                            {"internalType": "uint256", "name": "salt", "type": "uint256"},
+                            {"internalType": "bytes", "name": "makerAssetData", "type": "bytes"},
+                            {"internalType": "bytes", "name": "takerAssetData", "type": "bytes"}
                         ],
                         "internalType": "struct LibOrder.Order[]",
                         "name": "orders",
                         "type": "tuple[]"
                     },
-                    { "internalType": "uint256", "name": "makerAssetFillAmount", "type": "uint256" },
-                    { "internalType": "bytes[]", "name": "signatures", "type": "bytes[]" },
+                    {"internalType": "uint256", "name": "makerAssetFillAmount", "type": "uint256"},
+                    {"internalType": "bytes[]", "name": "signatures", "type": "bytes[]"},
                     {
                         "components": [
-                            { "internalType": "address", "name": "makerAddress", "type": "address" },
-                            { "internalType": "address", "name": "takerAddress", "type": "address" },
-                            { "internalType": "address", "name": "feeRecipientAddress", "type": "address" },
-                            { "internalType": "address", "name": "senderAddress", "type": "address" },
-                            { "internalType": "uint256", "name": "makerAssetAmount", "type": "uint256" },
-                            { "internalType": "uint256", "name": "takerAssetAmount", "type": "uint256" },
-                            { "internalType": "uint256", "name": "makerFee", "type": "uint256" },
-                            { "internalType": "uint256", "name": "takerFee", "type": "uint256" },
-                            { "internalType": "uint256", "name": "expirationTimeSeconds", "type": "uint256" },
-                            { "internalType": "uint256", "name": "salt", "type": "uint256" },
-                            { "internalType": "bytes", "name": "makerAssetData", "type": "bytes" },
-                            { "internalType": "bytes", "name": "takerAssetData", "type": "bytes" }
+                            {"internalType": "address", "name": "makerAddress", "type": "address"},
+                            {"internalType": "address", "name": "takerAddress", "type": "address"},
+                            {"internalType": "address", "name": "feeRecipientAddress", "type": "address"},
+                            {"internalType": "address", "name": "senderAddress", "type": "address"},
+                            {"internalType": "uint256", "name": "makerAssetAmount", "type": "uint256"},
+                            {"internalType": "uint256", "name": "takerAssetAmount", "type": "uint256"},
+                            {"internalType": "uint256", "name": "makerFee", "type": "uint256"},
+                            {"internalType": "uint256", "name": "takerFee", "type": "uint256"},
+                            {"internalType": "uint256", "name": "expirationTimeSeconds", "type": "uint256"},
+                            {"internalType": "uint256", "name": "salt", "type": "uint256"},
+                            {"internalType": "bytes", "name": "makerAssetData", "type": "bytes"},
+                            {"internalType": "bytes", "name": "takerAssetData", "type": "bytes"}
                         ],
                         "internalType": "struct LibOrder.Order[]",
                         "name": "feeOrders",
                         "type": "tuple[]"
                     },
-                    { "internalType": "bytes[]", "name": "feeSignatures", "type": "bytes[]" },
-                    { "internalType": "uint256", "name": "feePercentage", "type": "uint256" },
-                    { "internalType": "address payable", "name": "feeRecipient", "type": "address" }
+                    {"internalType": "bytes[]", "name": "feeSignatures", "type": "bytes[]"},
+                    {"internalType": "uint256", "name": "feePercentage", "type": "uint256"},
+                    {"internalType": "address payable", "name": "feeRecipient", "type": "address"}
                 ],
                 "name": "marketBuyOrdersWithEth",
                 "outputs": [
                     {
                         "components": [
-                            { "internalType": "uint256", "name": "makerAssetFilledAmount", "type": "uint256" },
-                            { "internalType": "uint256", "name": "takerAssetFilledAmount", "type": "uint256" },
-                            { "internalType": "uint256", "name": "makerFeePaid", "type": "uint256" },
-                            { "internalType": "uint256", "name": "takerFeePaid", "type": "uint256" }
+                            {"internalType": "uint256", "name": "makerAssetFilledAmount", "type": "uint256"},
+                            {"internalType": "uint256", "name": "takerAssetFilledAmount", "type": "uint256"},
+                            {"internalType": "uint256", "name": "makerFeePaid", "type": "uint256"},
+                            {"internalType": "uint256", "name": "takerFeePaid", "type": "uint256"}
                         ],
                         "internalType": "struct LibFillResults.FillResults",
                         "name": "orderFillResults",
@@ -65,10 +65,10 @@
                     },
                     {
                         "components": [
-                            { "internalType": "uint256", "name": "makerAssetFilledAmount", "type": "uint256" },
-                            { "internalType": "uint256", "name": "takerAssetFilledAmount", "type": "uint256" },
-                            { "internalType": "uint256", "name": "makerFeePaid", "type": "uint256" },
-                            { "internalType": "uint256", "name": "takerFeePaid", "type": "uint256" }
+                            {"internalType": "uint256", "name": "makerAssetFilledAmount", "type": "uint256"},
+                            {"internalType": "uint256", "name": "takerAssetFilledAmount", "type": "uint256"},
+                            {"internalType": "uint256", "name": "makerFeePaid", "type": "uint256"},
+                            {"internalType": "uint256", "name": "takerFeePaid", "type": "uint256"}
                         ],
                         "internalType": "struct LibFillResults.FillResults",
                         "name": "feeOrderFillResults",
@@ -82,8 +82,8 @@
             {
                 "constant": false,
                 "inputs": [
-                    { "internalType": "bytes", "name": "assetData", "type": "bytes" },
-                    { "internalType": "uint256", "name": "amount", "type": "uint256" }
+                    {"internalType": "bytes", "name": "assetData", "type": "bytes"},
+                    {"internalType": "uint256", "name": "amount", "type": "uint256"}
                 ],
                 "name": "withdrawAsset",
                 "outputs": [],
@@ -95,7 +95,7 @@
                 "constant": true,
                 "inputs": [],
                 "name": "owner",
-                "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+                "outputs": [{"internalType": "address", "name": "", "type": "address"}],
                 "payable": false,
                 "stateMutability": "view",
                 "type": "function"
@@ -105,55 +105,55 @@
                 "inputs": [
                     {
                         "components": [
-                            { "internalType": "address", "name": "makerAddress", "type": "address" },
-                            { "internalType": "address", "name": "takerAddress", "type": "address" },
-                            { "internalType": "address", "name": "feeRecipientAddress", "type": "address" },
-                            { "internalType": "address", "name": "senderAddress", "type": "address" },
-                            { "internalType": "uint256", "name": "makerAssetAmount", "type": "uint256" },
-                            { "internalType": "uint256", "name": "takerAssetAmount", "type": "uint256" },
-                            { "internalType": "uint256", "name": "makerFee", "type": "uint256" },
-                            { "internalType": "uint256", "name": "takerFee", "type": "uint256" },
-                            { "internalType": "uint256", "name": "expirationTimeSeconds", "type": "uint256" },
-                            { "internalType": "uint256", "name": "salt", "type": "uint256" },
-                            { "internalType": "bytes", "name": "makerAssetData", "type": "bytes" },
-                            { "internalType": "bytes", "name": "takerAssetData", "type": "bytes" }
+                            {"internalType": "address", "name": "makerAddress", "type": "address"},
+                            {"internalType": "address", "name": "takerAddress", "type": "address"},
+                            {"internalType": "address", "name": "feeRecipientAddress", "type": "address"},
+                            {"internalType": "address", "name": "senderAddress", "type": "address"},
+                            {"internalType": "uint256", "name": "makerAssetAmount", "type": "uint256"},
+                            {"internalType": "uint256", "name": "takerAssetAmount", "type": "uint256"},
+                            {"internalType": "uint256", "name": "makerFee", "type": "uint256"},
+                            {"internalType": "uint256", "name": "takerFee", "type": "uint256"},
+                            {"internalType": "uint256", "name": "expirationTimeSeconds", "type": "uint256"},
+                            {"internalType": "uint256", "name": "salt", "type": "uint256"},
+                            {"internalType": "bytes", "name": "makerAssetData", "type": "bytes"},
+                            {"internalType": "bytes", "name": "takerAssetData", "type": "bytes"}
                         ],
                         "internalType": "struct LibOrder.Order[]",
                         "name": "orders",
                         "type": "tuple[]"
                     },
-                    { "internalType": "bytes[]", "name": "signatures", "type": "bytes[]" },
+                    {"internalType": "bytes[]", "name": "signatures", "type": "bytes[]"},
                     {
                         "components": [
-                            { "internalType": "address", "name": "makerAddress", "type": "address" },
-                            { "internalType": "address", "name": "takerAddress", "type": "address" },
-                            { "internalType": "address", "name": "feeRecipientAddress", "type": "address" },
-                            { "internalType": "address", "name": "senderAddress", "type": "address" },
-                            { "internalType": "uint256", "name": "makerAssetAmount", "type": "uint256" },
-                            { "internalType": "uint256", "name": "takerAssetAmount", "type": "uint256" },
-                            { "internalType": "uint256", "name": "makerFee", "type": "uint256" },
-                            { "internalType": "uint256", "name": "takerFee", "type": "uint256" },
-                            { "internalType": "uint256", "name": "expirationTimeSeconds", "type": "uint256" },
-                            { "internalType": "uint256", "name": "salt", "type": "uint256" },
-                            { "internalType": "bytes", "name": "makerAssetData", "type": "bytes" },
-                            { "internalType": "bytes", "name": "takerAssetData", "type": "bytes" }
+                            {"internalType": "address", "name": "makerAddress", "type": "address"},
+                            {"internalType": "address", "name": "takerAddress", "type": "address"},
+                            {"internalType": "address", "name": "feeRecipientAddress", "type": "address"},
+                            {"internalType": "address", "name": "senderAddress", "type": "address"},
+                            {"internalType": "uint256", "name": "makerAssetAmount", "type": "uint256"},
+                            {"internalType": "uint256", "name": "takerAssetAmount", "type": "uint256"},
+                            {"internalType": "uint256", "name": "makerFee", "type": "uint256"},
+                            {"internalType": "uint256", "name": "takerFee", "type": "uint256"},
+                            {"internalType": "uint256", "name": "expirationTimeSeconds", "type": "uint256"},
+                            {"internalType": "uint256", "name": "salt", "type": "uint256"},
+                            {"internalType": "bytes", "name": "makerAssetData", "type": "bytes"},
+                            {"internalType": "bytes", "name": "takerAssetData", "type": "bytes"}
                         ],
                         "internalType": "struct LibOrder.Order[]",
                         "name": "feeOrders",
                         "type": "tuple[]"
                     },
-                    { "internalType": "bytes[]", "name": "feeSignatures", "type": "bytes[]" },
-                    { "internalType": "uint256", "name": "feePercentage", "type": "uint256" },
-                    { "internalType": "address payable", "name": "feeRecipient", "type": "address" }
+                    {"internalType": "bytes[]", "name": "feeSignatures", "type": "bytes[]"},
+                    {"internalType": "uint256", "name": "feePercentage", "type": "uint256"},
+                    {"internalType": "address payable", "name": "feeRecipient", "type": "address"}
                 ],
                 "name": "marketSellOrdersWithEth",
                 "outputs": [
                     {
                         "components": [
-                            { "internalType": "uint256", "name": "makerAssetFilledAmount", "type": "uint256" },
-                            { "internalType": "uint256", "name": "takerAssetFilledAmount", "type": "uint256" },
-                            { "internalType": "uint256", "name": "makerFeePaid", "type": "uint256" },
-                            { "internalType": "uint256", "name": "takerFeePaid", "type": "uint256" }
+                            {"internalType": "uint256", "name": "makerAssetFilledAmount", "type": "uint256"},
+                            {"internalType": "uint256", "name": "takerAssetFilledAmount", "type": "uint256"},
+                            {"internalType": "uint256", "name": "makerFeePaid", "type": "uint256"},
+                            {"internalType": "uint256", "name": "takerFeePaid", "type": "uint256"}
                         ],
                         "internalType": "struct LibFillResults.FillResults",
                         "name": "orderFillResults",
@@ -161,10 +161,10 @@
                     },
                     {
                         "components": [
-                            { "internalType": "uint256", "name": "makerAssetFilledAmount", "type": "uint256" },
-                            { "internalType": "uint256", "name": "takerAssetFilledAmount", "type": "uint256" },
-                            { "internalType": "uint256", "name": "makerFeePaid", "type": "uint256" },
-                            { "internalType": "uint256", "name": "takerFeePaid", "type": "uint256" }
+                            {"internalType": "uint256", "name": "makerAssetFilledAmount", "type": "uint256"},
+                            {"internalType": "uint256", "name": "takerAssetFilledAmount", "type": "uint256"},
+                            {"internalType": "uint256", "name": "makerFeePaid", "type": "uint256"},
+                            {"internalType": "uint256", "name": "takerFeePaid", "type": "uint256"}
                         ],
                         "internalType": "struct LibFillResults.FillResults",
                         "name": "feeOrderFillResults",
@@ -177,7 +177,7 @@
             },
             {
                 "constant": false,
-                "inputs": [{ "internalType": "address", "name": "newOwner", "type": "address" }],
+                "inputs": [{"internalType": "address", "name": "newOwner", "type": "address"}],
                 "name": "transferOwnership",
                 "outputs": [],
                 "payable": false,
@@ -186,15 +186,15 @@
             },
             {
                 "inputs": [
-                    { "internalType": "address", "name": "_exchange", "type": "address" },
-                    { "internalType": "bytes", "name": "_zrxAssetData", "type": "bytes" },
-                    { "internalType": "bytes", "name": "_wethAssetData", "type": "bytes" }
+                    {"internalType": "address", "name": "_exchange", "type": "address"},
+                    {"internalType": "bytes", "name": "_zrxAssetData", "type": "bytes"},
+                    {"internalType": "bytes", "name": "_wethAssetData", "type": "bytes"}
                 ],
                 "payable": false,
                 "stateMutability": "nonpayable",
                 "type": "constructor"
             },
-            { "payable": true, "stateMutability": "payable", "type": "fallback" }
+            {"payable": true, "stateMutability": "payable", "type": "fallback"}
         ],
         "devdoc": {
             "methods": {
@@ -245,7 +245,7 @@
             "optimizer": {
                 "enabled": true,
                 "runs": 1000000,
-                "details": { "yul": true, "deduplicate": true, "cse": true, "constantOptimizer": true }
+                "details": {"yul": true, "deduplicate": true, "cse": true, "constantOptimizer": true}
             },
             "outputSelection": {
                 "*": {

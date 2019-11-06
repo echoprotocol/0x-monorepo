@@ -5,7 +5,7 @@
         "abi": [
             {
                 "constant": false,
-                "inputs": [{ "internalType": "string", "name": "coordinatorEndpoint", "type": "string" }],
+                "inputs": [{"internalType": "string", "name": "coordinatorEndpoint", "type": "string"}],
                 "name": "setCoordinatorEndpoint",
                 "outputs": [],
                 "payable": false,
@@ -14,19 +14,19 @@
             },
             {
                 "constant": true,
-                "inputs": [{ "internalType": "address", "name": "coordinatorOperator", "type": "address" }],
+                "inputs": [{"internalType": "address", "name": "coordinatorOperator", "type": "address"}],
                 "name": "getCoordinatorEndpoint",
-                "outputs": [{ "internalType": "string", "name": "coordinatorEndpoint", "type": "string" }],
+                "outputs": [{"internalType": "string", "name": "coordinatorEndpoint", "type": "string"}],
                 "payable": false,
                 "stateMutability": "view",
                 "type": "function"
             },
-            { "inputs": [], "payable": false, "stateMutability": "nonpayable", "type": "constructor" },
+            {"inputs": [], "payable": false, "stateMutability": "nonpayable", "type": "constructor"},
             {
                 "anonymous": false,
                 "inputs": [
-                    { "indexed": false, "internalType": "address", "name": "coordinatorOperator", "type": "address" },
-                    { "indexed": false, "internalType": "string", "name": "coordinatorEndpoint", "type": "string" }
+                    {"indexed": false, "internalType": "address", "name": "coordinatorOperator", "type": "address"},
+                    {"indexed": false, "internalType": "string", "name": "coordinatorEndpoint", "type": "string"}
                 ],
                 "name": "CoordinatorEndpointSet",
                 "type": "event"
@@ -36,11 +36,11 @@
             "methods": {
                 "getCoordinatorEndpoint(address)": {
                     "details": "Gets the endpoint for a Coordinator.",
-                    "params": { "coordinatorOperator": "operator of the Coordinator endpoint." }
+                    "params": {"coordinatorOperator": "operator of the Coordinator endpoint."}
                 },
                 "setCoordinatorEndpoint(string)": {
                     "details": "Called by a Coordinator operator to set the endpoint of their Coordinator.",
-                    "params": { "coordinatorEndpoint": "endpoint of the Coordinator." }
+                    "params": {"coordinatorEndpoint": "endpoint of the Coordinator."}
                 }
             }
         },
@@ -57,7 +57,7 @@
             "optimizer": {
                 "enabled": true,
                 "runs": 1000000,
-                "details": { "yul": true, "deduplicate": true, "cse": true, "constantOptimizer": true }
+                "details": {"yul": true, "deduplicate": true, "cse": true, "constantOptimizer": true}
             },
             "outputSelection": {
                 "*": {

@@ -1,8 +1,8 @@
 // tslint:disable:no-consecutive-blank-lines ordered-imports align trailing-comma
 // tslint:disable:whitespace no-unbound-method no-trailing-whitespace
 // tslint:disable:no-unused-variable
-import { BaseContract, PromiseWithTransactionHash } from '@0x/base-contract';
-import { schemas } from '@0x/json-schemas';
+import {BaseContract, PromiseWithTransactionHash} from '@0x/base-contract';
+import {schemas} from '@0x/json-schemas';
 import {
     BlockParam,
     BlockParamLiteral,
@@ -16,10 +16,10 @@ import {
     TxDataPayable,
     SupportedProvider,
 } from 'ethereum-types';
-import { BigNumber, classUtils, logUtils, providerUtils } from '@0x/utils';
-import { SimpleContractArtifact } from '@0x/types';
-import { Web3Wrapper } from '@0x/web3-wrapper';
-import { assert } from '@0x/assert';
+import {BigNumber, classUtils, logUtils, providerUtils} from '@0x/utils';
+import {SimpleContractArtifact} from '@0x/types';
+import {Web3Wrapper} from '@0x/web3-wrapper';
+import {assert} from '@0x/assert';
 import * as ethers from 'ethers';
 // tslint:enable:no-unused-variable
 
@@ -2442,7 +2442,7 @@ export class ExchangeContract extends BaseContract {
             }>,
             callData: Partial<CallData> = {},
             defaultBlock?: BlockParam,
-        ): Promise<Array<{ orderStatus: number; orderHash: string; orderTakerAssetFilledAmount: BigNumber }>> {
+        ): Promise<Array<{orderStatus: number; orderHash: string; orderTakerAssetFilledAmount: BigNumber}>> {
             assert.isArray('orders', orders);
             assert.doesConformToSchema('callData', callData, schemas.callDataSchema, [
                 schemas.addressSchema,
@@ -2472,7 +2472,7 @@ export class ExchangeContract extends BaseContract {
             );
             // tslint:disable boolean-naming
             const result = abiEncoder.strictDecodeReturnValue<
-                Array<{ orderStatus: number; orderHash: string; orderTakerAssetFilledAmount: BigNumber }>
+                Array<{orderStatus: number; orderHash: string; orderTakerAssetFilledAmount: BigNumber}>
             >(rawCallResult);
             // tslint:enable boolean-naming
             return result;
@@ -3313,7 +3313,7 @@ export class ExchangeContract extends BaseContract {
             },
             callData: Partial<CallData> = {},
             defaultBlock?: BlockParam,
-        ): Promise<{ orderStatus: number; orderHash: string; orderTakerAssetFilledAmount: BigNumber }> {
+        ): Promise<{orderStatus: number; orderHash: string; orderTakerAssetFilledAmount: BigNumber}> {
             assert.doesConformToSchema('callData', callData, schemas.callDataSchema, [
                 schemas.addressSchema,
                 schemas.numberSchema,
@@ -4285,7 +4285,7 @@ export class ExchangeContract extends BaseContract {
         const txData = deployInfo.encode(bytecode, [_zrxAssetData]);
         const web3Wrapper = new Web3Wrapper(provider);
         const txDataWithDefaults = await BaseContract._applyDefaultsToTxDataAsync(
-            { data: txData },
+            {data: txData},
             txDefaults,
             web3Wrapper.estimateGasAsync.bind(web3Wrapper),
         );

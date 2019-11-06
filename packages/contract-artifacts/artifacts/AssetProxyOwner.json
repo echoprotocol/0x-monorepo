@@ -5,16 +5,16 @@
         "abi": [
             {
                 "constant": true,
-                "inputs": [{ "name": "", "type": "uint256" }],
+                "inputs": [{"name": "", "type": "uint256"}],
                 "name": "owners",
-                "outputs": [{ "name": "", "type": "address" }],
+                "outputs": [{"name": "", "type": "address"}],
                 "payable": false,
                 "stateMutability": "view",
                 "type": "function"
             },
             {
                 "constant": false,
-                "inputs": [{ "name": "owner", "type": "address" }],
+                "inputs": [{"name": "owner", "type": "address"}],
                 "name": "removeOwner",
                 "outputs": [],
                 "payable": false,
@@ -23,7 +23,7 @@
             },
             {
                 "constant": false,
-                "inputs": [{ "name": "transactionId", "type": "uint256" }],
+                "inputs": [{"name": "transactionId", "type": "uint256"}],
                 "name": "revokeConfirmation",
                 "outputs": [],
                 "payable": false,
@@ -32,25 +32,25 @@
             },
             {
                 "constant": true,
-                "inputs": [{ "name": "", "type": "address" }],
+                "inputs": [{"name": "", "type": "address"}],
                 "name": "isOwner",
-                "outputs": [{ "name": "", "type": "bool" }],
+                "outputs": [{"name": "", "type": "bool"}],
                 "payable": false,
                 "stateMutability": "view",
                 "type": "function"
             },
             {
                 "constant": true,
-                "inputs": [{ "name": "", "type": "uint256" }, { "name": "", "type": "address" }],
+                "inputs": [{"name": "", "type": "uint256"}, {"name": "", "type": "address"}],
                 "name": "confirmations",
-                "outputs": [{ "name": "", "type": "bool" }],
+                "outputs": [{"name": "", "type": "bool"}],
                 "payable": false,
                 "stateMutability": "view",
                 "type": "function"
             },
             {
                 "constant": false,
-                "inputs": [{ "name": "transactionId", "type": "uint256" }],
+                "inputs": [{"name": "transactionId", "type": "uint256"}],
                 "name": "executeRemoveAuthorizedAddressAtIndex",
                 "outputs": [],
                 "payable": false,
@@ -61,26 +61,23 @@
                 "constant": true,
                 "inputs": [],
                 "name": "secondsTimeLocked",
-                "outputs": [{ "name": "", "type": "uint256" }],
+                "outputs": [{"name": "", "type": "uint256"}],
                 "payable": false,
                 "stateMutability": "view",
                 "type": "function"
             },
             {
                 "constant": true,
-                "inputs": [{ "name": "pending", "type": "bool" }, { "name": "executed", "type": "bool" }],
+                "inputs": [{"name": "pending", "type": "bool"}, {"name": "executed", "type": "bool"}],
                 "name": "getTransactionCount",
-                "outputs": [{ "name": "count", "type": "uint256" }],
+                "outputs": [{"name": "count", "type": "uint256"}],
                 "payable": false,
                 "stateMutability": "view",
                 "type": "function"
             },
             {
                 "constant": false,
-                "inputs": [
-                    { "name": "assetProxyContract", "type": "address" },
-                    { "name": "isRegistered", "type": "bool" }
-                ],
+                "inputs": [{"name": "assetProxyContract", "type": "address"}, {"name": "isRegistered", "type": "bool"}],
                 "name": "registerAssetProxy",
                 "outputs": [],
                 "payable": false,
@@ -89,7 +86,7 @@
             },
             {
                 "constant": false,
-                "inputs": [{ "name": "owner", "type": "address" }],
+                "inputs": [{"name": "owner", "type": "address"}],
                 "name": "addOwner",
                 "outputs": [],
                 "payable": false,
@@ -98,16 +95,16 @@
             },
             {
                 "constant": true,
-                "inputs": [{ "name": "transactionId", "type": "uint256" }],
+                "inputs": [{"name": "transactionId", "type": "uint256"}],
                 "name": "isConfirmed",
-                "outputs": [{ "name": "", "type": "bool" }],
+                "outputs": [{"name": "", "type": "bool"}],
                 "payable": false,
                 "stateMutability": "view",
                 "type": "function"
             },
             {
                 "constant": false,
-                "inputs": [{ "name": "_secondsTimeLocked", "type": "uint256" }],
+                "inputs": [{"name": "_secondsTimeLocked", "type": "uint256"}],
                 "name": "changeTimeLock",
                 "outputs": [],
                 "payable": false,
@@ -116,31 +113,31 @@
             },
             {
                 "constant": true,
-                "inputs": [{ "name": "", "type": "address" }],
+                "inputs": [{"name": "", "type": "address"}],
                 "name": "isAssetProxyRegistered",
-                "outputs": [{ "name": "", "type": "bool" }],
+                "outputs": [{"name": "", "type": "bool"}],
                 "payable": false,
                 "stateMutability": "view",
                 "type": "function"
             },
             {
                 "constant": true,
-                "inputs": [{ "name": "transactionId", "type": "uint256" }],
+                "inputs": [{"name": "transactionId", "type": "uint256"}],
                 "name": "getConfirmationCount",
-                "outputs": [{ "name": "count", "type": "uint256" }],
+                "outputs": [{"name": "count", "type": "uint256"}],
                 "payable": false,
                 "stateMutability": "view",
                 "type": "function"
             },
             {
                 "constant": true,
-                "inputs": [{ "name": "", "type": "uint256" }],
+                "inputs": [{"name": "", "type": "uint256"}],
                 "name": "transactions",
                 "outputs": [
-                    { "name": "destination", "type": "address" },
-                    { "name": "value", "type": "uint256" },
-                    { "name": "data", "type": "bytes" },
-                    { "name": "executed", "type": "bool" }
+                    {"name": "destination", "type": "address"},
+                    {"name": "value", "type": "uint256"},
+                    {"name": "data", "type": "bytes"},
+                    {"name": "executed", "type": "bool"}
                 ],
                 "payable": false,
                 "stateMutability": "view",
@@ -150,7 +147,7 @@
                 "constant": true,
                 "inputs": [],
                 "name": "getOwners",
-                "outputs": [{ "name": "", "type": "address[]" }],
+                "outputs": [{"name": "", "type": "address[]"}],
                 "payable": false,
                 "stateMutability": "view",
                 "type": "function"
@@ -158,22 +155,22 @@
             {
                 "constant": true,
                 "inputs": [
-                    { "name": "from", "type": "uint256" },
-                    { "name": "to", "type": "uint256" },
-                    { "name": "pending", "type": "bool" },
-                    { "name": "executed", "type": "bool" }
+                    {"name": "from", "type": "uint256"},
+                    {"name": "to", "type": "uint256"},
+                    {"name": "pending", "type": "bool"},
+                    {"name": "executed", "type": "bool"}
                 ],
                 "name": "getTransactionIds",
-                "outputs": [{ "name": "_transactionIds", "type": "uint256[]" }],
+                "outputs": [{"name": "_transactionIds", "type": "uint256[]"}],
                 "payable": false,
                 "stateMutability": "view",
                 "type": "function"
             },
             {
                 "constant": true,
-                "inputs": [{ "name": "transactionId", "type": "uint256" }],
+                "inputs": [{"name": "transactionId", "type": "uint256"}],
                 "name": "getConfirmations",
-                "outputs": [{ "name": "_confirmations", "type": "address[]" }],
+                "outputs": [{"name": "_confirmations", "type": "address[]"}],
                 "payable": false,
                 "stateMutability": "view",
                 "type": "function"
@@ -182,14 +179,14 @@
                 "constant": true,
                 "inputs": [],
                 "name": "transactionCount",
-                "outputs": [{ "name": "", "type": "uint256" }],
+                "outputs": [{"name": "", "type": "uint256"}],
                 "payable": false,
                 "stateMutability": "view",
                 "type": "function"
             },
             {
                 "constant": false,
-                "inputs": [{ "name": "_required", "type": "uint256" }],
+                "inputs": [{"name": "_required", "type": "uint256"}],
                 "name": "changeRequirement",
                 "outputs": [],
                 "payable": false,
@@ -198,7 +195,7 @@
             },
             {
                 "constant": false,
-                "inputs": [{ "name": "transactionId", "type": "uint256" }],
+                "inputs": [{"name": "transactionId", "type": "uint256"}],
                 "name": "confirmTransaction",
                 "outputs": [],
                 "payable": false,
@@ -208,21 +205,21 @@
             {
                 "constant": false,
                 "inputs": [
-                    { "name": "destination", "type": "address" },
-                    { "name": "value", "type": "uint256" },
-                    { "name": "data", "type": "bytes" }
+                    {"name": "destination", "type": "address"},
+                    {"name": "value", "type": "uint256"},
+                    {"name": "data", "type": "bytes"}
                 ],
                 "name": "submitTransaction",
-                "outputs": [{ "name": "transactionId", "type": "uint256" }],
+                "outputs": [{"name": "transactionId", "type": "uint256"}],
                 "payable": false,
                 "stateMutability": "nonpayable",
                 "type": "function"
             },
             {
                 "constant": true,
-                "inputs": [{ "name": "", "type": "uint256" }],
+                "inputs": [{"name": "", "type": "uint256"}],
                 "name": "confirmationTimes",
-                "outputs": [{ "name": "", "type": "uint256" }],
+                "outputs": [{"name": "", "type": "uint256"}],
                 "payable": false,
                 "stateMutability": "view",
                 "type": "function"
@@ -231,7 +228,7 @@
                 "constant": true,
                 "inputs": [],
                 "name": "MAX_OWNER_COUNT",
-                "outputs": [{ "name": "", "type": "uint256" }],
+                "outputs": [{"name": "", "type": "uint256"}],
                 "payable": false,
                 "stateMutability": "view",
                 "type": "function"
@@ -240,14 +237,14 @@
                 "constant": true,
                 "inputs": [],
                 "name": "required",
-                "outputs": [{ "name": "", "type": "uint256" }],
+                "outputs": [{"name": "", "type": "uint256"}],
                 "payable": false,
                 "stateMutability": "view",
                 "type": "function"
             },
             {
                 "constant": false,
-                "inputs": [{ "name": "owner", "type": "address" }, { "name": "newOwner", "type": "address" }],
+                "inputs": [{"name": "owner", "type": "address"}, {"name": "newOwner", "type": "address"}],
                 "name": "replaceOwner",
                 "outputs": [],
                 "payable": false,
@@ -256,7 +253,7 @@
             },
             {
                 "constant": false,
-                "inputs": [{ "name": "transactionId", "type": "uint256" }],
+                "inputs": [{"name": "transactionId", "type": "uint256"}],
                 "name": "executeTransaction",
                 "outputs": [],
                 "payable": false,
@@ -265,21 +262,21 @@
             },
             {
                 "inputs": [
-                    { "name": "_owners", "type": "address[]" },
-                    { "name": "_assetProxyContracts", "type": "address[]" },
-                    { "name": "_required", "type": "uint256" },
-                    { "name": "_secondsTimeLocked", "type": "uint256" }
+                    {"name": "_owners", "type": "address[]"},
+                    {"name": "_assetProxyContracts", "type": "address[]"},
+                    {"name": "_required", "type": "uint256"},
+                    {"name": "_secondsTimeLocked", "type": "uint256"}
                 ],
                 "payable": false,
                 "stateMutability": "nonpayable",
                 "type": "constructor"
             },
-            { "payable": true, "stateMutability": "payable", "type": "fallback" },
+            {"payable": true, "stateMutability": "payable", "type": "fallback"},
             {
                 "anonymous": false,
                 "inputs": [
-                    { "indexed": false, "name": "assetProxyContract", "type": "address" },
-                    { "indexed": false, "name": "isRegistered", "type": "bool" }
+                    {"indexed": false, "name": "assetProxyContract", "type": "address"},
+                    {"indexed": false, "name": "isRegistered", "type": "bool"}
                 ],
                 "name": "AssetProxyRegistration",
                 "type": "event"
@@ -287,23 +284,23 @@
             {
                 "anonymous": false,
                 "inputs": [
-                    { "indexed": true, "name": "transactionId", "type": "uint256" },
-                    { "indexed": false, "name": "confirmationTime", "type": "uint256" }
+                    {"indexed": true, "name": "transactionId", "type": "uint256"},
+                    {"indexed": false, "name": "confirmationTime", "type": "uint256"}
                 ],
                 "name": "ConfirmationTimeSet",
                 "type": "event"
             },
             {
                 "anonymous": false,
-                "inputs": [{ "indexed": false, "name": "secondsTimeLocked", "type": "uint256" }],
+                "inputs": [{"indexed": false, "name": "secondsTimeLocked", "type": "uint256"}],
                 "name": "TimeLockChange",
                 "type": "event"
             },
             {
                 "anonymous": false,
                 "inputs": [
-                    { "indexed": true, "name": "sender", "type": "address" },
-                    { "indexed": true, "name": "transactionId", "type": "uint256" }
+                    {"indexed": true, "name": "sender", "type": "address"},
+                    {"indexed": true, "name": "transactionId", "type": "uint256"}
                 ],
                 "name": "Confirmation",
                 "type": "event"
@@ -311,54 +308,54 @@
             {
                 "anonymous": false,
                 "inputs": [
-                    { "indexed": true, "name": "sender", "type": "address" },
-                    { "indexed": true, "name": "transactionId", "type": "uint256" }
+                    {"indexed": true, "name": "sender", "type": "address"},
+                    {"indexed": true, "name": "transactionId", "type": "uint256"}
                 ],
                 "name": "Revocation",
                 "type": "event"
             },
             {
                 "anonymous": false,
-                "inputs": [{ "indexed": true, "name": "transactionId", "type": "uint256" }],
+                "inputs": [{"indexed": true, "name": "transactionId", "type": "uint256"}],
                 "name": "Submission",
                 "type": "event"
             },
             {
                 "anonymous": false,
-                "inputs": [{ "indexed": true, "name": "transactionId", "type": "uint256" }],
+                "inputs": [{"indexed": true, "name": "transactionId", "type": "uint256"}],
                 "name": "Execution",
                 "type": "event"
             },
             {
                 "anonymous": false,
-                "inputs": [{ "indexed": true, "name": "transactionId", "type": "uint256" }],
+                "inputs": [{"indexed": true, "name": "transactionId", "type": "uint256"}],
                 "name": "ExecutionFailure",
                 "type": "event"
             },
             {
                 "anonymous": false,
                 "inputs": [
-                    { "indexed": true, "name": "sender", "type": "address" },
-                    { "indexed": false, "name": "value", "type": "uint256" }
+                    {"indexed": true, "name": "sender", "type": "address"},
+                    {"indexed": false, "name": "value", "type": "uint256"}
                 ],
                 "name": "Deposit",
                 "type": "event"
             },
             {
                 "anonymous": false,
-                "inputs": [{ "indexed": true, "name": "owner", "type": "address" }],
+                "inputs": [{"indexed": true, "name": "owner", "type": "address"}],
                 "name": "OwnerAddition",
                 "type": "event"
             },
             {
                 "anonymous": false,
-                "inputs": [{ "indexed": true, "name": "owner", "type": "address" }],
+                "inputs": [{"indexed": true, "name": "owner", "type": "address"}],
                 "name": "OwnerRemoval",
                 "type": "event"
             },
             {
                 "anonymous": false,
-                "inputs": [{ "indexed": false, "name": "required", "type": "uint256" }],
+                "inputs": [{"indexed": false, "name": "required", "type": "uint256"}],
                 "name": "RequirementChange",
                 "type": "event"
             }
@@ -367,11 +364,11 @@
             "methods": {
                 "addOwner(address)": {
                     "details": "Allows to add a new owner. Transaction has to be sent by wallet.",
-                    "params": { "owner": "Address of new owner." }
+                    "params": {"owner": "Address of new owner."}
                 },
                 "changeRequirement(uint256)": {
                     "details": "Allows to change the number of required confirmations. Transaction has to be sent by wallet.",
-                    "params": { "_required": "Number of required confirmations." }
+                    "params": {"_required": "Number of required confirmations."}
                 },
                 "changeTimeLock(uint256)": {
                     "details": "Changes the duration of the time lock for transactions.",
@@ -381,27 +378,27 @@
                 },
                 "confirmTransaction(uint256)": {
                     "details": "Allows an owner to confirm a transaction.",
-                    "params": { "transactionId": "Transaction ID." }
+                    "params": {"transactionId": "Transaction ID."}
                 },
                 "executeRemoveAuthorizedAddressAtIndex(uint256)": {
                     "details": "Allows execution of `removeAuthorizedAddressAtIndex` without time lock.",
-                    "params": { "transactionId": "Transaction ID." }
+                    "params": {"transactionId": "Transaction ID."}
                 },
                 "executeTransaction(uint256)": {
                     "details": "Allows anyone to execute a confirmed transaction.",
-                    "params": { "transactionId": "Transaction ID." }
+                    "params": {"transactionId": "Transaction ID."}
                 },
                 "getConfirmationCount(uint256)": {
                     "details": "Returns number of confirmations of a transaction.",
-                    "params": { "transactionId": "Transaction ID." },
+                    "params": {"transactionId": "Transaction ID."},
                     "return": "Number of confirmations."
                 },
                 "getConfirmations(uint256)": {
                     "details": "Returns array with owner addresses, which confirmed transaction.",
-                    "params": { "transactionId": "Transaction ID." },
+                    "params": {"transactionId": "Transaction ID."},
                     "return": "Returns array of owner addresses."
                 },
-                "getOwners()": { "details": "Returns list of owners.", "return": "List of owner addresses." },
+                "getOwners()": {"details": "Returns list of owners.", "return": "List of owner addresses."},
                 "getTransactionCount(bool,bool)": {
                     "details": "Returns total number of transactions after filers are applied.",
                     "params": {
@@ -422,7 +419,7 @@
                 },
                 "isConfirmed(uint256)": {
                     "details": "Returns the confirmation status of a transaction.",
-                    "params": { "transactionId": "Transaction ID." },
+                    "params": {"transactionId": "Transaction ID."},
                     "return": "Confirmation status."
                 },
                 "registerAssetProxy(address,bool)": {
@@ -434,15 +431,15 @@
                 },
                 "removeOwner(address)": {
                     "details": "Allows to remove an owner. Transaction has to be sent by wallet.",
-                    "params": { "owner": "Address of owner." }
+                    "params": {"owner": "Address of owner."}
                 },
                 "replaceOwner(address,address)": {
                     "details": "Allows to replace an owner with a new owner. Transaction has to be sent by wallet.",
-                    "params": { "newOwner": "Address of new owner.", "owner": "Address of owner to be replaced." }
+                    "params": {"newOwner": "Address of new owner.", "owner": "Address of owner to be replaced."}
                 },
                 "revokeConfirmation(uint256)": {
                     "details": "Allows an owner to revoke a confirmation for a transaction.",
-                    "params": { "transactionId": "Transaction ID." }
+                    "params": {"transactionId": "Transaction ID."}
                 },
                 "submitTransaction(address,uint256,bytes)": {
                     "details": "Allows an owner to submit and confirm a transaction.",
@@ -468,7 +465,7 @@
             "optimizer": {
                 "enabled": true,
                 "runs": 1000000,
-                "details": { "yul": true, "deduplicate": true, "cse": true, "constantOptimizer": true }
+                "details": {"yul": true, "deduplicate": true, "cse": true, "constantOptimizer": true}
             },
             "outputSelection": {
                 "*": {
