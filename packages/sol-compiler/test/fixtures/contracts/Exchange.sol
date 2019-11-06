@@ -462,14 +462,8 @@ contract Exchange is SafeMath {
         constant
         returns (bool)
     {
-        // @TODO: Echo migration
-        return true;
-        return signer == ecrecover(
-            keccak256("\x19Ethereum Signed Message:\n32", hash),
-            v,
-            r,
-            s
-        );
+        bytes32 signedData = keccak256("\x19Ethereum Signed Message:\n32", hash);
+        return edverify(signer, abi.encodePacked(signedData), abi.encodePacked(v, r, s));
     }
 
     /// @dev Checks if rounding error > 0.1%.
