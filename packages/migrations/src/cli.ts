@@ -29,7 +29,6 @@ const args = yargs
 (async () => {
     const providerSubprovider = new ProviderSubprovider(args['rpc-url']);
     const provider = new Web3ProviderEngine();
-    console.log('TCL: args', args);
 
     if (args.pk !== undefined && args.pk !== '') {
         const pkSubprovider = new PrivateKeyWalletSubprovider(args.pk as string);

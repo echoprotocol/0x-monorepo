@@ -59,10 +59,6 @@ export class AbiDecoder {
         const eventId = log.topics[0];
         const numIndexedArgs = log.topics.length - 1;
         if (this._eventIds[eventId] === undefined || this._eventIds[eventId][numIndexedArgs] === undefined) {
-            console.log('TCL: AbiDecoder -> this._eventIds', this._eventIds);
-            console.log('TCL: AbiDecoder -> return log;', log);
-            console.log('TCL: AbiDecoder -> this._eventIds[eventId] === undefined', this._eventIds[eventId] === undefined);
-            console.log('TCL: AbiDecoder -> this._eventIds[eventId][numIndexedArgs] === undefined', this._eventIds[eventId][numIndexedArgs] === undefined);
             return log;
         }
         const event = this._eventIds[eventId][numIndexedArgs];
@@ -74,7 +70,6 @@ export class AbiDecoder {
         try {
             decodedData = ethersInterface.events[event.name].decode(log.data);
         } catch (error) {
-            console.log('TCL: AbiDecoder -> error', error);
             if (error.code === ethers.errors.INVALID_ARGUMENT) {
                 // Because we index events by Method ID, and Method IDs are derived from the method
                 // name and the input parameters, it's possible that the return value of the event
@@ -86,11 +81,9 @@ export class AbiDecoder {
             throw error;
         }
         let didFailToDecode = false;
-        console.log('TCL: AbiDecoder -> event.inputs', event.inputs);
         _.forEach(event.inputs, (param: EventParameter, i: number) => {
             // Indexed parameters are stored in topics. Non-indexed ones in decodedData
             let value: BigNumber | string | number = param.indexed ? log.topics[topicsIndex++] : decodedData[i];
-            console.log('TCL: AbiDecoder -> value', value);
             if (value === undefined) {
                 didFailToDecode = true;
                 return;
@@ -105,8 +98,6 @@ export class AbiDecoder {
             }
             decodedParams[param.name] = value;
         });
-        console.log('TCL: AbiDecoder -> decodedParams', decodedParams);
-        console.log('TCL: AbiDecoder -> event.name', decodedParams);
 
         if (didFailToDecode) {
             return log;

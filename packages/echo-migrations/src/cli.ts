@@ -47,7 +47,6 @@ class FakeProvider {
         switch (method) {
             case 'eth_accounts': return cb(null, this._createJsonRpcResponse(id, ADDRESSES));
             case 'eth_sendTransaction':
-                // console.log('TCL: FakeProvider -> sendAsync -> params', params);
 
                 const { operationId, options } = utils.transactionUtils.mapEthTxToEcho(params[0], { id: '1.3.0' });
                 const tx = echoProvider.echo.createTransaction()
