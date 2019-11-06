@@ -253,7 +253,7 @@ export enum RevertReason {
     LengthGreaterThan3Required = 'LENGTH_GREATER_THAN_3_REQUIRED',
     LengthGreaterThan131Required = 'LENGTH_GREATER_THAN_131_REQUIRED',
     Length0Required = 'LENGTH_0_REQUIRED',
-    Length65Required = 'LENGTH_65_REQUIRED',
+    Length65Required = 'LENGTH_64_REQUIRED',
     InvalidAmount = 'INVALID_AMOUNT',
     TransferFailed = 'TRANSFER_FAILED',
     SenderNotAuthorized = 'SENDER_NOT_AUTHORIZED',

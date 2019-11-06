@@ -27,52 +27,6 @@ import * as ethers from 'ethers';
 // tslint:disable:no-parameter-reassignment
 // tslint:disable-next-line:class-name
 export class CoordinatorContract extends BaseContract {
-    public getSignerAddress = {
-        async callAsync(
-            hash: string,
-            signature: string,
-            callData: Partial<CallData> = {},
-            defaultBlock?: BlockParam,
-        ): Promise<string> {
-            assert.isString('hash', hash);
-            assert.isString('signature', signature);
-            assert.doesConformToSchema('callData', callData, schemas.callDataSchema, [
-                schemas.addressSchema,
-                schemas.numberSchema,
-                schemas.jsNumber,
-            ]);
-            if (defaultBlock !== undefined) {
-                assert.isBlockParam('defaultBlock', defaultBlock);
-            }
-            const self = (this as any) as CoordinatorContract;
-            const encodedData = self._strictEncodeArguments('getSignerAddress(bytes32,bytes)', [hash, signature]);
-            const callDataWithDefaults = await BaseContract._applyDefaultsToTxDataAsync(
-                {
-                    to: self.address,
-                    ...callData,
-                    data: encodedData,
-                },
-                self._web3Wrapper.getContractDefaults(),
-            );
-            const rawCallResult = await self._web3Wrapper.callAsync(callDataWithDefaults, defaultBlock);
-            BaseContract._throwIfRevertWithReasonCallResult(rawCallResult);
-            const abiEncoder = self._lookupAbiEncoder('getSignerAddress(bytes32,bytes)');
-            // tslint:disable boolean-naming
-            const result = abiEncoder.strictDecodeReturnValue<string>(rawCallResult);
-            // tslint:enable boolean-naming
-            return result;
-        },
-        getABIEncodedTransactionData(hash: string, signature: string): string {
-            assert.isString('hash', hash);
-            assert.isString('signature', signature);
-            const self = (this as any) as CoordinatorContract;
-            const abiEncodedTransactionData = self._strictEncodeArguments('getSignerAddress(bytes32,bytes)', [
-                hash,
-                signature,
-            ]);
-            return abiEncodedTransactionData;
-        },
-    };
     public getTransactionHash = {
         async callAsync(
             transaction: { salt: BigNumber; signerAddress: string; data: string },
@@ -113,6 +67,60 @@ export class CoordinatorContract extends BaseContract {
                 'getTransactionHash((uint256,address,bytes))',
                 [transaction],
             );
+            return abiEncodedTransactionData;
+        },
+    };
+    public isMessageSigner = {
+        async callAsync(
+            account: string,
+            hash: string,
+            signature: string,
+            callData: Partial<CallData> = {},
+            defaultBlock?: BlockParam,
+        ): Promise<boolean> {
+            assert.isString('account', account);
+            assert.isString('hash', hash);
+            assert.isString('signature', signature);
+            assert.doesConformToSchema('callData', callData, schemas.callDataSchema, [
+                schemas.addressSchema,
+                schemas.numberSchema,
+                schemas.jsNumber,
+            ]);
+            if (defaultBlock !== undefined) {
+                assert.isBlockParam('defaultBlock', defaultBlock);
+            }
+            const self = (this as any) as CoordinatorContract;
+            const encodedData = self._strictEncodeArguments('isMessageSigner(address,bytes32,bytes)', [
+                account,
+                hash,
+                signature,
+            ]);
+            const callDataWithDefaults = await BaseContract._applyDefaultsToTxDataAsync(
+                {
+                    to: self.address,
+                    ...callData,
+                    data: encodedData,
+                },
+                self._web3Wrapper.getContractDefaults(),
+            );
+            const rawCallResult = await self._web3Wrapper.callAsync(callDataWithDefaults, defaultBlock);
+            BaseContract._throwIfRevertWithReasonCallResult(rawCallResult);
+            const abiEncoder = self._lookupAbiEncoder('isMessageSigner(address,bytes32,bytes)');
+            // tslint:disable boolean-naming
+            const result = abiEncoder.strictDecodeReturnValue<boolean>(rawCallResult);
+            // tslint:enable boolean-naming
+            return result;
+        },
+        getABIEncodedTransactionData(account: string, hash: string, signature: string): string {
+            assert.isString('account', account);
+            assert.isString('hash', hash);
+            assert.isString('signature', signature);
+            const self = (this as any) as CoordinatorContract;
+            const abiEncodedTransactionData = self._strictEncodeArguments('isMessageSigner(address,bytes32,bytes)', [
+                account,
+                hash,
+                signature,
+            ]);
             return abiEncodedTransactionData;
         },
     };
@@ -601,29 +609,6 @@ export class CoordinatorContract extends BaseContract {
                 constant: true,
                 inputs: [
                     {
-                        name: 'hash',
-                        type: 'bytes32',
-                    },
-                    {
-                        name: 'signature',
-                        type: 'bytes',
-                    },
-                ],
-                name: 'getSignerAddress',
-                outputs: [
-                    {
-                        name: 'signerAddress',
-                        type: 'address',
-                    },
-                ],
-                payable: false,
-                stateMutability: 'pure',
-                type: 'function',
-            },
-            {
-                constant: true,
-                inputs: [
-                    {
                         name: 'transaction',
                         type: 'tuple',
 
@@ -648,6 +633,33 @@ export class CoordinatorContract extends BaseContract {
                     {
                         name: 'transactionHash',
                         type: 'bytes32',
+                    },
+                ],
+                payable: false,
+                stateMutability: 'view',
+                type: 'function',
+            },
+            {
+                constant: true,
+                inputs: [
+                    {
+                        name: 'account',
+                        type: 'address',
+                    },
+                    {
+                        name: 'hash',
+                        type: 'bytes32',
+                    },
+                    {
+                        name: 'signature',
+                        type: 'bytes',
+                    },
+                ],
+                name: 'isMessageSigner',
+                outputs: [
+                    {
+                        name: '',
+                        type: 'bool',
                     },
                 ],
                 payable: false,

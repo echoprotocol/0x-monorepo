@@ -135,18 +135,19 @@ contract MixinSignatureValidator is
         // Signature using EIP712
         } else if (signatureType == SignatureType.EIP712) {
             require(
-                signature.length == 65,
-                "LENGTH_65_REQUIRED"
+                signature.length == 64,
+                "LENGTH_64_REQUIRED"
             );
             isValid = edverify(signerAddress, abi.encodePacked(hash), signature);
             return isValid;
 
         // Signed using web3.eth_sign
         } else if (signatureType == SignatureType.EthSign) {
-            require(
-                signature.length == 65,
-                "LENGTH_65_REQUIRED"
+             require(
+                signature.length == 64,
+                "LENGTH_64_REQUIRED"
             );
+
             bytes32 signedData = keccak256(abi.encodePacked(
                 "\x19Ethereum Signed Message:\n32",
                 hash

@@ -5,7 +5,7 @@
         "abi": [
             {
                 "constant": false,
-                "inputs": [{ "name": "target", "type": "address" }],
+                "inputs": [{ "internalType": "address", "name": "target", "type": "address" }],
                 "name": "addAuthorizedAddress",
                 "outputs": [],
                 "payable": false,
@@ -14,7 +14,7 @@
             },
             {
                 "constant": false,
-                "inputs": [{ "name": "target", "type": "address" }],
+                "inputs": [{ "internalType": "address", "name": "target", "type": "address" }],
                 "name": "removeAuthorizedAddress",
                 "outputs": [],
                 "payable": false,
@@ -23,7 +23,10 @@
             },
             {
                 "constant": false,
-                "inputs": [{ "name": "target", "type": "address" }, { "name": "index", "type": "uint256" }],
+                "inputs": [
+                    { "internalType": "address", "name": "target", "type": "address" },
+                    { "internalType": "uint256", "name": "index", "type": "uint256" }
+                ],
                 "name": "removeAuthorizedAddressAtIndex",
                 "outputs": [],
                 "payable": false,
@@ -33,10 +36,10 @@
             {
                 "constant": false,
                 "inputs": [
-                    { "name": "assetData", "type": "bytes" },
-                    { "name": "from", "type": "address" },
-                    { "name": "to", "type": "address" },
-                    { "name": "amount", "type": "uint256" }
+                    { "internalType": "bytes", "name": "assetData", "type": "bytes" },
+                    { "internalType": "address", "name": "from", "type": "address" },
+                    { "internalType": "address", "name": "to", "type": "address" },
+                    { "internalType": "uint256", "name": "amount", "type": "uint256" }
                 ],
                 "name": "transferFrom",
                 "outputs": [],
@@ -48,7 +51,7 @@
                 "constant": true,
                 "inputs": [],
                 "name": "getProxyId",
-                "outputs": [{ "name": "", "type": "bytes4" }],
+                "outputs": [{ "internalType": "bytes4", "name": "", "type": "bytes4" }],
                 "payable": false,
                 "stateMutability": "pure",
                 "type": "function"
@@ -57,14 +60,14 @@
                 "constant": true,
                 "inputs": [],
                 "name": "getAuthorizedAddresses",
-                "outputs": [{ "name": "", "type": "address[]" }],
+                "outputs": [{ "internalType": "address[]", "name": "", "type": "address[]" }],
                 "payable": false,
                 "stateMutability": "view",
                 "type": "function"
             },
             {
                 "constant": false,
-                "inputs": [{ "name": "newOwner", "type": "address" }],
+                "inputs": [{ "internalType": "address", "name": "newOwner", "type": "address" }],
                 "name": "transferOwnership",
                 "outputs": [],
                 "payable": false,
@@ -109,6 +112,33 @@
             }
         },
         "evm": { "bytecode": { "object": "0x" } }
+    },
+    "compiler": {
+        "name": "solc",
+        "version": "soljson-v0.5.11.js",
+        "settings": {
+            "optimizer": {
+                "enabled": true,
+                "runs": 1000000,
+                "details": { "yul": true, "deduplicate": true, "cse": true, "constantOptimizer": true }
+            },
+            "outputSelection": {
+                "*": {
+                    "*": [
+                        "abi",
+                        "devdoc",
+                        "evm.bytecode.object",
+                        "evm.bytecode.sourceMap",
+                        "evm.deployedBytecode.object",
+                        "evm.deployedBytecode.sourceMap"
+                    ]
+                }
+            },
+            "evmVersion": "constantinople",
+            "remappings": [
+                "@0x/contracts-utils=/home/toffick/PixelPlex/Projects/0x/0x-monorepo/contracts/asset-proxy/node_modules/@0x/contracts-utils"
+            ]
+        }
     },
     "networks": {}
 }

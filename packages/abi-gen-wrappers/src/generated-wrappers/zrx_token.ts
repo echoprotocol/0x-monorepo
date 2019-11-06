@@ -680,6 +680,7 @@ export class ZRXTokenContract extends BaseContract {
                     },
                 ],
                 payable: false,
+                stateMutability: 'view',
                 type: 'function',
             },
             {
@@ -702,6 +703,7 @@ export class ZRXTokenContract extends BaseContract {
                     },
                 ],
                 payable: false,
+                stateMutability: 'nonpayable',
                 type: 'function',
             },
             {
@@ -715,6 +717,7 @@ export class ZRXTokenContract extends BaseContract {
                     },
                 ],
                 payable: false,
+                stateMutability: 'view',
                 type: 'function',
             },
             {
@@ -741,6 +744,7 @@ export class ZRXTokenContract extends BaseContract {
                     },
                 ],
                 payable: false,
+                stateMutability: 'nonpayable',
                 type: 'function',
             },
             {
@@ -754,6 +758,7 @@ export class ZRXTokenContract extends BaseContract {
                     },
                 ],
                 payable: false,
+                stateMutability: 'view',
                 type: 'function',
             },
             {
@@ -772,6 +777,7 @@ export class ZRXTokenContract extends BaseContract {
                     },
                 ],
                 payable: false,
+                stateMutability: 'view',
                 type: 'function',
             },
             {
@@ -785,6 +791,7 @@ export class ZRXTokenContract extends BaseContract {
                     },
                 ],
                 payable: false,
+                stateMutability: 'view',
                 type: 'function',
             },
             {
@@ -807,6 +814,7 @@ export class ZRXTokenContract extends BaseContract {
                     },
                 ],
                 payable: false,
+                stateMutability: 'nonpayable',
                 type: 'function',
             },
             {
@@ -829,12 +837,14 @@ export class ZRXTokenContract extends BaseContract {
                     },
                 ],
                 payable: false,
+                stateMutability: 'view',
                 type: 'function',
             },
             {
                 inputs: [],
                 outputs: [],
                 payable: false,
+                stateMutability: 'nonpayable',
                 type: 'constructor',
             },
             {

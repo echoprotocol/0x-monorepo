@@ -5,9 +5,12 @@
         "abi": [
             {
                 "constant": true,
-                "inputs": [{ "name": "hash", "type": "bytes32" }, { "name": "signature", "type": "bytes" }],
+                "inputs": [
+                    { "internalType": "bytes32", "name": "hash", "type": "bytes32" },
+                    { "internalType": "bytes", "name": "signature", "type": "bytes" }
+                ],
                 "name": "isValidSignature",
-                "outputs": [{ "name": "isValid", "type": "bool" }],
+                "outputs": [{ "internalType": "bool", "name": "isValid", "type": "bool" }],
                 "payable": false,
                 "stateMutability": "view",
                 "type": "function"
@@ -23,6 +26,35 @@
             }
         },
         "evm": { "bytecode": { "object": "0x" } }
+    },
+    "compiler": {
+        "name": "solc",
+        "version": "soljson-v0.5.11.js",
+        "settings": {
+            "optimizer": {
+                "enabled": true,
+                "runs": 1000000,
+                "details": { "yul": true, "deduplicate": true, "cse": true, "constantOptimizer": true }
+            },
+            "outputSelection": {
+                "*": {
+                    "*": [
+                        "abi",
+                        "devdoc",
+                        "evm.bytecode.object",
+                        "evm.bytecode.sourceMap",
+                        "evm.deployedBytecode.object",
+                        "evm.deployedBytecode.sourceMap"
+                    ]
+                }
+            },
+            "evmVersion": "constantinople",
+            "remappings": [
+                "@0x/contracts-exchange-libs=/home/toffick/PixelPlex/Projects/0x/0x-monorepo/contracts/exchange/node_modules/@0x/contracts-exchange-libs",
+                "@0x/contracts-utils=/home/toffick/PixelPlex/Projects/0x/0x-monorepo/contracts/exchange/node_modules/@0x/contracts-utils",
+                "@0x/contracts-erc20=/home/toffick/PixelPlex/Projects/0x/0x-monorepo/contracts/exchange/node_modules/@0x/contracts-erc20"
+            ]
+        }
     },
     "networks": {}
 }

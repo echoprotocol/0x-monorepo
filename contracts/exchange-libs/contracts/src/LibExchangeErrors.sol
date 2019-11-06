@@ -66,5 +66,5 @@ contract LibExchangeErrors {
     string constant internal LENGTH_GREATER_THAN_0_REQUIRED = "LENGTH_GREATER_THAN_0_REQUIRED";  // Byte array must have a length greater than 0.
     string constant internal LENGTH_GREATER_THAN_3_REQUIRED = "LENGTH_GREATER_THAN_3_REQUIRED";  // Byte array must have a length greater than 3.
     string constant internal LENGTH_0_REQUIRED = "LENGTH_0_REQUIRED";                            // Byte array must have a length of 0.
-    string constant internal LENGTH_65_REQUIRED = "LENGTH_65_REQUIRED";                          // Byte array must have a length of 65.
+    string constant internal LENGTH_64_REQUIRED = "LENGTH_64_REQUIRED";                          // Byte array must have a length of 64.
 }
