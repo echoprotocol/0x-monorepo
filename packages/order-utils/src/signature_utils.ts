@@ -59,8 +59,9 @@ export const signatureUtils = {
             }
 
             case SignatureType.EthSign: {
+                const ecSignature = signatureUtils.parseECSignature(signature);
                 const prefixedMessageHex = signatureUtils.addSignedMessagePrefix(data);
-                return signatureUtils.isValidECSignature(provider, prefixedMessageHex, signature, signerAddress);
+                return signatureUtils.isValidECSignature(provider, prefixedMessageHex, ecSignature, signerAddress);
             }
 
             case SignatureType.Wallet: {
@@ -192,15 +193,17 @@ export const signatureUtils = {
 
         // TODO:: add verification by concatenated signature
         const [publicKey] =  await web3Wrapper.getPublicKeysByAddress(normalizedSignerAddress);
+
+        if (!publicKey){
+            return false;
+        }
+
         const publicKeyBuffer  = Buffer.from(publicKey, 'hex');
-        console.log('TCL: publicKey', publicKey);
         const msgHashBuff =  Buffer.from(data.slice(2), 'hex'); 
-        console.log('TCL: data', data);
         const signatureHashBuff = Buffer.from(signature.slice(2), 'hex');
-        console.log('TCL: signature', signature);
 
         try {
-            return ed25519.verify(signatureHashBuff, msgHashBuff, publicKeyBuffer)
+            return ed25519.verify(signatureHashBuff, msgHashBuff, publicKeyBuffer);
         } catch (err) {
             return false;
         }
@@ -423,7 +426,6 @@ export const signatureUtils = {
      * @return Hex encoded string of signature (v,r,s) with Signature Type
      */
     convertECSignatureToSignatureHex(signatureHex: string): string {
-        console.log('TCL: signatureHex', signatureHex);
         const signatureWithType = signatureUtils.convertToSignatureWithType(signatureHex, SignatureType.EthSign);
         return signatureWithType;
     },
