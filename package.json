@@ -92,6 +92,6 @@
         "wsrun": "^2.2.0"
     },
     "dependencies": {
-        "ganache-core": "^2.8.0"
+        "ganache-core": "2.5.3"
     }
 }

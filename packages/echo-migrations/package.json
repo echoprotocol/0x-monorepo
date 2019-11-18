@@ -33,6 +33,7 @@
         "typescript": "3.0.1"
     },
     "dependencies": {
+        "echo-web3": "^0.1.1",
         "@0x/migrations": "^4.1.8",
         "@0x/subproviders": "^4.1.1",
         "chai": "^4.0.1",
