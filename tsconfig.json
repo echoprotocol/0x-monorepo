@@ -47,7 +47,6 @@
         { "path": "./packages/fill-scenarios" },
         { "path": "./packages/json-schemas" },
         { "path": "./packages/migrations" },
-        { "path": "./packages/echo-migrations" },
         { "path": "./packages/monorepo-scripts" },
         { "path": "./packages/order-utils" },
         { "path": "./packages/order-watcher" },
