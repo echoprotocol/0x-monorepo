@@ -1,19 +1,21 @@
-import { runMigrationsAsync } from '@0x/migrations';
+#!/usr/bin/env node
+import { logUtils } from '@0x/utils';
+import * as yargs from 'yargs';
 //@ts-ignore
 import { EchoProvider, utils, echojslib } from 'echo-web3';
-import * as yargs from 'yargs';
 import { JSONRPCRequestPayload } from 'ethereum-types';
 
+import { runMigrationsAsync } from './migration';
 
-//TODO publish echo-web3 to npm and set it as dependency
 const args = yargs
-    .option('ws-url', {
-        describe: 'Enter ECHO ws host',
+    .option('rpc-url', {
+        describe: 'Endpoint where backing ECHO interface is available',
         type: 'string',
-        demandOption: true,
+        demandOption: false,
+        default: 'http://localhost:8545',
     })
     .option('from', {
-        describe: 'ECHO account from whitch to deploy contracts',
+        describe: 'Ethereum address from which to deploy the contracts',
         type: 'string',
         demandOption: true,
     })
@@ -23,29 +25,24 @@ const args = yargs
         demandOption: true,
     })
     .option('pk', {
-        describe: 'Private key for the `from` address in WIF format',
+        describe: 'Private key for the `from` address',
         type: 'string',
-        demandOption: true,
     })
     .example(
-        'node cli.js --mul-addr 1.2.12 --from 1.2.10 --pk 5KkYp8QdQBaRmLqLz7WVrGjzkt7E13qVcr7cpdLowgJ1mjRyDx2 --ws-url ws://127.0.0.1:6311',
+        'node cli.js --mul-addr 0x00000000000000000000000000000000000000bd --from 0x00000000000000000000000000000000000000be --pk  5J2nyv8FX2s663MbBquxj4RgKUmFW5T9cSfyYnEpDBkmsQnQGGt --rpc-url wss://testnet.echo-dev.io/ws',
         'Full usage example',
     ).argv;
 
-const PRIVATE_KEY_WIF = args.pk;
-const FROM = '0x' + utils.addressUtils.addressToShortMemo(args.from);
-const ADDRESSES = [FROM, '0x' + utils.addressUtils.addressToShortMemo(args.mulAddr)];
-const ECHO_HOST = args.wsUrl; 
 
-const echoProvider = new EchoProvider(ECHO_HOST)
-const privateKey = echojslib.crypto.PrivateKey.fromWif(PRIVATE_KEY_WIF);
+const echoProvider = new EchoProvider(args['rpc-url'])
+const privateKey = echojslib.crypto.PrivateKey.fromWif(args['pk']);
 
-class FakeProvider {
+class EchoRPCProvider {
     sendAsync(payload: JSONRPCRequestPayload, cb: (err: Error | null, data?: any) => void) {
         const { method, params, id } = payload;
 
         switch (method) {
-            case 'eth_accounts': return cb(null, this._createJsonRpcResponse(id, ADDRESSES));
+            case 'eth_accounts': return cb(null, this._createJsonRpcResponse(id, [args['from'], args['mul-addr']]));
             case 'eth_sendTransaction':
 
                 const { operationId, options } = utils.transactionUtils.mapEthTxToEcho(params[0], { id: '1.3.0' });
@@ -54,18 +51,18 @@ class FakeProvider {
 
                 return tx.sign(privateKey)
                     .then(() => {
-                        tx.broadcast().then((broadcastResult: { block_num: number, trx_num: number}[]) => {
+                        tx.broadcast().then((broadcastResult: { block_num: number, trx_num: number }[]) => {
                             const [{ block_num: blockNumber, trx_num: txIndex }] = broadcastResult;
 
                             const txHash = '0x' + utils.transactionUtils.encodeTxHash(blockNumber, txIndex, operationId);
                             return cb(null, this._createJsonRpcResponse(id, txHash))
                         }).catch((err: Error) => {
-                            console.log(' FakeProvider -> sendAsync -> error', err);
+                            console.log(' EchoRPCProvider -> sendAsync -> error', err);
                             return cb(err);
                         })
                     })
                     .catch((err: Error) => {
-                        console.log('FakeProvider -> sendAsync -> error', err);
+                        console.log('EchoRPCProvider -> sendAsync -> error', err);
                         return cb(err);
                     })
 
@@ -75,19 +72,16 @@ class FakeProvider {
     }
 
     _createJsonRpcResponse(id: number, result: any, error?: any) {
-        return {
-            id,
-            jsonrpc: '2.0',
-            ...error ? { error } : { result }
-        };
+        return { id, jsonrpc: '2.0', ...error ? { error } : { result } };
     };
 }
+
 (async () => {
     await echoProvider.init();
-    const res = await runMigrationsAsync(new FakeProvider(), { from: FROM })
-    console.log('Addresses', res);
-    process.exit(1);
-})().catch((err: Error) => {
-    console.log(err);
+    const addresses = await runMigrationsAsync(new EchoRPCProvider(), { from: args['from'] })
+    console.log('Addresses', addresses);
+    process.exit(0);
+})().catch(err => {
+    logUtils.log(err);
     process.exit(1);
 });
