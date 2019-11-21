@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { PrivateKeyWalletSubprovider, RPCSubprovider, ProviderSubprovider, Web3ProviderEngine } from '@0x/subproviders';
+import { PrivateKeyWalletSubprovider, RPCSubprovider, Web3ProviderEngine } from '@0x/subproviders';
 import { logUtils, providerUtils } from '@0x/utils';
 import * as yargs from 'yargs';
 
@@ -10,7 +10,7 @@ const args = yargs
         describe: 'Endpoint where backing Ethereum JSON RPC interface is available',
         type: 'string',
         demandOption: false,
-        default: 'ws://127.0.0.1:6311',
+        default: 'http://localhost:8545',
     })
     .option('from', {
         describe: 'Ethereum address from which to deploy the contracts',
@@ -27,7 +27,7 @@ const args = yargs
     ).argv;
 
 (async () => {
-    const providerSubprovider = new ProviderSubprovider(args['rpc-url']);
+    const rpcSubprovider = new RPCSubprovider(args['rpc-url']);
     const provider = new Web3ProviderEngine();
 
     if (args.pk !== undefined && args.pk !== '') {
@@ -35,7 +35,7 @@ const args = yargs
         provider.addProvider(pkSubprovider);
     }
 
-    provider.addProvider(providerSubprovider);
+    provider.addProvider(rpcSubprovider);
     providerUtils.startProviderEngine(provider);
     const normalizedFromAddress = (args.from as string).toLowerCase();
     const txDefaults = {
