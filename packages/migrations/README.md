@@ -82,7 +82,7 @@ We also publish a simple docker image which downloads the latest snapshot, extra
 
 ```bash
 yarn build:snapshot:docker
-yarn publish:snapshot:docker 
+yarn publish:snapshot:docker
 ```
 
 The result is a published docker image to the 0xorg docker registry. To start the docker image run:

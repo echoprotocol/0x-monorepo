@@ -35,7 +35,6 @@ export interface ZeroExProvider {
     sendAsync(payload: JSONRPCRequestPayload, callback: JSONRPCErrorCallback): void;
 }
 
-
 /**
  * Web3.js version 1 provider interface
  * This provider interface was implemented in the pre-1.0Beta releases for Web3.js.

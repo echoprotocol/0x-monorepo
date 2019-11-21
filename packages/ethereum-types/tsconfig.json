@@ -5,14 +5,5 @@
         "outDir": "lib",
         "rootDir": "src"
     },
-    "include": ["src/**/*"],
-    "trailing-comma": [true, {
-        "singleline": "never",
-        "multiline": {
-          "objects": "always",     // <==================
-          "arrays": "always",
-          "functions": "never",
-          "typeLiterals": "ignore"
-        }
-      }]
+    "include": ["src/**/*"]
 }
