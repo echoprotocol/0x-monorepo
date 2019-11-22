@@ -177,6 +177,9 @@ const generateConfig = (dischargeTarget, heapConfigOptions, rollbarConfigOptions
                 },
             ],
         },
+        node: {
+            fs: 'empty'
+        },
         devServer: {
             contentBase: path.join(__dirname, 'public'),
             port: 5000,

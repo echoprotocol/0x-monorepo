@@ -14,7 +14,7 @@
         "build:ci": "yarn build",
         "lint": "tslint --format stylish --project .",
         "fix": "tslint --fix --format stylish --project .",
-        "pre_build": "yarn generate_contract_wrappers && yarn prettier_contract_wrappers",
+        "pre_build": "yarn generate_contract_wrappers ",
         "prettier": "prettier --write src/**/* --config ../../.prettierrc",
         "prettier_contract_wrappers": "prettier --write src/generated-wrappers/* --config ../../.prettierrc",
         "clean": "shx rm -rf lib src/generated-wrappers",
