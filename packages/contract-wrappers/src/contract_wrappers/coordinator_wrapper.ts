@@ -606,19 +606,6 @@ export class CoordinatorWrapper extends ContractWrapper {
         );
     }
 
-    /**
-     * Recovers the address of a signer given a hash and signature.
-     * @param hash Any 32 byte hash.
-     * @param signature Proof that the hash has been signed by signer.
-     * @returns Signer address.
-     */
-    public async getSignerAddressAsync(hash: string, signature: string): Promise<string> {
-        assert.isHexString('hash', hash);
-        assert.isHexString('signature', signature);
-        const signerAddress = await this._contractInstance.getSignerAddress.callAsync(hash, signature);
-        return signerAddress;
-    }
-
     private async _handleFillsAsync(
         data: string,
         takerAddress: string,
