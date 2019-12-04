@@ -4,6 +4,8 @@
  * -----------------------------------------------------------------------------
  */
 export * from '../generated-wrappers/address';
+export * from '../generated-wrappers/ec_i_p1_mapper';
+export * from '../generated-wrappers/ec_i_p1_proxy';
 export * from '../generated-wrappers/i_ownable';
 export * from '../generated-wrappers/lib_bytes';
 export * from '../generated-wrappers/ownable';

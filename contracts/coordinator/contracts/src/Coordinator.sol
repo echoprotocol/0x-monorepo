@@ -32,8 +32,9 @@ contract Coordinator is
     MixinCoordinatorApprovalVerifier,
     MixinCoordinatorCore
 {
-    constructor (address _exchange)
+    constructor (address _exchange, address _EcIP1Mapper)
         public
         LibConstants(_exchange)
+        MixinSignatureValidator(_EcIP1Mapper)
     {}
 }

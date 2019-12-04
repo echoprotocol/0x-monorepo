@@ -1,4 +1,5 @@
 import { addressUtils, chaiSetup, constants, provider, txDefaults, web3Wrapper } from '@0x/contracts-test-utils';
+import { artifacts as utilsArtifacts, EcIP1MapperContract } from '@0x/contracts-utils';
 import { BlockchainLifecycle } from '@0x/dev-utils';
 import { transactionHashUtils } from '@0x/order-utils';
 import { BigNumber } from '@0x/utils';
@@ -21,11 +22,15 @@ describe('Libs tests', () => {
         await blockchainLifecycle.revertAsync();
     });
     before(async () => {
+        const {
+            address: ecip1MapperAddress,
+        } = await EcIP1MapperContract.deployFrom0xArtifactAsync(utilsArtifacts.EcIP1Mapper, provider, txDefaults);
         coordinatorContract = await CoordinatorContract.deployFrom0xArtifactAsync(
             artifacts.Coordinator,
             provider,
             txDefaults,
             exchangeAddress,
+            ecip1MapperAddress,
         );
     });
     beforeEach(async () => {

@@ -1,16 +1,15 @@
-import { signingUtils } from '@0x/contracts-test-utils';
+import { AbstractFactory } from '@0x/contracts-test-utils';
 import { SignatureType, SignedZeroExTransaction } from '@0x/types';
 import { BigNumber } from '@0x/utils';
 import * as ethUtil from 'ethereumjs-util';
 
 import { hashUtils, SignedCoordinatorApproval } from './index';
 
-export class ApprovalFactory {
-    private readonly _privateKey: Buffer;
+export class ApprovalFactory extends AbstractFactory {
     private readonly _verifyingContractAddress: string;
 
     constructor(privateKey: Buffer, verifyingContractAddress: string) {
-        this._privateKey = privateKey;
+        super(privateKey);
         this._verifyingContractAddress = verifyingContractAddress;
     }
 
@@ -19,6 +18,7 @@ export class ApprovalFactory {
         txOrigin: string,
         approvalExpirationTimeSeconds: BigNumber,
         signatureType: SignatureType = SignatureType.EthSign,
+        from?: string,
     ): SignedCoordinatorApproval {
         const approvalHashBuff = hashUtils.getApprovalHashBuffer(
             transaction,
@@ -26,7 +26,7 @@ export class ApprovalFactory {
             txOrigin,
             approvalExpirationTimeSeconds,
         );
-        const signatureBuff = signingUtils.signMessage(approvalHashBuff, this._privateKey, signatureType);
+        const signatureBuff = this._signMessage(approvalHashBuff, signatureType, from);
         const signedApproval = {
             txOrigin,
             transaction,

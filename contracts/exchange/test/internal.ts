@@ -10,6 +10,7 @@ import {
     uint256Values,
     web3Wrapper,
 } from '@0x/contracts-test-utils';
+import { artifacts as utilsArtifacts, EcIP1MapperContract } from '@0x/contracts-utils';
 import { BlockchainLifecycle } from '@0x/dev-utils';
 import { Order, RevertReason, SignedOrder } from '@0x/types';
 import { BigNumber } from '@0x/utils';
@@ -61,10 +62,17 @@ describe('Exchange core internal functions', () => {
         await blockchainLifecycle.revertAsync();
     });
     before(async () => {
+        const ecip1Contract = await EcIP1MapperContract.deployFrom0xArtifactAsync(
+            utilsArtifacts.EcIP1Mapper,
+            provider,
+            txDefaults,
+        );
+
         testExchange = await TestExchangeInternalsContract.deployFrom0xArtifactAsync(
             artifacts.TestExchangeInternals,
             provider,
             txDefaults,
+            ecip1Contract.address,
         );
         overflowErrorForSendTransaction = new Error(
             await getRevertReasonOrErrorMessageForSendTransactionAsync(RevertReason.Uint256Overflow),

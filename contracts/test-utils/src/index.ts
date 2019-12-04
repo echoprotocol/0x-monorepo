@@ -1,4 +1,5 @@
 export { AbstractAssetWrapper } from './abstract_asset_wrapper';
+export { AbstractFactory } from './abstract_factory';
 export { chaiSetup } from './chai_setup';
 export { constants } from './constants';
 export {
@@ -18,6 +19,7 @@ export { provider, txDefaults, web3Wrapper } from './web3_wrapper';
 export { LogDecoder } from './log_decoder';
 export { formatters } from './formatters';
 export { signingUtils } from './signing_utils';
+export { toAddressBuffer, toEcIP1Signature } from './ecip1_utils';
 export { orderUtils } from './order_utils';
 export { typeEncodingUtils } from './type_encoding_utils';
 export { profiler } from './profiler';

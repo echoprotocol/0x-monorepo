@@ -1,4 +1,5 @@
 import {
+    AbstractFactory,
     addressUtils,
     chaiSetup,
     constants as devConstants,
@@ -9,6 +10,7 @@ import {
     txDefaults,
     web3Wrapper,
 } from '@0x/contracts-test-utils';
+import { artifacts as utilsArtifacts, EcIP1MapperContract } from '@0x/contracts-utils';
 import { BlockchainLifecycle } from '@0x/dev-utils';
 import { transactionHashUtils } from '@0x/order-utils';
 import { RevertReason, SignatureType, SignedOrder } from '@0x/types';
@@ -31,6 +33,7 @@ describe('Mixins tests', () => {
     let approvalFactory1: ApprovalFactory;
     let approvalFactory2: ApprovalFactory;
     let defaultOrder: SignedOrder;
+    let ecip1Contract: EcIP1MapperContract;
     const exchangeAddress = addressUtils.generatePseudoRandomAddress();
 
     before(async () => {
@@ -40,11 +43,18 @@ describe('Mixins tests', () => {
         await blockchainLifecycle.revertAsync();
     });
     before(async () => {
+        ecip1Contract = await EcIP1MapperContract.deployFrom0xArtifactAsync(
+            utilsArtifacts.EcIP1Mapper,
+            provider,
+            txDefaults,
+        );
+
         mixins = await CoordinatorContract.deployFrom0xArtifactAsync(
             artifacts.Coordinator,
             provider,
             txDefaults,
             exchangeAddress,
+            ecip1Contract.address,
         );
         const accounts = await web3Wrapper.getAvailableAddressesAsync();
         [transactionSignerAddress, approvalSignerAddress1, approvalSignerAddress2] = accounts.slice(0, 3);
@@ -71,6 +81,25 @@ describe('Mixins tests', () => {
         transactionFactory = new TransactionFactory(transactionSignerPrivateKey, exchangeAddress);
         approvalFactory1 = new ApprovalFactory(approvalSignerPrivateKey1, mixins.address);
         approvalFactory2 = new ApprovalFactory(approvalSignerPrivateKey2, mixins.address);
+
+        const ecip1RegistredAddresses = new Set<string>();
+        await Promise.all([
+            transactionFactory,
+            approvalFactory1,
+            approvalFactory2,
+        ].map(async (txFactory: AbstractFactory) => {
+            const address = txFactory.signerAddress.toLowerCase();
+            if (ecip1RegistredAddresses.has(address)) { return Promise.resolve(); }
+            ecip1RegistredAddresses.add(address);
+            const { recID, r, s } = txFactory.createRegistrySignature();
+            // tslint:disable-next-line: await-promise
+            return ecip1Contract.registry.awaitTransactionSuccessAsync(
+                recID,
+                `0x${r.toString('hex')}`,
+                `0x${s.toString('hex')}`,
+                { from: txFactory.signerAddress },
+            );
+        }));
     });
     beforeEach(async () => {
         await blockchainLifecycle.startAsync();

@@ -1,6 +1,7 @@
 import { ERC20ProxyContract, ERC20Wrapper } from '@0x/contracts-asset-proxy';
 import { DummyERC20TokenContract } from '@0x/contracts-erc20';
 import {
+    AbstractFactory,
     chaiSetup,
     constants,
     ERC20BalancesByOwner,
@@ -12,6 +13,7 @@ import {
     txDefaults,
     web3Wrapper,
 } from '@0x/contracts-test-utils';
+import { artifacts as utilsArtifacts, EcIP1MapperContract } from '@0x/contracts-utils';
 import { BlockchainLifecycle } from '@0x/dev-utils';
 import { assetDataUtils, generatePseudoRandomSalt } from '@0x/order-utils';
 import { OrderWithoutExchangeAddress, RevertReason, SignedOrder, SignedZeroExTransaction } from '@0x/types';
@@ -66,6 +68,13 @@ describe('Exchange transactions', () => {
         await blockchainLifecycle.revertAsync();
     });
     before(async () => {
+
+        const ecip1Contract = await EcIP1MapperContract.deployFrom0xArtifactAsync(
+            utilsArtifacts.EcIP1Mapper,
+            provider,
+            txDefaults,
+        );
+
         const accounts = await web3Wrapper.getAvailableAddressesAsync();
         const usedAddresses = ([owner, senderAddress, makerAddress, takerAddress, feeRecipientAddress] = _.slice(
             accounts,
@@ -88,6 +97,7 @@ describe('Exchange transactions', () => {
             provider,
             txDefaults,
             assetDataUtils.encodeERC20AssetData(zrxToken.address),
+            ecip1Contract.address,
         );
         exchangeWrapper = new ExchangeWrapper(exchange, provider);
         await exchangeWrapper.registerAssetProxyAsync(erc20Proxy.address, owner);
@@ -114,6 +124,26 @@ describe('Exchange transactions', () => {
         orderFactory = new OrderFactory(makerPrivateKey, defaultOrderParams);
         makerTransactionFactory = new TransactionFactory(makerPrivateKey, exchange.address);
         takerTransactionFactory = new TransactionFactory(takerPrivateKey, exchange.address);
+
+        const ecip1AddedAddresses = new Set<string>();
+        await Promise.all([
+            orderFactory,
+            makerTransactionFactory,
+            takerTransactionFactory,
+        ].map(async (txF: AbstractFactory) => {
+            const address = txF.signerAddress.toLowerCase();
+            if (ecip1AddedAddresses.has(address)) { return; }
+            ecip1AddedAddresses.add(address);
+            const { recID, r, s } = txF.createRegistrySignature();
+            // tslint:disable-next-line: await-promise
+            await ecip1Contract.registry.awaitTransactionSuccessAsync(
+                recID,
+                `0x${r.toString('hex')}`,
+                `0x${s.toString('hex')}`,
+                { from: txF.signerAddress },
+            );
+        }));
+
     });
     describe('executeTransaction', () => {
         describe('fillOrder', () => {

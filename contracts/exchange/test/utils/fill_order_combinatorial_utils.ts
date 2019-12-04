@@ -18,6 +18,7 @@ import {
     TraderStateScenario,
     Web3ProviderEngine,
 } from '@0x/contracts-test-utils';
+import { artifacts as utilsArtifacts, EcIP1MapperContract } from '@0x/contracts-utils';
 import {
     assetDataUtils,
     BalanceAndProxyAllowanceLazyStore,
@@ -97,11 +98,18 @@ export async function fillOrderCombinatorialUtilsFactoryAsync(
 
     const assetWrapper = new AssetWrapper([erc20Wrapper, erc721Wrapper]);
 
+    const ecip1Contract = await EcIP1MapperContract.deployFrom0xArtifactAsync(
+        utilsArtifacts.EcIP1Mapper,
+        provider,
+        txDefaults,
+    );
+
     const exchangeContract = await ExchangeContract.deployFrom0xArtifactAsync(
         artifacts.Exchange,
         provider,
         txDefaults,
         zrxAssetData,
+        ecip1Contract.address,
     );
     const exchangeWrapper = new ExchangeWrapper(exchangeContract, provider);
     await exchangeWrapper.registerAssetProxyAsync(erc20Proxy.address, ownerAddress);
@@ -367,7 +375,12 @@ export class FillOrderCombinatorialUtils {
 
         // 2. Sign order
         const orderHashBuff = orderHashUtils.getOrderHashBuffer(order);
-        const signature = signingUtils.signMessage(orderHashBuff, this.makerPrivateKey, SignatureType.EthSign);
+        const signature = signingUtils.signMessage(
+            orderHashBuff,
+            this.makerPrivateKey,
+            SignatureType.EthSign,
+            this.makerAddress,
+        );
         const signedOrder = {
             ...order,
             signature: `0x${signature.toString('hex')}`,

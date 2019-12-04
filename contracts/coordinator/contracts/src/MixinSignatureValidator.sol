@@ -19,20 +19,24 @@
 pragma solidity ^0.5.5;
 
 import "@0x/contracts-utils/contracts/src/LibBytes.sol";
+import "@0x/contracts-utils/contracts/src/EcIP1Proxy.sol";
 import "./mixins/MSignatureValidator.sol";
 
 
 contract MixinSignatureValidator is
-    MSignatureValidator
+    MSignatureValidator,
+    EcIP1Proxy
 {
     using LibBytes for bytes;
+
+    constructor(address _EcIP1Mapper) public EcIP1Proxy(_EcIP1Mapper) { }
 
     /// @dev Recovers the address of a signer given a hash and signature.
     /// @param hash Any 32 byte hash.
     /// @param signature Proof that the hash has been signed by signer.
     function getSignerAddress(bytes32 hash, bytes memory signature)
         public
-        pure
+        view
         returns (address signerAddress)
     {
         require(

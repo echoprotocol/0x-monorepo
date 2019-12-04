@@ -6,6 +6,8 @@
 import { ContractArtifact } from 'ethereum-types';
 
 import * as Address from '../generated-artifacts/Address.json';
+import * as EcIP1Mapper from '../generated-artifacts/EcIP1Mapper.json';
+import * as EcIP1Proxy from '../generated-artifacts/EcIP1Proxy.json';
 import * as IOwnable from '../generated-artifacts/IOwnable.json';
 import * as LibBytes from '../generated-artifacts/LibBytes.json';
 import * as Ownable from '../generated-artifacts/Ownable.json';
@@ -20,8 +22,10 @@ export const artifacts = {
     Ownable: Ownable as ContractArtifact,
     ReentrancyGuard: ReentrancyGuard as ContractArtifact,
     SafeMath: SafeMath as ContractArtifact,
+    EcIP1Proxy: EcIP1Proxy as ContractArtifact,
     IOwnable: IOwnable as ContractArtifact,
     TestConstants: TestConstants as ContractArtifact,
-    TestLibBytes: TestLibBytes as ContractArtifact,
     TestLibAddressArray: TestLibAddressArray as ContractArtifact,
+    TestLibBytes: TestLibBytes as ContractArtifact,
+    EcIP1Mapper: EcIP1Mapper as ContractArtifact,
 };

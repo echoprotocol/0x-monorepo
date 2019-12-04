@@ -14,6 +14,7 @@ import {
     txDefaults,
     web3Wrapper,
 } from '@0x/contracts-test-utils';
+import { artifacts as utilsArtifacts, EcIP1MapperContract } from '@0x/contracts-utils';
 import { BlockchainLifecycle } from '@0x/dev-utils';
 import { assetDataUtils, orderHashUtils } from '@0x/order-utils';
 import { RevertReason, SignedOrder } from '@0x/types';
@@ -62,6 +63,13 @@ describe('Exchange wrappers', () => {
         await blockchainLifecycle.revertAsync();
     });
     before(async () => {
+
+        const ecip1Contract = await EcIP1MapperContract.deployFrom0xArtifactAsync(
+            utilsArtifacts.EcIP1Mapper,
+            provider,
+            txDefaults,
+        );
+
         const accounts = await web3Wrapper.getAvailableAddressesAsync();
         const usedAddresses = ([owner, makerAddress, takerAddress, feeRecipientAddress] = _.slice(accounts, 0, 4));
 
@@ -88,6 +96,7 @@ describe('Exchange wrappers', () => {
             provider,
             txDefaults,
             assetDataUtils.encodeERC20AssetData(zrxToken.address),
+            ecip1Contract.address,
         );
         exchangeWrapper = new ExchangeWrapper(exchange, provider);
         await exchangeWrapper.registerAssetProxyAsync(erc20Proxy.address, owner);

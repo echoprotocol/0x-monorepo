@@ -30,6 +30,7 @@ import {
     txDefaults,
     web3Wrapper,
 } from '@0x/contracts-test-utils';
+import { artifacts as utilsArtifacts, EcIP1MapperContract } from '@0x/contracts-utils';
 import { BlockchainLifecycle } from '@0x/dev-utils';
 import { assetDataUtils, orderHashUtils } from '@0x/order-utils';
 import { RevertReason, SignatureType, SignedOrder } from '@0x/types';
@@ -105,6 +106,12 @@ describe('Exchange core', () => {
         const accounts = await web3Wrapper.getAvailableAddressesAsync();
         const usedAddresses = ([owner, makerAddress, takerAddress, feeRecipientAddress] = _.slice(accounts, 0, 4));
 
+        const ecip1Contract = await EcIP1MapperContract.deployFrom0xArtifactAsync(
+            utilsArtifacts.EcIP1Mapper,
+            provider,
+            txDefaults,
+        );
+
         erc20Wrapper = new ERC20Wrapper(provider, usedAddresses, owner);
         erc721Wrapper = new ERC721Wrapper(provider, usedAddresses, owner);
         erc1155ProxyWrapper = new ERC1155ProxyWrapper(provider, usedAddresses, owner);
@@ -136,6 +143,7 @@ describe('Exchange core', () => {
             provider,
             txDefaults,
             assetDataUtils.encodeERC20AssetData(zrxToken.address),
+            ecip1Contract.address,
         );
         maliciousWallet = maliciousValidator = await TestStaticCallReceiverContract.deployFrom0xArtifactAsync(
             artifacts.TestStaticCallReceiver,
@@ -214,6 +222,14 @@ describe('Exchange core', () => {
         };
         const privateKey = constants.TESTRPC_PRIVATE_KEYS[accounts.indexOf(makerAddress)];
         orderFactory = new OrderFactory(privateKey, defaultOrderParams);
+        const { recID, r, s } = orderFactory.createRegistrySignature();
+        // tslint:disable-next-line: await-promise
+        await ecip1Contract.registry.awaitTransactionSuccessAsync(
+            recID,
+            `0x${r.toString('hex')}`,
+            `0x${s.toString('hex')}`,
+            { from: orderFactory.signerAddress },
+        );
     });
     beforeEach(async () => {
         await blockchainLifecycle.startAsync();

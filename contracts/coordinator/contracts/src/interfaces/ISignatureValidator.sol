@@ -26,6 +26,6 @@ contract ISignatureValidator {
     /// @param signature Proof that the hash has been signed by signer.
     function getSignerAddress(bytes32 hash, bytes memory signature)
         public
-        pure
+        view
         returns (address signerAddress);
 }

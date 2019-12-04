@@ -4,6 +4,8 @@
     "include": ["./src/**/*", "./test/**/*", "./generated-wrappers/**/*"],
     "files": [
         "generated-artifacts/Address.json",
+        "generated-artifacts/EcIP1Mapper.json",
+        "generated-artifacts/EcIP1Proxy.json",
         "generated-artifacts/IOwnable.json",
         "generated-artifacts/LibBytes.json",
         "generated-artifacts/Ownable.json",

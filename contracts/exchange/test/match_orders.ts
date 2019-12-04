@@ -2,6 +2,7 @@ import { ERC20ProxyContract, ERC20Wrapper, ERC721ProxyContract, ERC721Wrapper } 
 import { DummyERC20TokenContract } from '@0x/contracts-erc20';
 import { DummyERC721TokenContract } from '@0x/contracts-erc721';
 import {
+    AbstractFactory,
     chaiSetup,
     constants,
     ERC20BalancesByOwner,
@@ -12,6 +13,7 @@ import {
     txDefaults,
     web3Wrapper,
 } from '@0x/contracts-test-utils';
+import { artifacts as utilsArtifacts, EcIP1MapperContract } from '@0x/contracts-utils';
 import { BlockchainLifecycle } from '@0x/dev-utils';
 import { assetDataUtils } from '@0x/order-utils';
 import { RevertReason } from '@0x/types';
@@ -76,6 +78,13 @@ describe('matchOrders', () => {
         await blockchainLifecycle.revertAsync();
     });
     before(async () => {
+
+        const ecip1Contract = await EcIP1MapperContract.deployFrom0xArtifactAsync(
+            utilsArtifacts.EcIP1Mapper,
+            provider,
+            txDefaults,
+        );
+
         // Create accounts
         const accounts = await web3Wrapper.getAvailableAddressesAsync();
         // Hack(albrow): Both Prettier and TSLint insert a trailing comma below
@@ -119,6 +128,7 @@ describe('matchOrders', () => {
             provider,
             txDefaults,
             assetDataUtils.encodeERC20AssetData(zrxToken.address),
+            ecip1Contract.address,
         );
         exchangeWrapper = new ExchangeWrapper(exchange, provider);
         await exchangeWrapper.registerAssetProxyAsync(erc20Proxy.address, owner);
@@ -175,7 +185,27 @@ describe('matchOrders', () => {
             artifacts.TestExchangeInternals,
             provider,
             txDefaults,
+            ecip1Contract.address,
         );
+
+        const ecip1AddedAddresses = new Set<string>();
+        await Promise.all([
+            orderFactoryLeft,
+            orderFactoryRight,
+        ].map(async (txF: AbstractFactory) => {
+            const address = txF.signerAddress.toLowerCase();
+            if (ecip1AddedAddresses.has(address)) { return; }
+            ecip1AddedAddresses.add(address);
+            const { recID, r, s } = txF.createRegistrySignature();
+            // tslint:disable-next-line: await-promise
+            await ecip1Contract.registry.awaitTransactionSuccessAsync(
+                recID,
+                `0x${r.toString('hex')}`,
+                `0x${s.toString('hex')}`,
+                { from: txF.signerAddress },
+            );
+        }));
+
     });
     beforeEach(async () => {
         await blockchainLifecycle.startAsync();

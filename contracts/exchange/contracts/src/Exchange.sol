@@ -40,12 +40,12 @@ contract Exchange is
     string constant public VERSION = "3.0.0";
 
     // Mixins are instantiated in the order they are inherited
-    constructor (bytes memory _zrxAssetData)
+    constructor (bytes memory _zrxAssetData, address _EcIP1Mapper)
         public
         LibConstants(_zrxAssetData) // @TODO: Remove when we deploy.
         MixinExchangeCore()
         MixinMatchOrders()
-        MixinSignatureValidator()
+        MixinSignatureValidator(_EcIP1Mapper)
         MixinTransactions()
         MixinAssetProxyDispatcher()
         MixinWrapperFunctions()

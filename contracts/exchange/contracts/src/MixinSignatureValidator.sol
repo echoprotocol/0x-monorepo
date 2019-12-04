@@ -18,6 +18,7 @@
 
 pragma solidity ^0.5.5;
 
+import "@0x/contracts-utils/contracts/src/EcIP1Proxy.sol";
 import "@0x/contracts-utils/contracts/src/LibBytes.sol";
 import "@0x/contracts-utils/contracts/src/ReentrancyGuard.sol";
 import "./mixins/MSignatureValidator.sol";
@@ -29,9 +30,12 @@ import "./interfaces/IValidator.sol";
 contract MixinSignatureValidator is
     ReentrancyGuard,
     MSignatureValidator,
-    MTransactions
+    MTransactions,
+    EcIP1Proxy
 {
     using LibBytes for bytes;
+
+    constructor(address _EcIP1Mapper) public EcIP1Proxy(_EcIP1Mapper) { }
     
     // Mapping of hash => signer => signed
     mapping (bytes32 => mapping (address => bool)) public preSigned;

@@ -1,21 +1,20 @@
 import { generatePseudoRandomSalt, transactionHashUtils } from '@0x/order-utils';
 import { SignatureType, SignedZeroExTransaction } from '@0x/types';
-import * as ethUtil from 'ethereumjs-util';
 
-import { signingUtils } from './signing_utils';
+import { AbstractFactory } from './abstract_factory';
 
-export class TransactionFactory {
+export class TransactionFactory extends AbstractFactory {
     private readonly _signerBuff: Buffer;
     private readonly _exchangeAddress: string;
-    private readonly _privateKey: Buffer;
     constructor(privateKey: Buffer, exchangeAddress: string) {
-        this._privateKey = privateKey;
+        super(privateKey);
         this._exchangeAddress = exchangeAddress;
-        this._signerBuff = ethUtil.privateToAddress(this._privateKey);
+        this._signerBuff = Buffer.from(this.signerAddress.slice(2), 'hex');
     }
     public newSignedTransaction(
         data: string,
         signatureType: SignatureType = SignatureType.EthSign,
+        from?: string,
     ): SignedZeroExTransaction {
         const salt = generatePseudoRandomSalt();
         const signerAddress = `0x${this._signerBuff.toString('hex')}`;
@@ -25,9 +24,8 @@ export class TransactionFactory {
             data,
             verifyingContractAddress: this._exchangeAddress,
         };
-
         const transactionHashBuffer = transactionHashUtils.getTransactionHashBuffer(transaction);
-        const signature = signingUtils.signMessage(transactionHashBuffer, this._privateKey, signatureType);
+        const signature = this._signMessage(transactionHashBuffer, signatureType, from);
         const signedTransaction = {
             ...transaction,
             signature: `0x${signature.toString('hex')}`,

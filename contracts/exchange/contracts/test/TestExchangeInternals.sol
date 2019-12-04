@@ -26,9 +26,9 @@ import "../src/Exchange.sol";
 contract TestExchangeInternals is
     Exchange
 {
-    constructor ()
+    constructor (address _EcIP1Mapper)
         public
-        Exchange("")
+        Exchange("", _EcIP1Mapper)
     {}
 
     /// @dev Adds properties of both FillResults instances.
