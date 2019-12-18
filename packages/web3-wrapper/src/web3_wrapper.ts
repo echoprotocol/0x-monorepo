@@ -251,7 +251,7 @@ export class Web3Wrapper {
      * @param defaultBlock The block depth at which to fetch the balance (default=latest)
      * @returns Balance in wei
      */
-    public async getBalanceInWeiAsync(owner: string, defaultBlock?: BlockParam): Promise<BigNumber> {
+    public async getBalanceInWeiAsync(owner: string, assetId: string, defaultBlock?: BlockParam): Promise<BigNumber> {
         assert.isETHAddressHex('owner', owner);
         if (defaultBlock !== undefined) {
             Web3Wrapper._assertBlockParam(defaultBlock);
@@ -260,7 +260,7 @@ export class Web3Wrapper {
         const encodedOwner = marshaller.marshalAddress(owner);
         const balanceInWei = await this.sendRawPayloadAsync<string>({
             method: 'eth_getBalance',
-            params: [encodedOwner, marshalledDefaultBlock],
+            params: [encodedOwner, marshalledDefaultBlock, assetId],
         });
         // Rewrap in a new BigNumber
         return new BigNumber(balanceInWei);

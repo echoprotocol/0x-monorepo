@@ -86,7 +86,7 @@ describe('EtherTokenWrapper', () => {
     });
     describe('#depositAsync', () => {
         it('should successfully deposit ETH and issue Wrapped ETH tokens', async () => {
-            const preETHBalance = await web3Wrapper.getBalanceInWeiAsync(addressWithETH);
+            const preETHBalance = await web3Wrapper.getBalanceInWeiAsync(addressWithETH, '1.3.0');
             const preWETHBalance = await contractWrappers.erc20Token.getBalanceAsync(
                 wethContractAddress,
                 addressWithETH,
@@ -101,7 +101,7 @@ describe('EtherTokenWrapper', () => {
             );
             await web3Wrapper.awaitTransactionSuccessAsync(txHash, constants.AWAIT_TRANSACTION_MINED_MS);
 
-            const postETHBalanceInWei = await web3Wrapper.getBalanceInWeiAsync(addressWithETH);
+            const postETHBalanceInWei = await web3Wrapper.getBalanceInWeiAsync(addressWithETH, '1.3.0');
             const postWETHBalanceInBaseUnits = await contractWrappers.erc20Token.getBalanceAsync(
                 wethContractAddress,
                 addressWithETH,
@@ -113,7 +113,7 @@ describe('EtherTokenWrapper', () => {
             expect(gasCost).to.be.bignumber.lte(MAX_REASONABLE_GAS_COST_IN_WEI);
         });
         it('should throw if user has insufficient ETH balance for deposit', async () => {
-            const preETHBalance = await web3Wrapper.getBalanceInWeiAsync(addressWithETH);
+            const preETHBalance = await web3Wrapper.getBalanceInWeiAsync(addressWithETH, '1.3.0');
 
             const extraETHBalance = Web3Wrapper.toWei(new BigNumber(5));
             const overETHBalanceinWei = preETHBalance.plus(extraETHBalance);
@@ -125,12 +125,12 @@ describe('EtherTokenWrapper', () => {
     });
     describe('#withdrawAsync', () => {
         it('should successfully withdraw ETH in return for Wrapped ETH tokens', async () => {
-            const ETHBalanceInWei = await web3Wrapper.getBalanceInWeiAsync(addressWithETH);
+            const ETHBalanceInWei = await web3Wrapper.getBalanceInWeiAsync(addressWithETH, '1.3.0');
 
             await contractWrappers.etherToken.depositAsync(wethContractAddress, depositWeiAmount, addressWithETH);
 
             const expectedPreETHBalance = ETHBalanceInWei.minus(depositWeiAmount);
-            const preETHBalance = await web3Wrapper.getBalanceInWeiAsync(addressWithETH);
+            const preETHBalance = await web3Wrapper.getBalanceInWeiAsync(addressWithETH, '1.3.0');
             const preWETHBalance = await contractWrappers.erc20Token.getBalanceAsync(
                 wethContractAddress,
                 addressWithETH,
@@ -146,7 +146,7 @@ describe('EtherTokenWrapper', () => {
             );
             await web3Wrapper.awaitTransactionSuccessAsync(txHash, constants.AWAIT_TRANSACTION_MINED_MS);
 
-            const postETHBalance = await web3Wrapper.getBalanceInWeiAsync(addressWithETH);
+            const postETHBalance = await web3Wrapper.getBalanceInWeiAsync(addressWithETH, '1.3.0');
             const postWETHBalanceInBaseUnits = await contractWrappers.erc20Token.getBalanceAsync(
                 wethContractAddress,
                 addressWithETH,

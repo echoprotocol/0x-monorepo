@@ -282,9 +282,9 @@ describe('ERC20Wrapper', () => {
                 userWithUnlimitedAllowance,
             );
 
-            const initBalanceWithNormalAllowance = await web3Wrapper.getBalanceInWeiAsync(userWithNormalAllowance);
+            const initBalanceWithNormalAllowance = await web3Wrapper.getBalanceInWeiAsync(userWithNormalAllowance, '1.3.0');
             const initBalanceWithUnlimitedAllowance = await web3Wrapper.getBalanceInWeiAsync(
-                userWithUnlimitedAllowance,
+                userWithUnlimitedAllowance, '1.3.0'
             );
 
             await contractWrappers.erc20Token.transferFromAsync(
@@ -302,9 +302,9 @@ describe('ERC20Wrapper', () => {
                 transferAmount,
             );
 
-            const finalBalanceWithNormalAllowance = await web3Wrapper.getBalanceInWeiAsync(userWithNormalAllowance);
+            const finalBalanceWithNormalAllowance = await web3Wrapper.getBalanceInWeiAsync(userWithNormalAllowance, '1.3.0');
             const finalBalanceWithUnlimitedAllowance = await web3Wrapper.getBalanceInWeiAsync(
-                userWithUnlimitedAllowance,
+                userWithUnlimitedAllowance, '1.3.0'
             );
 
             const normalGasCost = initBalanceWithNormalAllowance.minus(finalBalanceWithNormalAllowance);

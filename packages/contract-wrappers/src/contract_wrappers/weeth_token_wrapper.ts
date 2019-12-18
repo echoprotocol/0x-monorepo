@@ -1,5 +1,5 @@
-import { WETH9Contract, WETH9EventArgs, WETH9Events } from '@0x/abi-gen-wrappers';
-import { WETH9 } from '@0x/contract-artifacts';
+import { WEETHContract, WEETHEventArgs, WEETHEvents } from '@0x/abi-gen-wrappers';
+import { WEETH } from '@0x/contract-artifacts';
 import { schemas } from '@0x/json-schemas';
 import { BigNumber } from '@0x/utils';
 import { Web3Wrapper } from '@0x/web3-wrapper';
@@ -17,14 +17,14 @@ import { ERC20TokenWrapper } from './erc20_token_wrapper';
  * This class includes all the functionality related to interacting with a wrapped Ether ERC20 token contract.
  * The caller can convert ETH into the equivalent number of wrapped ETH ERC20 tokens and back.
  */
-export class EtherTokenWrapper extends ContractWrapper {
-    public abi: ContractAbi = WETH9.compilerOutput.abi;
-    private readonly _etherTokenContractsByAddress: {
-        [address: string]: WETH9Contract;
+export class WEETHTokenWrapper extends ContractWrapper {
+    public abi: ContractAbi = WEETH.compilerOutput.abi;
+    private readonly _weethTokenContractsByAddress: {
+        [address: string]: WEETHContract;
     } = {};
     private readonly _erc20TokenWrapper: ERC20TokenWrapper;
     /**
-     * Instantiate EtherTokenWrapper.
+     * Instantiate WEETHTokenWrapper.
      * @param web3Wrapper Web3Wrapper instance to use
      * @param networkId Desired networkId
      * @param erc20TokenWrapper The ERC20TokenWrapper instance to use
@@ -43,29 +43,29 @@ export class EtherTokenWrapper extends ContractWrapper {
      * Deposit ETH into the Wrapped ETH smart contract and issues the equivalent number of wrapped ETH tokens
      * to the depositor address. These wrapped ETH tokens can be used in 0x trades and are redeemable for 1-to-1
      * for ETH.
-     * @param   etherTokenAddress   EtherToken address you wish to deposit into.
+     * @param   weethTokenAddress   WEETHToken address you wish to deposit into.
      * @param   amountInWei         Amount of ETH in Wei the caller wishes to deposit.
      * @param   depositor           The hex encoded user Ethereum address that would like to make the deposit.
      * @param   txOpts              Transaction parameters.
      * @return Transaction hash.
      */
     public async depositAsync(
-        etherTokenAddress: string,
+        weethTokenAddress: string,
         amountInWei: BigNumber,
         depositor: string,
         txOpts: TransactionOpts = {},
     ): Promise<string> {
-        assert.isETHAddressHex('etherTokenAddress', etherTokenAddress);
+        assert.isETHAddressHex('etherTokenAddress', weethTokenAddress);
         assert.isValidBaseUnitAmount('amountInWei', amountInWei);
         await assert.isSenderAddressAsync('depositor', depositor, this._web3Wrapper);
-        const normalizedEtherTokenAddress = etherTokenAddress.toLowerCase();
+        const normalizedWEETHTokenAddress = weethTokenAddress.toLowerCase();
         const normalizedDepositorAddress = depositor.toLowerCase();
 
-        const ethBalanceInWei = await this._web3Wrapper.getBalanceInWeiAsync(normalizedDepositorAddress, '1.3.0');
+        const ethBalanceInWei = await this._web3Wrapper.getBalanceInWeiAsync(normalizedDepositorAddress, '1.3.1');
         assert.assert(ethBalanceInWei.gte(amountInWei), ContractWrappersError.InsufficientEthBalanceForDeposit);
 
-        const wethContract = await this._getEtherTokenContractAsync(normalizedEtherTokenAddress);
-        const txHash = await wethContract.deposit.sendTransactionAsync(
+        const weethContract = await this._getWEETHTokenContractAsync(normalizedWEETHTokenAddress);
+        const txHash = await weethContract.deposit.sendTransactionAsync(
             utils.removeUndefinedProperties({
                 from: normalizedDepositorAddress,
                 value: amountInWei,
@@ -86,19 +86,19 @@ export class EtherTokenWrapper extends ContractWrapper {
      * @return Transaction hash.
      */
     public async withdrawAsync(
-        etherTokenAddress: string,
+        weethTokenAddress: string,
         amountInWei: BigNumber,
         withdrawer: string,
         txOpts: TransactionOpts = {},
     ): Promise<string> {
         assert.isValidBaseUnitAmount('amountInWei', amountInWei);
-        assert.isETHAddressHex('etherTokenAddress', etherTokenAddress);
+        assert.isETHAddressHex('etherTokenAddress', weethTokenAddress);
         await assert.isSenderAddressAsync('withdrawer', withdrawer, this._web3Wrapper);
-        const normalizedEtherTokenAddress = etherTokenAddress.toLowerCase();
+        const normalizedWEETHTokenAddress = weethTokenAddress.toLowerCase();
         const normalizedWithdrawerAddress = withdrawer.toLowerCase();
 
         const WETHBalanceInBaseUnits = await this._erc20TokenWrapper.getBalanceAsync(
-            normalizedEtherTokenAddress,
+            normalizedWEETHTokenAddress,
             normalizedWithdrawerAddress,
         );
         assert.assert(
@@ -106,8 +106,8 @@ export class EtherTokenWrapper extends ContractWrapper {
             ContractWrappersError.InsufficientWEthBalanceForWithdrawal,
         );
 
-        const wethContract = await this._getEtherTokenContractAsync(normalizedEtherTokenAddress);
-        const txHash = await wethContract.withdraw.sendTransactionAsync(
+        const weethContract = await this._getWEETHTokenContractAsync(normalizedWEETHTokenAddress);
+        const txHash = await weethContract.withdraw.sendTransactionAsync(
             amountInWei,
             utils.removeUndefinedProperties({
                 from: normalizedWithdrawerAddress,
@@ -127,15 +127,15 @@ export class EtherTokenWrapper extends ContractWrapper {
      *                              the value is the value you are interested in. E.g `{_owner: aUserAddressHex}`
      * @return  Array of logs that match the parameters
      */
-    public async getLogsAsync<ArgsType extends WETH9EventArgs>(
-        etherTokenAddress: string,
-        eventName: WETH9Events,
+    public async getLogsAsync<ArgsType extends WEETHEventArgs>(
+        weethTokenAddress: string,
+        eventName: WEETHEvents,
         blockRange: BlockRange,
         indexFilterValues: IndexedFilterValues,
     ): Promise<Array<LogWithDecodedArgs<ArgsType>>> {
-        assert.isETHAddressHex('etherTokenAddress', etherTokenAddress);
-        const normalizedEtherTokenAddress = etherTokenAddress.toLowerCase();
-        assert.doesBelongToStringEnum('eventName', eventName, WETH9Events);
+        assert.isETHAddressHex('etherTokenAddress', weethTokenAddress);
+        const normalizedEtherTokenAddress = weethTokenAddress.toLowerCase();
+        assert.doesBelongToStringEnum('eventName', eventName, WEETHEvents);
         assert.doesConformToSchema('blockRange', blockRange, schemas.blockRangeSchema);
         assert.doesConformToSchema('indexFilterValues', indexFilterValues, schemas.indexFilterValuesSchema);
         const logs = await this._getLogsAsync<ArgsType>(
@@ -143,7 +143,7 @@ export class EtherTokenWrapper extends ContractWrapper {
             eventName,
             blockRange,
             indexFilterValues,
-            WETH9.compilerOutput.abi,
+            WEETH.compilerOutput.abi,
         );
         return logs;
     }
@@ -157,23 +157,23 @@ export class EtherTokenWrapper extends ContractWrapper {
      * @param   isVerbose           Enable verbose subscription warnings (e.g recoverable network issues encountered)
      * @return Subscription token used later to unsubscribe
      */
-    public subscribe<ArgsType extends WETH9EventArgs>(
-        etherTokenAddress: string,
-        eventName: WETH9Events,
+    public subscribe<ArgsType extends WEETHEventArgs>(
+        weethTokenAddress: string,
+        eventName: WEETHEvents,
         indexFilterValues: IndexedFilterValues,
         callback: EventCallback<ArgsType>,
         isVerbose: boolean = false,
     ): string {
-        assert.isETHAddressHex('etherTokenAddress', etherTokenAddress);
-        const normalizedEtherTokenAddress = etherTokenAddress.toLowerCase();
-        assert.doesBelongToStringEnum('eventName', eventName, WETH9Events);
+        assert.isETHAddressHex('etherTokenAddress', weethTokenAddress);
+        const normalizedEtherTokenAddress = weethTokenAddress.toLowerCase();
+        assert.doesBelongToStringEnum('eventName', eventName, WEETHEvents);
         assert.doesConformToSchema('indexFilterValues', indexFilterValues, schemas.indexFilterValuesSchema);
         assert.isFunction('callback', callback);
         const subscriptionToken = this._subscribe<ArgsType>(
             normalizedEtherTokenAddress,
             eventName,
             indexFilterValues,
-            WETH9.compilerOutput.abi,
+            WEETH.compilerOutput.abi,
             callback,
             isVerbose,
         );
@@ -193,18 +193,18 @@ export class EtherTokenWrapper extends ContractWrapper {
     public unsubscribeAll(): void {
         super._unsubscribeAll();
     }
-    private async _getEtherTokenContractAsync(etherTokenAddress: string): Promise<WETH9Contract> {
-        let etherTokenContract = this._etherTokenContractsByAddress[etherTokenAddress];
-        if (etherTokenContract !== undefined) {
-            return etherTokenContract;
+    private async _getWEETHTokenContractAsync(weethTokenAddress: string): Promise<WEETHContract> {
+        let weethTokenContract = this._weethTokenContractsByAddress[weethTokenAddress];
+        if (weethTokenContract !== undefined) {
+            return weethTokenContract;
         }
-        const contractInstance = new WETH9Contract(
-            etherTokenAddress,
+        const contractInstance = new WEETHContract(
+            weethTokenAddress,
             this._web3Wrapper.getProvider(),
             this._web3Wrapper.getContractDefaults(),
         );
-        etherTokenContract = contractInstance;
-        this._etherTokenContractsByAddress[etherTokenAddress] = etherTokenContract;
-        return etherTokenContract;
+        weethTokenContract = contractInstance;
+        this._weethTokenContractsByAddress[weethTokenAddress] = weethTokenContract;
+        return weethTokenContract;
     }
 }

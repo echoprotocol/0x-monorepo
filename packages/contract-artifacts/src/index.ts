@@ -17,6 +17,8 @@ import * as IWallet from '../artifacts/IWallet.json';
 import * as MultiAssetProxy from '../artifacts/MultiAssetProxy.json';
 import * as OrderValidator from '../artifacts/OrderValidator.json';
 import * as WETH9 from '../artifacts/WETH9.json';
+import * as WEETH from '../artifacts/WEETH.json';
+import * as WEBTC from '../artifacts/WEBTC.json';
 import * as ZRXToken from '../artifacts/ZRXToken.json';
 
 export {
@@ -36,6 +38,8 @@ export {
     MultiAssetProxy,
     OrderValidator,
     WETH9,
+    WEETH,
+    WEBTC,
     ZRXToken,
     Coordinator,
     CoordinatorRegistry,

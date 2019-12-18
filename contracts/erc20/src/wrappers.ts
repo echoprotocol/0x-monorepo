@@ -12,4 +12,6 @@ export * from '../generated-wrappers/i_ether_token';
 export * from '../generated-wrappers/mintable_erc20_token';
 export * from '../generated-wrappers/unlimited_allowance_erc20_token';
 export * from '../generated-wrappers/weth9';
+export * from '../generated-wrappers/webtc';
+export * from '../generated-wrappers/weeth';
 export * from '../generated-wrappers/zrx_token';

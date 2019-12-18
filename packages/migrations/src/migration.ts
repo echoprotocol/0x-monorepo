@@ -24,11 +24,23 @@ export async function runMigrationsAsync(
     const provider = providerUtils.standardizeOrThrow(supportedProvider);
     const web3Wrapper = new Web3Wrapper(provider);
 
+
+    // WEBTC token
+    const webtcToken = await wrappers.WEBTCContract.deployFrom0xArtifactAsync(artifacts.WEBTC, provider, {
+        ...txDefaults,
+        supportedAssetId: '1.3.2'
+    });
+
+    // WEETH token
+    const weethToken = await wrappers.WEETHContract.deployFrom0xArtifactAsync(artifacts.WEETH, provider, {
+        ...txDefaults,
+        supportedAssetId: '1.3.1'
+    });
     // Proxies
     const erc20Proxy = await wrappers.ERC20ProxyContract.deployFrom0xArtifactAsync(
         artifacts.ERC20Proxy,
         provider,
-        txDefaults,
+        txDefaults
     );
     const erc721Proxy = await wrappers.ERC721ProxyContract.deployFrom0xArtifactAsync(
         artifacts.ERC721Proxy,
@@ -45,6 +57,7 @@ export async function runMigrationsAsync(
 
     // Ether token
     const etherToken = await wrappers.WETH9Contract.deployFrom0xArtifactAsync(artifacts.WETH9, provider, txDefaults);
+
 
     // Exchange
     const zrxAssetData = assetDataUtils.encodeERC20AssetData(zrxToken.address);
@@ -203,6 +216,8 @@ export async function runMigrationsAsync(
         erc721Proxy: erc721Proxy.address,
         zrxToken: zrxToken.address,
         etherToken: etherToken.address,
+        webtcToken: webtcToken.address,
+        weethToken: weethToken.address,
         exchange: exchange.address,
         assetProxyOwner: assetProxyOwner.address,
         forwarder: forwarder.address,

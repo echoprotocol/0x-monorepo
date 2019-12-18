@@ -19,6 +19,9 @@
         "nonce": {
             "type": "number",
             "minimum": 0
+        },
+        "supportedAssetId": {
+            "type": "string"
         }
     },
     "required": [],

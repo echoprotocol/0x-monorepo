@@ -14,6 +14,8 @@ export * from './generated-wrappers/i_wallet';
 export * from './generated-wrappers/multi_asset_proxy';
 export * from './generated-wrappers/order_validator';
 export * from './generated-wrappers/weth9';
+export * from './generated-wrappers/weeth';
+export * from './generated-wrappers/webtc';
 export * from './generated-wrappers/zrx_token';
 export * from './generated-wrappers/coordinator';
 export * from './generated-wrappers/coordinator_registry';

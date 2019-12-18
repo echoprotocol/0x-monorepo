@@ -386,6 +386,7 @@ export interface CallTxDataBase {
 
 export interface TxData extends CallTxDataBase {
     from: string;
+    supportedAssetId?: string;
 }
 
 export interface CallData extends CallTxDataBase {

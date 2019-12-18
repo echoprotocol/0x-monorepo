@@ -14,12 +14,17 @@ import * as IEtherToken from '../generated-artifacts/IEtherToken.json';
 import * as MintableERC20Token from '../generated-artifacts/MintableERC20Token.json';
 import * as UnlimitedAllowanceERC20Token from '../generated-artifacts/UnlimitedAllowanceERC20Token.json';
 import * as WETH9 from '../generated-artifacts/WETH9.json';
+import * as WEBTC from '../generated-artifacts/WEBTC.json';
+import * as WEETH from '../generated-artifacts/WEETH.json';
 import * as ZRXToken from '../generated-artifacts/ZRXToken.json';
+
 export const artifacts = {
     ERC20Token: ERC20Token as ContractArtifact,
     MintableERC20Token: MintableERC20Token as ContractArtifact,
     UnlimitedAllowanceERC20Token: UnlimitedAllowanceERC20Token as ContractArtifact,
     WETH9: WETH9 as ContractArtifact,
+    WEBTC: WEBTC as ContractArtifact,
+    WEETH: WEETH as ContractArtifact,
     ZRXToken: (ZRXToken as any) as ContractArtifact,
     IERC20Token: IERC20Token as ContractArtifact,
     IEtherToken: IEtherToken as ContractArtifact,
