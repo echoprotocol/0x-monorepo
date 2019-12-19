@@ -72,10 +72,10 @@ export class MetamaskSubprovider extends Subprovider {
                 try {
                     // Metamask incorrectly implements eth_sign and does not prefix the message as per the spec
                     // Source: https://github.com/MetaMask/metamask-extension/commit/a9d36860bec424dcee8db043d3e7da6a5ff5672e
-                    const signature = await this._web3Wrapper.sendRawPayloadAsync<string>({
-                        method: 'personal_sign',
-                        params: [message, address],
-                    });
+                    const msgBuff = ethUtil.toBuffer(message);
+                    const prefixedMsgBuff = ethUtil.hashPersonalMessage(msgBuff);
+                    const prefixedMsgHex = ethUtil.bufferToHex(prefixedMsgBuff);
+                    const signature = await this._web3Wrapper.signMessageAsync(address, prefixedMsgHex);
                     signature ? end(null, signature) : end(new Error('Error performing eth_sign'), null);
                 } catch (err) {
                     end(err);

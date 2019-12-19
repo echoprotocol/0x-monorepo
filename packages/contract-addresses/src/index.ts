@@ -22,6 +22,7 @@ export enum NetworkId {
     Rinkeby = 4,
     Kovan = 42,
     Ganache = 50,
+    EchoTestnet = 103,
 }
 
 const NULL_ADDRESS = '0x0000000000000000000000000000000000000000';
@@ -67,7 +68,20 @@ const networkToAddresses: { [networkId: number]: ContractAddresses } = {
         dutchAuction: '0x010000000000000000000000000000000000000f',
         coordinatorRegistry: '0x0100000000000000000000000000000000000011',
         coordinator: '0x0100000000000000000000000000000000000012'
-    }
+    },
+    103: {
+        erc20Proxy: '0x010000000000000000000000000000000000002d',
+        erc721Proxy: '0x010000000000000000000000000000000000002e',
+        zrxToken: '0x010000000000000000000000000000000000002f',
+        etherToken: '0x0100000000000000000000000000000000000030',
+        exchange: '0x0100000000000000000000000000000000000031',
+        assetProxyOwner: '0x010000000000000000000000000000000000003d',
+        forwarder: '0x010000000000000000000000000000000000003a',
+        orderValidator: '0x010000000000000000000000000000000000003b',
+        dutchAuction: '0x010000000000000000000000000000000000003c',
+        coordinatorRegistry: '0x010000000000000000000000000000000000003e',
+        coordinator: '0x010000000000000000000000000000000000003f'
+    },
 };
 
 /**
@@ -79,6 +93,7 @@ const networkToAddresses: { [networkId: number]: ContractAddresses } = {
  * given networkId.
  */
 export function getContractAddressesForNetworkOrThrow(networkId: NetworkId): ContractAddresses {
+    console.trace()
     if (networkToAddresses[networkId] === undefined) {
         throw new Error(`Unknown network id (${networkId}). No known 0x contracts have been deployed on this network.`);
     }
