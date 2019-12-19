@@ -45,8 +45,11 @@ class EchoRPCProvider {
             case 'eth_accounts': return cb(null, this._createJsonRpcResponse(id, [args['from'], args['mul-addr']]));
             case 'eth_sendTransaction':
 
-                const { supportedAssetId } = params[0]
-                const { operationId, options } = utils.transactionUtils.mapEthTxToEcho(params[0], { id: supportedAssetId || '1.3.0', value: 0   });
+                const { supportedAssetId } = params[0];
+                const { operationId, options } = utils.transactionUtils.mapEthTxToEcho(params[0], {
+                    id: supportedAssetId || '1.3.0',
+                    value: 0,
+                }, supportedAssetId === undefined);
                 const tx = echoProvider.echo.createTransaction()
                     .addOperation(operationId, options);
 
