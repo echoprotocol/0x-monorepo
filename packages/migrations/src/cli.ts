@@ -46,7 +46,7 @@ class EchoRPCProvider {
             case 'eth_sendTransaction':
 
                 const { supportedAssetId } = params[0]
-                const { operationId, options } = utils.transactionUtils.mapEthTxToEcho(params[0], { asset: { id: supportedAssetId || '1.3.0', value: 0 },  });
+                const { operationId, options } = utils.transactionUtils.mapEthTxToEcho(params[0], { id: supportedAssetId || '1.3.0', value: 0   });
                 const tx = echoProvider.echo.createTransaction()
                     .addOperation(operationId, options);
 
