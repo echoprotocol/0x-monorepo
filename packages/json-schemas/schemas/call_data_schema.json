@@ -22,6 +22,9 @@
         },
         "supportedAssetId": {
             "type": "string"
+        },
+        "asset_id": {
+            "type": "string"
         }
     },
     "required": [],

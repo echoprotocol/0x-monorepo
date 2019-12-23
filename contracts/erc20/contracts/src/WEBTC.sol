@@ -34,6 +34,7 @@ contract WEBTC {
         deposit();
     }
     function deposit() public payable {
+        require(msg.idasset == 2, "Invalid asset_id. Required 1.3.2");
         balanceOf[msg.sender] += msg.value;
         Deposit(msg.sender, msg.value);
     }

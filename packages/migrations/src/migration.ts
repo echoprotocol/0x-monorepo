@@ -26,16 +26,11 @@ export async function runMigrationsAsync(
 
 
     // WEBTC token
-    const webtcToken = await wrappers.WEBTCContract.deployFrom0xArtifactAsync(artifacts.WEBTC, provider, {
-        ...txDefaults,
-        supportedAssetId: '1.3.2'
-    });
+    const webtcToken = await wrappers.WEBTCContract.deployFrom0xArtifactAsync(artifacts.WEBTC, provider, txDefaults);
 
     // WEETH token
-    const weethToken = await wrappers.WEETHContract.deployFrom0xArtifactAsync(artifacts.WEETH, provider, {
-        ...txDefaults,
-        supportedAssetId: '1.3.1'
-    });
+    const weethToken = await wrappers.WEETHContract.deployFrom0xArtifactAsync(artifacts.WEETH, provider, txDefaults);
+    
     // Proxies
     const erc20Proxy = await wrappers.ERC20ProxyContract.deployFrom0xArtifactAsync(
         artifacts.ERC20Proxy,

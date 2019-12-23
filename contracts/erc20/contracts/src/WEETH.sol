@@ -34,6 +34,7 @@ contract WEETH {
         deposit();
     }
     function deposit() public payable {
+        require(msg.idasset == 1, "Invalid asset_id. Required 1.3.1");
         balanceOf[msg.sender] += msg.value;
         Deposit(msg.sender, msg.value);
     }

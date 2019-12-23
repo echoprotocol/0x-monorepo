@@ -79,9 +79,9 @@ export class ERC20Wrapper {
             }
         }
     }
-    public async getBalanceAsync(userAddress: string, assetData: string): Promise<BigNumber> {
+    public async getBalanceAsync(userAddress: string, assetData: string, assetId?: string): Promise<BigNumber> {
         const tokenContract = this._getTokenContractFromAssetData(assetData);
-        const balance = new BigNumber(await tokenContract.balanceOf.callAsync(userAddress));
+        const balance = new BigNumber(await tokenContract.balanceOf.callAsync(userAddress, { asset_id: assetId}));
         return balance;
     }
     public async setBalanceAsync(userAddress: string, assetData: string, amount: BigNumber): Promise<void> {

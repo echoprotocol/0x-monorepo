@@ -364,8 +364,6 @@ export class ERC20TokenContract extends BaseContract {
             defaultBlock?: BlockParam,
         ): Promise<BigNumber
         > {
-            console.log(2345345, _owner, callData);
-            
             assert.isString('_owner', _owner);
             assert.doesConformToSchema('callData', callData, schemas.callDataSchema, [
                 schemas.addressSchema,

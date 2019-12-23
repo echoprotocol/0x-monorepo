@@ -72,6 +72,7 @@ export class WEETHTokenWrapper extends ContractWrapper {
                 gas: txOpts.gasLimit,
                 gasPrice: txOpts.gasPrice,
                 nonce: txOpts.nonce,
+                asset_id: '1.3.1',
             }),
         );
         return txHash;
@@ -114,6 +115,7 @@ export class WEETHTokenWrapper extends ContractWrapper {
                 gas: txOpts.gasLimit,
                 gasPrice: txOpts.gasPrice,
                 nonce: txOpts.nonce,
+                asset_id: '1.3.1',
             }),
         );
         return txHash;
