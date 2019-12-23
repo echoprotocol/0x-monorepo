@@ -150,6 +150,7 @@ export interface ValidateOrderFillableOpts {
  */
 export interface MethodOpts {
     defaultBlock?: BlockParam;
+	asset_id?: string;
 }
 
 /**

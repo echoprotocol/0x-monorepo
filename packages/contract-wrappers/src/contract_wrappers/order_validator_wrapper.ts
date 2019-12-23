@@ -117,13 +117,14 @@ export class OrderValidatorWrapper extends ContractWrapper {
      * @param   assetData   An encoded string that can be decoded by a specified proxy contract
      * @return  BalanceAndAllowance
      */
-    public async getBalanceAndAllowanceAsync(address: string, assetData: string): Promise<BalanceAndAllowance> {
+    public async getBalanceAndAllowanceAsync(address: string, assetData: string, assetId?: string): Promise<BalanceAndAllowance> {
         assert.isETHAddressHex('address', address);
         assert.isHexString('assetData', assetData);
         const OrderValidatorContractInstance = await this._getOrderValidatorContractAsync();
         const balanceAndAllowance = await OrderValidatorContractInstance.getBalanceAndAllowance.callAsync(
             address,
             assetData,
+            { asset_id: assetId },
         );
         const result = {
             balance: balanceAndAllowance[0],
