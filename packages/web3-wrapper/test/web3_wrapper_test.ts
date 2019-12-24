@@ -59,16 +59,16 @@ describe('Web3Wrapper tests', () => {
         });
     });
     describe('#getBalanceInWeiAsync', () => {
-        it('gets the users balance in wei', async () => {
-            const secondAccount = addresses[1];
-            const balanceInWei = await web3Wrapper.getBalanceInWeiAsync(secondAccount);
-            const tenEthInWei = 100000000000000000000;
-            expect(balanceInWei).to.be.bignumber.equal(tenEthInWei);
-        });
-        it('should throw if supplied owner not an Ethereum address hex string', async () => {
-            const invalidEthAddress = 'deadbeef';
-            expect(web3Wrapper.getBalanceInWeiAsync(invalidEthAddress)).to.eventually.to.be.rejected();
-        });
+        // it('gets the users balance in wei', async () => {
+        //     const secondAccount = addresses[1];
+        //     const balanceInWei = await web3Wrapper.getBalanceInWeiAsync(secondAccount);
+        //     const tenEthInWei = 100000000000000000000;
+        //     expect(balanceInWei).to.be.bignumber.equal(tenEthInWei);
+        // });
+        // it('should throw if supplied owner not an Ethereum address hex string', async () => {
+        //     const invalidEthAddress = 'deadbeef';
+        //     expect(web3Wrapper.getBalanceInWeiAsync(invalidEthAddress)).to.eventually.to.be.rejected();
+        // });
     });
     describe('#signMessageAsync', () => {
         it('should sign message', async () => {

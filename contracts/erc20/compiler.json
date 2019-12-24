@@ -29,6 +29,8 @@
         "src/MintableERC20Token.sol",
         "src/UnlimitedAllowanceERC20Token.sol",
         "src/WETH9.sol",
+        "src/WEETH.sol",
+        "src/WEBTC.sol",
         "src/ZRXToken.sol",
         "src/interfaces/IERC20Token.sol",
         "src/interfaces/IEtherToken.sol",
