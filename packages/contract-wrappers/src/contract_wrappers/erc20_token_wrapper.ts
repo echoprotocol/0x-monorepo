@@ -69,7 +69,6 @@ export class ERC20TokenWrapper extends ContractWrapper {
         const normalizedOwnerAddress = ownerAddress.toLowerCase();
 
         const tokenContract = await this._getTokenContractAsync(normalizedTokenAddress);
-        console.log(345456, 'getBalanceAsync', { tokenAddress, ownerAddress, methodOpts });
         
 
         let balance = await tokenContract.balanceOf.callAsync(normalizedOwnerAddress, {

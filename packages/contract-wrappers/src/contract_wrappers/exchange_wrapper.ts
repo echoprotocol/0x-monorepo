@@ -1189,10 +1189,6 @@ export class ExchangeWrapper extends ContractWrapper {
             fillableTakerAssetAmount,
         );
         const makerTransferAmount = orderCalculationUtils.getMakerFillAmount(signedOrder, fillableTakerAssetAmount);
-        console.log('TCL: fillableTakerAssetAmount', fillableTakerAssetAmount);
-        console.log('TCL: signedOrder', signedOrder);
-        console.log('TCL: makerTransferAmount', makerTransferAmount);
-        console.log(123123123);
         
         await this.validateMakerTransferThrowIfInvalidAsync(
             signedOrder,

@@ -216,8 +216,6 @@ export class OrderValidationUtils {
         if (expectedFillTakerTokenAmount !== undefined) {
             fillTakerAssetAmount = expectedFillTakerTokenAmount;
         }
-        console.log('TCL: OrderValidationUtils -> exchangeTradeEmulator', exchangeTradeEmulator);
-        console.log('TCL: OrderValidationUtils -> signedOrder', signedOrder);
         await OrderValidationUtils.validateFillOrderBalancesAllowancesThrowIfInvalidAsync(
             exchangeTradeEmulator,
             signedOrder,
