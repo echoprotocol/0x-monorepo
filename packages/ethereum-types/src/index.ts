@@ -386,10 +386,13 @@ export interface CallTxDataBase {
 
 export interface TxData extends CallTxDataBase {
     from: string;
+    supportedAssetId?: string;
+    asset_id?: string;
 }
 
 export interface CallData extends CallTxDataBase {
     from?: string;
+	asset_id?: string;
 }
 
 export interface FilterObject {

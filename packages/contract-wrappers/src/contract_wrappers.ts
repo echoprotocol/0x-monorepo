@@ -9,6 +9,8 @@ import {
     Forwarder,
     OrderValidator,
     WETH9,
+    WEBTC,
+    WEETH,
 } from '@0x/contract-artifacts';
 import { AbiDecoder } from '@0x/utils';
 import { Web3Wrapper } from '@0x/web3-wrapper';
@@ -22,6 +24,8 @@ import { ERC20TokenWrapper } from './contract_wrappers/erc20_token_wrapper';
 import { ERC721ProxyWrapper } from './contract_wrappers/erc721_proxy_wrapper';
 import { ERC721TokenWrapper } from './contract_wrappers/erc721_token_wrapper';
 import { EtherTokenWrapper } from './contract_wrappers/ether_token_wrapper';
+import { WEBTCTokenWrapper } from './contract_wrappers/webtc_token_wrapper';
+import { WEETHTokenWrapper } from './contract_wrappers/weeth_token_wrapper';
 import { ExchangeWrapper } from './contract_wrappers/exchange_wrapper';
 import { ForwarderWrapper } from './contract_wrappers/forwarder_wrapper';
 import { OrderValidatorWrapper } from './contract_wrappers/order_validator_wrapper';
@@ -52,6 +56,16 @@ export class ContractWrappers {
      * wrapped ETH ERC20 token smart contract.
      */
     public etherToken: EtherTokenWrapper;
+    /**
+     * An instance of the EtherTokenWrapper class containing methods for interacting with the
+     * wrapped EBTC ERC20 token smart contract.
+     */
+    public webtcToken: WEBTCTokenWrapper;
+    /**
+     * An instance of the EtherTokenWrapper class containing methods for interacting with the
+     * wrapped EETH ERC20 token smart contract.
+     */
+    public weethToken: WEETHTokenWrapper;
     /**
      * An instance of the ERC20ProxyWrapper class containing methods for interacting with the
      * erc20Proxy smart contract.
@@ -105,6 +119,8 @@ export class ContractWrappers {
             Forwarder,
             OrderValidator,
             WETH9,
+            WEBTC,
+            WEETH,
         ];
         _.forEach(artifactsArray, artifact => {
             this._web3Wrapper.abiDecoder.addABI(artifact.compilerOutput.abi, artifact.contractName);
@@ -132,6 +148,18 @@ export class ContractWrappers {
             blockPollingIntervalMs,
         );
         this.etherToken = new EtherTokenWrapper(
+            this._web3Wrapper,
+            config.networkId,
+            this.erc20Token,
+            blockPollingIntervalMs,
+        );
+        this.webtcToken = new WEBTCTokenWrapper(
+            this._web3Wrapper,
+            config.networkId,
+            this.erc20Token,
+            blockPollingIntervalMs,
+        );
+        this.weethToken = new WEETHTokenWrapper(
             this._web3Wrapper,
             config.networkId,
             this.erc20Token,

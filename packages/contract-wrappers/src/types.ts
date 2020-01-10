@@ -7,6 +7,10 @@ import {
     ExchangeEvents,
     WETH9EventArgs,
     WETH9Events,
+    WEBTCEventArgs,
+    WEBTCEvents,
+    WEETHEventArgs,
+    WEETHEvents,
 } from '@0x/abi-gen-wrappers';
 import { ContractAddresses } from '@0x/contract-addresses';
 import { OrderState, SignedOrder } from '@0x/types';
@@ -64,7 +68,7 @@ export interface ContractEvent {
     args: ContractEventArgs;
 }
 
-export type ContractEventArgs = ExchangeEventArgs | ERC20TokenEventArgs | ERC721TokenEventArgs | WETH9EventArgs;
+export type ContractEventArgs = ExchangeEventArgs | ERC20TokenEventArgs | ERC721TokenEventArgs | WETH9EventArgs | WEBTCEventArgs | WEETHEventArgs;
 
 //                          [address, name, symbol, decimals, ipfsHash, swarmHash]
 export type TokenMetadata = [string, string, string, number, string, string];
@@ -87,7 +91,7 @@ export interface TokenAddressBySymbol {
     [symbol: string]: string;
 }
 
-export type ContractEvents = ERC20TokenEvents | ERC721TokenEvents | ExchangeEvents | WETH9Events;
+export type ContractEvents = ERC20TokenEvents | ERC721TokenEvents | ExchangeEvents | WETH9Events | WEBTCEvents | WEETHEvents;
 
 export interface IndexedFilterValues {
     [index: string]: ContractEventArg;
@@ -146,6 +150,7 @@ export interface ValidateOrderFillableOpts {
  */
 export interface MethodOpts {
     defaultBlock?: BlockParam;
+	asset_id?: string;
 }
 
 /**

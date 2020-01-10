@@ -30,6 +30,7 @@ export { MnemonicWalletSubprovider } from './subproviders/mnemonic_wallet';
 export { MetamaskSubprovider } from './subproviders/metamask_subprovider';
 export { EthLightwalletSubprovider } from './subproviders/eth_lightwallet_subprovider';
 export { TrezorSubprovider } from './subproviders/trezor';
+export { ProviderSubprovider } from './subproviders/provider-subprovider';
 
 export {
     Callback,

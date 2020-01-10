@@ -5,6 +5,7 @@ import { logUtils } from '@0x/utils';
 import * as promisify from 'es6-promisify';
 import * as _ from 'lodash';
 import * as moment from 'moment';
+//@ts-ignore
 import opn = require('opn');
 import { exec as execAsync, spawn as spawnAsync } from 'promisify-child-process';
 import * as prompt from 'prompt';

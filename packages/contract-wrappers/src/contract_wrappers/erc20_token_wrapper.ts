@@ -69,9 +69,11 @@ export class ERC20TokenWrapper extends ContractWrapper {
         const normalizedOwnerAddress = ownerAddress.toLowerCase();
 
         const tokenContract = await this._getTokenContractAsync(normalizedTokenAddress);
+        
 
-        const txData = {};
-        let balance = await tokenContract.balanceOf.callAsync(normalizedOwnerAddress, txData, methodOpts.defaultBlock);
+        let balance = await tokenContract.balanceOf.callAsync(normalizedOwnerAddress, {
+            asset_id: methodOpts.asset_id,
+        }, methodOpts.defaultBlock);
         // Wrap BigNumbers returned from web3 with our own (later) version of BigNumber
         balance = new BigNumber(balance);
         return balance;

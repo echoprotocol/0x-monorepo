@@ -251,7 +251,7 @@ export class Web3Wrapper {
      * @param defaultBlock The block depth at which to fetch the balance (default=latest)
      * @returns Balance in wei
      */
-    public async getBalanceInWeiAsync(owner: string, defaultBlock?: BlockParam): Promise<BigNumber> {
+    public async getBalanceInWeiAsync(owner: string, assetId?: string, defaultBlock?: BlockParam): Promise<BigNumber> {
         assert.isETHAddressHex('owner', owner);
         if (defaultBlock !== undefined) {
             Web3Wrapper._assertBlockParam(defaultBlock);
@@ -260,7 +260,7 @@ export class Web3Wrapper {
         const encodedOwner = marshaller.marshalAddress(owner);
         const balanceInWei = await this.sendRawPayloadAsync<string>({
             method: 'eth_getBalance',
-            params: [encodedOwner, marshalledDefaultBlock],
+            params: [encodedOwner, marshalledDefaultBlock, assetId === undefined ? '1.3.0' : assetId],
         });
         // Rewrap in a new BigNumber
         return new BigNumber(balanceInWei);
@@ -663,6 +663,17 @@ export class Web3Wrapper {
         assert.isNumber('blockNumber', blockNumber);
         await this.sendRawPayloadAsync<void>({ method: 'debug_setHead', params: [utils.numberToHex(blockNumber)] });
     }
+
+        /**
+     * NOTE: only for echo node. Get account public key
+     * @param  ethAddress The block number to reset to.
+     */
+    public async getPublicKeysByAddress(ethAddress: string): Promise<string[]> {
+        assert.isETHAddressHex('ethAddress', ethAddress);
+        const keys = await this.sendRawPayloadAsync<string[]>({ method: 'echo_accountKeys', params: [ethAddress] });
+        return keys;
+    }
+
     /**
      * Sends a raw Ethereum JSON RPC payload and returns the response's `result` key
      * @param payload A partial JSON RPC payload. No need to include version, id, params (if none needed)

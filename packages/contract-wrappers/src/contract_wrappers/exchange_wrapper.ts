@@ -1189,6 +1189,7 @@ export class ExchangeWrapper extends ContractWrapper {
             fillableTakerAssetAmount,
         );
         const makerTransferAmount = orderCalculationUtils.getMakerFillAmount(signedOrder, fillableTakerAssetAmount);
+        
         await this.validateMakerTransferThrowIfInvalidAsync(
             signedOrder,
             makerTransferAmount,

@@ -17,10 +17,10 @@
 pragma solidity ^0.4.24;
 
 
-contract WETH9 {
-    string public name     = "Wrapped ECHO";
-    string public symbol   = "WECHO";
-    uint8  public decimals = 18;
+contract WEBTC {
+    string public name     = "Wrapped eBTC";
+    string public symbol   = "WEBTC";
+    uint8  public decimals = 8;
 
     event  Approval(address indexed _owner, address indexed _spender, uint _value);
     event  Transfer(address indexed _from, address indexed _to, uint _value);
@@ -34,6 +34,7 @@ contract WETH9 {
         deposit();
     }
     function deposit() public payable {
+        require(msg.idasset == 2, "Invalid asset_id. Required 1.3.2");
         balanceOf[msg.sender] += msg.value;
         Deposit(msg.sender, msg.value);
     }

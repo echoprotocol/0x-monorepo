@@ -17,9 +17,9 @@
 pragma solidity ^0.4.24;
 
 
-contract WETH9 {
-    string public name     = "Wrapped ECHO";
-    string public symbol   = "WECHO";
+contract WEETH {
+    string public name     = "Wrapped eETH";
+    string public symbol   = "WEETH";
     uint8  public decimals = 18;
 
     event  Approval(address indexed _owner, address indexed _spender, uint _value);
@@ -34,6 +34,7 @@ contract WETH9 {
         deposit();
     }
     function deposit() public payable {
+        require(msg.idasset == 1, "Invalid asset_id. Required 1.3.1");
         balanceOf[msg.sender] += msg.value;
         Deposit(msg.sender, msg.value);
     }

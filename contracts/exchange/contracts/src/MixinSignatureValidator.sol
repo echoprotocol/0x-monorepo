@@ -112,12 +112,6 @@ contract MixinSignatureValidator is
 
         SignatureType signatureType = SignatureType(signatureTypeRaw);
 
-        // Variables are not scoped in Solidity.
-        uint8 v;
-        bytes32 r;
-        bytes32 s;
-        address recovered;
-
         // Always illegal signature.
         // This is always an implicit option since a signer can create a
         // signature array with invalid type or length. We may as well make
@@ -141,40 +135,24 @@ contract MixinSignatureValidator is
         // Signature using EIP712
         } else if (signatureType == SignatureType.EIP712) {
             require(
-                signature.length == 65,
-                "LENGTH_65_REQUIRED"
+                signature.length == 64,
+                "LENGTH_64_REQUIRED"
             );
-            v = uint8(signature[0]);
-            r = signature.readBytes32(1);
-            s = signature.readBytes32(33);
-            recovered = ecrecover(
-                hash,
-                v,
-                r,
-                s
-            );
-            isValid = signerAddress == recovered;
+            isValid = edverify(signerAddress, abi.encodePacked(hash), signature);
             return isValid;
 
         // Signed using web3.eth_sign
         } else if (signatureType == SignatureType.EthSign) {
-            require(
-                signature.length == 65,
-                "LENGTH_65_REQUIRED"
+             require(
+                signature.length == 64,
+                "LENGTH_64_REQUIRED"
             );
-            v = uint8(signature[0]);
-            r = signature.readBytes32(1);
-            s = signature.readBytes32(33);
-            recovered = ecrecover(
-                keccak256(abi.encodePacked(
-                    "\x19Ethereum Signed Message:\n32",
-                    hash
-                )),
-                v,
-                r,
-                s
-            );
-            isValid = signerAddress == recovered;
+
+            bytes32 signedData = keccak256(abi.encodePacked(
+                "\x19Ethereum Signed Message:\n32",
+                hash
+            ));
+            isValid = edverify(signerAddress, abi.encodePacked(signedData), signature);
             return isValid;
 
         // Signature verified by wallet contract.

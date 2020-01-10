@@ -26,6 +26,9 @@ module.exports = {
     resolve: {
         extensions: ['.ts', '.js', '.json'],
     },
+    node: {
+        fs: 'empty'
+      },
     devtool: 'source-map',
     optimization: {
         minimizer: [

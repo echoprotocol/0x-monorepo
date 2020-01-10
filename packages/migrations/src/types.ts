@@ -22,6 +22,8 @@ export enum ContractName {
     ZRXToken = 'ZRXToken',
     DummyToken = 'DummyToken',
     WETH9 = 'WETH9',
+    WEETH = 'WEETH',
+    WEBTC = 'WEBTC',
     MultiSigWalletWithTimeLockExceptRemoveAuthorizedAddress = 'MultiSigWalletWithTimeLockExceptRemoveAuthorizedAddress',
     AccountLevels = 'AccountLevels',
     EtherDelta = 'EtherDelta',
